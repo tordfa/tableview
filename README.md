@@ -1,1 +1,1 @@
-This is a starting point for a booking system for restaurants.
+This is a starting point for a Table booking system for restaurants.
