@@ -1,8 +1,8 @@
-function Controlpanel(){
+function Controlpanel({createTable}){
     return (
         <div className="controlpanel">
             <button>Edit Table view</button>
-            <button>Add Table</button>
+            <button onClick={createTable}>Add Table</button>
             <button>Add Floor</button>
             <div>
                 <label htmlFor="floors">Floor:</label>

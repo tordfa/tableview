@@ -1,13 +1,9 @@
-import { useState } from "react";
-
 function Table({xPos=0,yPos=0}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
     let tableHeight = 100;
     let mouseDown = false;
-    console.log(xPos);
-    
 
 function tableClicked(e){
     mouseDown = true;
