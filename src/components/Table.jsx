@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-function Table(props) {
-
-    const [position, setPosition] = useState({x:0,y:0})
+function Table({xPos=0,yPos=0}) {
     let x = 0;
-    let y = 0;
+    let y = 0; 
     let tableWidth = 100;
     let tableHeight = 100;
     let mouseDown = false;
+    console.log(xPos);
+    
 
 function tableClicked(e){
     mouseDown = true;
@@ -22,10 +22,6 @@ function tableUnclicked(){
 function moveTable(e){
 
     if(mouseDown){
-        console.log(e.currentTarget.offsetLeft + tableWidth);
-        console.log(e.currentTarget.parentNode.clientWidth);
-        
-        
         // Check X+ Boundary
         if(e.currentTarget.offsetLeft + tableWidth > e.currentTarget.parentNode.clientWidth){
             mouseDown = false;
@@ -62,10 +58,11 @@ function moveTable(e){
         height: tableHeight,
         border: '1px solid black',
         cursor: 'pointer',
+        left: xPos,
+        top: yPos,
     }
 return(
     <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseMove={moveTable}>
-        {/* <h1>Table</h1> */}
     </div>
 )
 }

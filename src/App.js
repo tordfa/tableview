@@ -9,8 +9,10 @@ function App() {
       <h1>Table View</h1>
       <Controlpanel></Controlpanel>
       <div className='tableContainer'>
-        <Table></Table>
-        <Table></Table>
+        <Table xPos={100} yPos={100}></Table>
+        <Table xPos={300} yPos={100}></Table>
+        <Table xPos={100} yPos={300}></Table>
+        <Table xPos={300} yPos={300}></Table>
       </div>
     </div>
   );
