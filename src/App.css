@@ -26,3 +26,15 @@ html,body{
   display: block;
 
 }
+
+.controlpanel{
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  width: 1000px;
+  height: 50px;
+  background-color: aliceblue;
+  color: black;
+  border: 2px solid rgb(211, 208, 208);
+
+}
