@@ -17,7 +17,7 @@ function tableUnclicked(){
 }
 function moveTable(e){
 
-    if(mouseDown){
+    if(mouseDown && isEdit){
         // Check X+ Boundary
         if(e.currentTarget.offsetLeft + tableWidth > e.currentTarget.parentNode.clientWidth){
             mouseDown = false;
