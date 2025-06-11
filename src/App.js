@@ -22,8 +22,7 @@ function App() {
     saveTables(tableArray);
   }
   function deleteTable(tableid){
-    console.log("Deleting table: " + tableid);
-    
+
     let tableArray = getTables();
     for (let i = 0; i < tableArray.length; i++) {
       if(tableArray[i].id === tableid){
