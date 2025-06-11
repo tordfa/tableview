@@ -1,4 +1,4 @@
-function Table({xPos=0,yPos=0, deleteTable}) {
+function Table({xPos=0,yPos=0, deleteTable,isEdit}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
@@ -59,7 +59,11 @@ function moveTable(e){
     }
 return(
     <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseMove={moveTable}>
-        <button onClick={deleteTable}>X</button>
+        {isEdit
+        ? <button onClick={deleteTable}>X</button>
+        : <></>
+        }
+
         </div>
 )
 }

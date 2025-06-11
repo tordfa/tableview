@@ -5,10 +5,10 @@ import { useState } from 'react';
 
 function App() {
 
-  const [tableList, setTableList] = useState(getTables())
+  const [tableList, setTableList] = useState(getTables());
+  const [isEdit, setIsEdit] = useState(false);
 
   // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
-
   function createRandomId(){
     let date = new Date();
     return date.getDate().toString() + date.getMonth().toString() + Math.floor(date.getTime()* Math.random());
@@ -49,10 +49,17 @@ function App() {
   return (
     <div className="App">
       <h1>Table View</h1>
-      <Controlpanel createTable={createTable}></Controlpanel>
+      <Controlpanel createTable={createTable} setIsEdit={setIsEdit}></Controlpanel>
       <div className='tableContainer'>
         {tableList
-        ? tableList.map((table) => {return <Table key={table.id} xPos={table.x} yPos={table.y} deleteTable={()=>{deleteTable(table.id)}}></Table>})
+        ? tableList.map((table) => {
+          return <Table 
+            key={table.id} 
+            xPos={table.x} 
+            yPos={table.y} 
+            deleteTable={()=>{deleteTable(table.id)}}
+            isEdit={isEdit}
+            ></Table>})
         : <></>
         }
       </div>

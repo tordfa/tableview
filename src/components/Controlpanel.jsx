@@ -1,7 +1,7 @@
-function Controlpanel({createTable}){
+function Controlpanel({createTable, setIsEdit}){
     return (
         <div className="controlpanel">
-            <button>Edit Table view</button>
+            <button onClick={() => setIsEdit((prevstate) => !prevstate)}>Edit Table view</button>
             <button onClick={createTable}>Add Table</button>
             <button>Add Floor</button>
             <div>
