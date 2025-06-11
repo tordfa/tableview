@@ -16,17 +16,20 @@ function App() {
 
   function createTable(){
     let tableArray = getTables();
-    let newTable = {id: createRandomId(), name: "Test Table", x: 100, y: 200}
+    let tableId = createRandomId();
+    let newTable = {id: tableId, name: "Test Table", x: 100, y: 200}
     tableArray.push(newTable);
     saveTables(tableArray);
   }
   function deleteTable(tableid){
+    console.log("Deleting table: " + tableid);
+    
     let tableArray = getTables();
     for (let i = 0; i < tableArray.length; i++) {
       if(tableArray[i].id === tableid){
         tableArray.splice(i,1);
       }
-      setTableList(tableArray);
+      saveTables(tableArray);
     }
   }
 
@@ -50,16 +53,9 @@ function App() {
       <Controlpanel createTable={createTable}></Controlpanel>
       <div className='tableContainer'>
         {tableList
-        ? tableList.map((table) => {return <Table xPos={table.x} yPos={table.y}></Table>})
+        ? tableList.map((table) => {return <Table key={table.id} xPos={table.x} yPos={table.y} deleteTable={()=>{deleteTable(table.id)}}></Table>})
         : <></>
         }
-        <Table 
-          xPos={100} 
-          yPos={100}>
-        </Table>
-        <Table xPos={300} yPos={100}></Table>
-        <Table xPos={100} yPos={300}></Table>
-        <Table xPos={300} yPos={300}></Table>
       </div>
     </div>
   );
