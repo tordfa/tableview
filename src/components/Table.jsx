@@ -1,4 +1,4 @@
-function Table({xPos=0,yPos=0, deleteTable,isEdit,tempTableArray,tableId}) {
+function Table({xPos=0,yPos=0, deleteTable,isEdit,tempTableArray,tableId,setActiveTable,activeTable}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
@@ -9,6 +9,7 @@ function tableClicked(e){
     mouseDown = true;
     x = e.currentTarget.offsetLeft - e.clientX;
     y = e.currentTarget.offsetTop - e.clientY;
+    setActiveTable();
     e.preventDefault();
 }
 
@@ -62,6 +63,12 @@ function moveTable(e){
         cursor: 'pointer',
         left: xPos,
         top: yPos,
+    }
+
+    if(activeTable){
+        if(activeTable.id === tableId){
+            tableStyle.backgroundColor='blue';
+        }
     }
 return(
     <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseMove={moveTable}>
