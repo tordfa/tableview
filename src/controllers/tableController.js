@@ -11,14 +11,14 @@
     tableArray.push(newTable);
     saveTables(tableArray,setTableList);
   }
-  export function deleteTable(tableid){
+  export function deleteTable(tableid,setTableList){
 
     let tableArray = getTables();
     for (let i = 0; i < tableArray.length; i++) {
       if(tableArray[i].id === tableid){
         tableArray.splice(i,1);
       }
-      saveTables(tableArray);
+      saveTables(tableArray, setTableList);
     }
   }
 
@@ -32,5 +32,5 @@
 
   export function saveTables(tablearray, setTableList){
     localStorage.setItem('tables', JSON.stringify(tablearray));
-    setTableList();
+    setTableList(tablearray);
   }

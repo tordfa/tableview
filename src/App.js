@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <h1>Table View</h1>
-      <Controlpanel setTableList={setTableList} setIsEdit={setIsEdit}></Controlpanel>
+      <Controlpanel createTable={()=>{tableController.createTable(setTableList)}} setIsEdit={setIsEdit}></Controlpanel>
       <div className='tableContainer'>
         {tableList
         ? tableList.map((table) => {
@@ -22,7 +22,7 @@ function App() {
             key={table.id} 
             xPos={table.x} 
             yPos={table.y} 
-            deleteTable={()=>{tableController.deleteTable(table.id)}}
+            deleteTable={()=>{tableController.deleteTable(table.id,setTableList)}}
             isEdit={isEdit}
             ></Table>})
         : <></>

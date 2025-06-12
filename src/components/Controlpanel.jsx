@@ -1,10 +1,8 @@
-import { createTable } from "../controllers/tableController";
-
-function Controlpanel({setIsEdit,setTableList}){
+function Controlpanel({setIsEdit,createTable}){
     return (
         <div className="controlpanel">
             <button onClick={() => setIsEdit((prevstate) => !prevstate)}>Edit Table view</button>
-            <button onClick={()=>{createTable(setTableList)}}>Add Table</button>
+            <button onClick={createTable}>Add Table</button>
             <button>Add Floor</button>
             <div>
                 <label htmlFor="floors">Floor:</label>
