@@ -1,4 +1,4 @@
-function Table({xPos=0,yPos=0, deleteTable,isEdit}) {
+function Table({xPos=0,yPos=0, deleteTable,isEdit,tempTableArray,tableId}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
@@ -12,8 +12,14 @@ function tableClicked(e){
     e.preventDefault();
 }
 
-function tableUnclicked(){
+function tableUnclicked(e){
     mouseDown = false;
+        for (let i = 0; i < tempTableArray.length; i++) {
+          if(tempTableArray[i].id === tableId){
+            tempTableArray[i].x = e.currentTarget.offsetLeft;
+            tempTableArray[i].y = e.currentTarget.offsetTop;
+          }
+        }
 }
 function moveTable(e){
 
