@@ -14,15 +14,12 @@ function tableClicked(e){
 
 function tableUnclicked(e){
     mouseDown = false;
-    // update tempTableArray with new position
         for (let i = 0; i < tempTableArray.length; i++) {
           if(tempTableArray[i].id === tableId){
             tempTableArray[i].x = e.currentTarget.offsetLeft;
             tempTableArray[i].y = e.currentTarget.offsetTop;
           }
         }
-    console.log(tempTableArray);
-    
 }
 function moveTable(e){
 

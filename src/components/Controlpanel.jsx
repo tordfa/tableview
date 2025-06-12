@@ -5,10 +5,7 @@ function Controlpanel({setIsEdit,isEdit,createTable,saveTables}){
                 {isEdit
                 ?
                 <>
-                <button onClick={()=>{
-                    saveTables();
-                    setIsEdit((prevstate) => !prevstate);
-                }}>Save</button>
+                <button onClick={()=>{saveTables();setIsEdit((prevstate) => !prevstate);}}>Save</button>
                 <button>Cancel</button>
                 </>                                    
                 : 
