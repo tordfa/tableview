@@ -9,12 +9,17 @@ function App() {
   const [tableList, setTableList] = useState(tableController.getTables())
   const [isEdit, setIsEdit] = useState(false);
 
-  let tableArray = tableController.getTables();
+  let tempTableArray = tableController.getTables();
 
   return (
     <div className="App">
       <h1>Table View</h1>
-      <Controlpanel createTable={()=>{tableController.createTable(setTableList)}} setIsEdit={setIsEdit}></Controlpanel>
+      <Controlpanel 
+      createTable={()=>{tableController.createTable(setTableList)}} 
+      saveTables={()=>{tableController.saveTables(tempTableArray,setTableList)}} 
+      setIsEdit={setIsEdit}
+      isEdit={isEdit}
+      ></Controlpanel>
       <div className='tableContainer'>
         {tableList
         ? tableList.map((table) => {
@@ -24,6 +29,8 @@ function App() {
             yPos={table.y} 
             deleteTable={()=>{tableController.deleteTable(table.id,setTableList)}}
             isEdit={isEdit}
+            tempTableArray={tempTableArray}
+            tableId={table.id}
             ></Table>})
         : <></>
         }
