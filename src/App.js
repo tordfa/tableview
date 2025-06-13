@@ -3,7 +3,7 @@ import Table from './components/Table';
 import Controlpanel from './components/Controlpanel';
 import Tableinfo from './components/Tableinfo';
 import * as tableController from "./controllers/tableController"
-import {useReducer, useRef, useState } from 'react';
+import {useState} from 'react';
 
 function App() {
 
