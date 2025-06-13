@@ -4,11 +4,14 @@
     return date.getDate().toString() + date.getMonth().toString() + Math.floor(date.getTime()* Math.random());
   }
 
-  export function createTable(setTableList,tempTableArray){
+  export function createTable(setTableList,tableList){
     let tableId = createRandomId();
     let newTable = {id: tableId, name: "Test Table", x: 100, y: 200}
-    tempTableArray.push(newTable);
-    setTableList(tempTableArray);
+    // Creating new array here because React will not rerender changes to objects in shallow copy arrays.
+    let newArray = [...tableList, newTable]
+    setTableList(newArray);
+
+    
   }
   export function deleteTable(tableid,setTableList){
 
@@ -26,10 +29,10 @@
     if(localStorage.getItem('tables')){
       tables = JSON.parse(localStorage.getItem('tables'));
     }
+    
     return tables;
   }
 
-  export function saveTables(tablearray, setTableList){
-    localStorage.setItem('tables', JSON.stringify(tablearray));
-    setTableList(tablearray);
+  export function saveTables(tableList){
+    localStorage.setItem('tables', JSON.stringify(tableList));
   }

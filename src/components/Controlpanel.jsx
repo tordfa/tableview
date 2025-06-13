@@ -1,17 +1,20 @@
-function Controlpanel({setIsEdit,isEdit,createTable,saveTables}){
+import * as tableController from '../controllers/tableController'
+function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
     return (
         <div className="controlpanel">
             <div>
                 {isEdit
                 ?
                 <>
-                <button onClick={createTable}>Add Table</button>
+                <button onClick={()=>{tableController.createTable(setTableList,tableList)}}>Add Table</button>
                 <button>Add Floor</button>
-                <button onClick={()=>{saveTables();setIsEdit((prevstate) => !prevstate);}}>Save</button>
-                <button>Cancel</button>
+                <button onClick={()=>{tableController.saveTables(tableList);setIsEdit((prevstate) => !prevstate);}}>Save</button>
+                <button onClick={()=>{
+                    setIsEdit(false);
+                    setTableList(tableController.getTables())}}>Cancel</button>
                 </>                                    
                 : 
-                <button onClick={() => setIsEdit((prevstate) => !prevstate)}>Edit Table view</button>
+                <button onClick={() => setIsEdit(true)}>Edit Table view</button>
                 }
 
             </div>

@@ -1,4 +1,4 @@
-function Table({xPos=0,yPos=0, deleteTable,isEdit,tempTableArray,tableId,setActiveTable,activeTable}) {
+function Table({xPos=0,yPos=0, deleteTable,isEdit,tableList, setTableList,tableId,setActiveTable,activeTable}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
@@ -15,10 +15,15 @@ function tableClicked(e){
 
 function tableUnclicked(e){
     mouseDown = false;
-        for (let i = 0; i < tempTableArray.length; i++) {
-          if(tempTableArray[i].id === tableId){
-            tempTableArray[i].x = e.currentTarget.offsetLeft;
-            tempTableArray[i].y = e.currentTarget.offsetTop;
+        for (let i = 0; i < tableList.length; i++) {
+          if(tableList[i].id === tableId){
+            let tempTableList = tableList;
+            console.log(tempTableList);
+            
+            tempTableList[i].x = e.currentTarget.offsetLeft;
+            tempTableList[i].y = e.currentTarget.offsetTop;
+
+            setTableList([...tempTableList]);
           }
         }
 }
@@ -49,7 +54,6 @@ function moveTable(e){
         }
 
     }    
-    
     
 }
 

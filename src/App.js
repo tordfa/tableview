@@ -3,14 +3,14 @@ import Table from './components/Table';
 import Controlpanel from './components/Controlpanel';
 import Tableinfo from './components/Tableinfo';
 import * as tableController from "./controllers/tableController"
-import {useRef, useState } from 'react';
+import {useReducer, useRef, useState } from 'react';
 
 function App() {
 
   const [tableList, setTableList] = useState(tableController.getTables())
   const [isEdit, setIsEdit] = useState(false);
   const [activeTable, setActiveTable] = useState();
-  let tempTableArray = useRef(tableController.getTables())
+
 
 
 
@@ -19,11 +19,12 @@ function App() {
 
       <div>
         <Controlpanel 
-        createTable={()=>{tableController.createTable(setTableList,tempTableArray.current)}} 
-        saveTables={()=>{tableController.saveTables(tempTableArray.current,setTableList)}} 
+        setTableList={setTableList}
+        tableList={tableList} 
         setIsEdit={setIsEdit}
         isEdit={isEdit}
         ></Controlpanel>
+        
         <div className='tableContainer'>
           {tableList
           ? tableList.map((table) => {
@@ -33,7 +34,8 @@ function App() {
               yPos={table.y} 
               deleteTable={()=>{tableController.deleteTable(table.id,setTableList)}}
               isEdit={isEdit}
-              tempTableArray={tempTableArray.current}
+              tableList={tableList}
+              setTableList={setTableList}
               tableId={table.id}
               setActiveTable={()=>{setActiveTable(table)}}
               activeTable={activeTable}
