@@ -19,7 +19,7 @@ function App() {
 
       <div>
         <Controlpanel 
-        createTable={()=>{tableController.createTable(setTableList)}} 
+        createTable={()=>{tableController.createTable(setTableList,tempTableArray.current)}} 
         saveTables={()=>{tableController.saveTables(tempTableArray.current,setTableList)}} 
         setIsEdit={setIsEdit}
         isEdit={isEdit}

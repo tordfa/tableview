@@ -4,12 +4,11 @@
     return date.getDate().toString() + date.getMonth().toString() + Math.floor(date.getTime()* Math.random());
   }
 
-  export function createTable(setTableList){
-    let tableArray = getTables();
+  export function createTable(setTableList,tempTableArray){
     let tableId = createRandomId();
     let newTable = {id: tableId, name: "Test Table", x: 100, y: 200}
-    tableArray.push(newTable);
-    saveTables(tableArray,setTableList);
+    tempTableArray.push(newTable);
+    setTableList(tempTableArray);
   }
   export function deleteTable(tableid,setTableList){
 

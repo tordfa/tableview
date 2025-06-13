@@ -5,6 +5,8 @@ function Controlpanel({setIsEdit,isEdit,createTable,saveTables}){
                 {isEdit
                 ?
                 <>
+                <button onClick={createTable}>Add Table</button>
+                <button>Add Floor</button>
                 <button onClick={()=>{saveTables();setIsEdit((prevstate) => !prevstate);}}>Save</button>
                 <button>Cancel</button>
                 </>                                    
@@ -14,8 +16,6 @@ function Controlpanel({setIsEdit,isEdit,createTable,saveTables}){
 
             </div>
 
-            <button onClick={createTable}>Add Table</button>
-            <button>Add Floor</button>
             <div>
                 <label htmlFor="floors">Floor:</label>
                 <select name="floors" id="floorsselector">
