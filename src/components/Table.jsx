@@ -1,4 +1,5 @@
-function Table({xPos=0,yPos=0, deleteTable,isEdit,tableList, setTableList,tableId,setActiveTable,activeTable}) {
+import { deleteTable } from "../controllers/tableController";
+function Table({xPos=0,yPos=0,isEdit,tableList, setTableList,tableId,setActiveTable,activeTable}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
@@ -77,7 +78,7 @@ function moveTable(e){
 return(
     <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseMove={moveTable}>
         {isEdit
-        ? <button onClick={deleteTable}>X</button>
+        ? <button onClick={()=>{deleteTable(tableId,setTableList, tableList)}}>X</button>
         : <></>
         }
 

@@ -13,14 +13,13 @@
 
     
   }
-  export function deleteTable(tableid,setTableList){
-
-    let tableArray = getTables();
-    for (let i = 0; i < tableArray.length; i++) {
-      if(tableArray[i].id === tableid){
-        tableArray.splice(i,1);
+  export function deleteTable(tableid,setTableList,tableList){
+    for (let i = 0; i < tableList.length; i++) {
+      if(tableList[i].id === tableid){
+        let newArray = [...tableList]
+        newArray.splice(i,1);
+        setTableList([...newArray]);
       }
-      saveTables(tableArray, setTableList);
     }
   }
 

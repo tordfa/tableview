@@ -11,9 +11,6 @@ function App() {
   const [isEdit, setIsEdit] = useState(false);
   const [activeTable, setActiveTable] = useState();
 
-
-
-
   return (
     <div className="App">
 
@@ -32,7 +29,6 @@ function App() {
               key={table.id} 
               xPos={table.x} 
               yPos={table.y} 
-              deleteTable={()=>{tableController.deleteTable(table.id,setTableList)}}
               isEdit={isEdit}
               tableList={tableList}
               setTableList={setTableList}
