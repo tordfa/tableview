@@ -4,6 +4,7 @@ import Controlpanel from './components/Controlpanel';
 import Tableinfo from './components/Tableinfo';
 import * as tableController from "./controllers/tableController"
 import {useState} from 'react';
+import Newtablemodal from './components/Newtablemodal';
 
 function App() {
 
@@ -41,7 +42,7 @@ function App() {
         </div>
       </div>
       <Tableinfo activeTable={activeTable}></Tableinfo>
-
+      <Newtablemodal setTableList={setTableList} tableList={tableList}></Newtablemodal>    
     </div>
   );
 }

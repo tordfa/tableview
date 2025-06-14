@@ -1,4 +1,6 @@
 import * as tableController from '../controllers/tableController'
+import { openTableModal } from '../util/util'
+
 function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
     return (
         <div className="controlpanel">
@@ -6,7 +8,7 @@ function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
                 {isEdit
                 ?
                 <>
-                <button onClick={()=>{tableController.createTable(setTableList,tableList)}}>Add Table</button>
+                <button onClick={openTableModal}>Add Table</button>
                 <button>Add Floor</button>
                 <button onClick={()=>{tableController.saveTables(tableList);setIsEdit((prevstate) => !prevstate);}}>Save</button>
                 <button onClick={()=>{
