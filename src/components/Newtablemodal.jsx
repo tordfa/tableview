@@ -1,12 +1,12 @@
-import {closeTableModal, openTableModal} from '../util/util'
+import {closeTableModal, isTableOpen} from '../util/util'
 import { createTable } from '../controllers/tableController'
 import { useState } from 'react'
 
 function Newtablemodal({setTableList,tableList}){
 
     const [tableName, setTableName] = useState('');
-    const [tableNumber, setTableNumber] = useState(0);
-    const [tableSeats, setTableSeats] = useState(0);
+    const [tableNumber, setTableNumber] = useState();
+    const [tableSeats, setTableSeats] = useState();
 
     let modalStyle = {
         width: 500,
@@ -21,13 +21,18 @@ function Newtablemodal({setTableList,tableList}){
 
     function handleSubmit(e){
         e.preventDefault();
-        let tableInfo = {
-            name: tableName,
-            number: tableNumber,
-            seats: tableSeats,
+        if(isTableOpen()){
+            let tableInfo = {
+                name: tableName,
+                number: tableNumber,
+                seats: tableSeats,
+            }
+            createTable(setTableList,tableList,tableInfo);
+            closeTableModal();
         }
-        createTable(setTableList,tableList,tableInfo);
-        closeTableModal();
+        setTableName('');
+        setTableNumber();
+        setTableSeats();
     }
     
 return(
