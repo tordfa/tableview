@@ -2,7 +2,7 @@ import {closeTableModal, isTableOpen} from '../util/util'
 import { createTable } from '../controllers/tableController'
 import { useState } from 'react'
 
-function Newtablemodal({setTableList,tableList}){
+function Newtablemodal({setTableList,tableList,activeFloor}){
 
     const [tableName, setTableName] = useState('');
     const [tableNumber, setTableNumber] = useState();
@@ -27,7 +27,7 @@ function Newtablemodal({setTableList,tableList}){
                 number: tableNumber,
                 seats: tableSeats,
             }
-            createTable(setTableList,tableList,tableInfo);
+            createTable(setTableList,tableList,tableInfo,activeFloor);
             closeTableModal();
         }
         setTableName('');

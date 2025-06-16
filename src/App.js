@@ -11,6 +11,7 @@ function App() {
   const [tableList, setTableList] = useState(tableController.getTables())
   const [isEdit, setIsEdit] = useState(false);
   const [activeTable, setActiveTable] = useState();
+  const [activeFloor, setActiveFloor] = useState(0);
 
   return (
     <div className="App">
@@ -21,12 +22,15 @@ function App() {
         tableList={tableList} 
         setIsEdit={setIsEdit}
         isEdit={isEdit}
+        setActiveFloor={setActiveFloor}
+        activeFloor={activeFloor}
         ></Controlpanel>
         
         <div className='tableContainer'>
           {tableList
           ? tableList.map((table) => {
-            return <Table 
+            if(table.floor == activeFloor){
+              return <Table 
               key={table.id} 
               xPos={table.x} 
               yPos={table.y} 
@@ -36,13 +40,18 @@ function App() {
               tableId={table.id}
               setActiveTable={()=>{setActiveTable(table)}}
               activeTable={activeTable}
-              ></Table>})
+              ></Table>
+            }else{
+              return <></>
+            }
+
+            })
           : <></>
           }
         </div>
       </div>
       <Tableinfo activeTable={activeTable}></Tableinfo>
-      <Newtablemodal setTableList={setTableList} tableList={tableList}></Newtablemodal>    
+      <Newtablemodal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></Newtablemodal>    
     </div>
   );
 }

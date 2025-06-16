@@ -1,7 +1,13 @@
 import * as tableController from '../controllers/tableController'
 import { openTableModal } from '../util/util'
 
-function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
+function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor}){
+
+
+    function handleSelect(e){
+        console.log(e.currentTarget.options[e.currentTarget.selectedIndex].id);
+        setActiveFloor(e.currentTarget.options[e.currentTarget.selectedIndex].id)
+    }
     return (
         <div className="controlpanel">
             <div>
@@ -23,12 +29,10 @@ function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
 
             <div>
                 <label htmlFor="floors">Floor:</label>
-                <select name="floors" id="floorsselector">
-                    <option value={"placeholder1"}>Placeholder 1</option>
-                    <option value={"placeholder2"}>Placeholder 2</option>
-                    <option value={"placeholder3"}>Placeholder 3</option>
-                    <option value={"placeholder4"}>Placeholder 4</option>
-                    <option value={"placeholder5"}>Placeholder 5</option>
+                <select name="floors" id="floorsselector" onChange={handleSelect}>
+                    <option value={"placeholder1"} id={0}>Placeholder 1</option>
+                    <option value={"placeholder2"} id={1}>Placeholder 2</option>
+                    <option value={"placeholder3"} id={2}>Placeholder 3</option>
                 </select>
             </div>
         </div>
