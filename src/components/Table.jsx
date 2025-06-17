@@ -19,7 +19,6 @@ function tableUnclicked(e){
         for (let i = 0; i < tableList.length; i++) {
           if(tableList[i].id === tableId){
             let tempTableList = tableList;
-            console.log(tempTableList);
             
             tempTableList[i].x = e.currentTarget.offsetLeft;
             tempTableList[i].y = e.currentTarget.offsetTop;
@@ -76,7 +75,7 @@ function moveTable(e){
         }
     }
 return(
-    <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseMove={moveTable}>
+    <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseOut={tableUnclicked} onMouseMove={moveTable}>
         {isEdit
         ? <button onClick={()=>{deleteTable(tableId,setTableList, tableList)}}>X</button>
         : <></>
