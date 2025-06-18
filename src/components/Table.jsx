@@ -15,7 +15,10 @@ function tableClicked(e){
 }
 
 function tableUnclicked(e){
-    mouseDown = false;
+    if(mouseDown && isEdit){
+        console.log("YES");
+        
+        mouseDown = false;
         for (let i = 0; i < tableList.length; i++) {
           if(tableList[i].id === tableId){
             let tempTableList = tableList;
@@ -26,27 +29,31 @@ function tableUnclicked(e){
             setTableList([...tempTableList]);
           }
         }
+        
+    }
+
 }
 function moveTable(e){
 
     if(mouseDown && isEdit){
+        
         // Check X+ Boundary
         if(e.currentTarget.offsetLeft + tableWidth > e.currentTarget.parentNode.clientWidth){
-            mouseDown = false;
             e.currentTarget.style.left = e.currentTarget.parentNode.clientWidth - tableWidth + 'px';
+            tableUnclicked(e);
         }
         else if(e.currentTarget.offsetLeft < 0){
-            mouseDown = false;
             e.currentTarget.style.left = '0px';
+            tableUnclicked(e);
         }
         // Checking Y boundaries
         else if(e.currentTarget.offsetTop + tableHeight > e.currentTarget.parentNode.clientHeight){
-            mouseDown = false;
             e.currentTarget.style.top = e.currentTarget.parentNode.clientHeight - tableHeight + 'px';
+            tableUnclicked(e);
         }
         else if(e.currentTarget.offsetTop < 0){
-            mouseDown = false;
             e.currentTarget.style.top = '0px';
+            tableUnclicked(e);
         }
         else{
             e.currentTarget.style.left = e.clientX + x + 'px';
