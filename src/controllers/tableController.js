@@ -40,6 +40,25 @@
     return tables;
   }
 
+  export function getFloors(){
+    let floors = [
+      {
+        name: "Floor 0", 
+        id: 0,
+      },
+      {
+        name: "Floor 1",
+        id: 1,
+      },
+      {
+        name: "Floor 2",
+        id: 2,
+      }
+    ]
+
+    return floors;
+  }
+
   export function saveTables(tableList){
     localStorage.setItem('tables', JSON.stringify(tableList));
   }

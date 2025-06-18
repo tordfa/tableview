@@ -9,9 +9,10 @@ import Newtablemodal from './components/Newtablemodal';
 function App() {
 
   const [tableList, setTableList] = useState(tableController.getTables())
+  const [floors, setFloors] = useState(tableController.getFloors())
   const [isEdit, setIsEdit] = useState(false);
   const [activeTable, setActiveTable] = useState();
-  const [activeFloor, setActiveFloor] = useState(0);
+  const [activeFloor, setActiveFloor] = useState("0");
 
   return (
     <div className="App">
@@ -22,6 +23,8 @@ function App() {
         tableList={tableList} 
         setIsEdit={setIsEdit}
         isEdit={isEdit}
+        floors={floors}
+        setFloors={setFloors}
         setActiveFloor={setActiveFloor}
         activeFloor={activeFloor}
         ></Controlpanel>
@@ -29,7 +32,7 @@ function App() {
         <div className='tableContainer'>
           {tableList
           ? tableList.map((table) => {
-            if(table.floor == activeFloor){
+            if(table.floor === activeFloor){
               return <Table 
               key={table.id} 
               xPos={table.x} 
@@ -41,8 +44,6 @@ function App() {
               setActiveTable={()=>{setActiveTable(table)}}
               activeTable={activeTable}
               ></Table>
-            }else{
-              return <></>
             }
 
             })

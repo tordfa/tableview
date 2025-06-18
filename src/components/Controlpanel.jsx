@@ -1,7 +1,7 @@
 import * as tableController from '../controllers/tableController'
 import { openTableModal } from '../util/util'
 
-function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor}){
+function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor, floors, setFloors}){
 
 
     function handleSelect(e){
@@ -30,9 +30,14 @@ function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor}){
             <div>
                 <label htmlFor="floors">Floor:</label>
                 <select name="floors" id="floorsselector" onChange={handleSelect}>
-                    <option value={"placeholder1"} id={0}>Placeholder 1</option>
-                    <option value={"placeholder2"} id={1}>Placeholder 2</option>
-                    <option value={"placeholder3"} id={2}>Placeholder 3</option>
+                    {floors
+                    ? floors.map((floor)=>{
+                        
+                        return <option key={floor.id} value={floor.name} id={floor.id}>{floor.name}</option>
+                    })
+                    : <option value={"placeholder1"} id={0}>Placeholder</option>
+                    }
+                    
                 </select>
             </div>
         </div>
