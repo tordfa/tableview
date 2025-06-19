@@ -4,9 +4,17 @@
     return date.getDate().toString() + date.getMonth().toString() + Math.floor(date.getTime()* Math.random());
   }
 
-  export function createTable(setTableList,tableList){
+  export function createTable(setTableList,tableList,tableInfo,activeFloor){
     let tableId = createRandomId();
-    let newTable = {id: tableId, name: "Test Table", x: 100, y: 200}
+    let newTable = {
+      id: tableId, 
+      name: tableInfo.name,
+      number: tableInfo.number,
+      seats: tableInfo.seats, 
+      x: 100, 
+      y: 200,
+      floor: activeFloor,
+    }
     // Creating new array here because React will not rerender changes to objects in shallow copy arrays.
     let newArray = [...tableList, newTable]
     setTableList(newArray);
@@ -30,6 +38,25 @@
     }
     
     return tables;
+  }
+
+  export function getFloors(){
+    let floors = [
+      {
+        name: "Floor 0", 
+        id: 0,
+      },
+      {
+        name: "Floor 1",
+        id: 1,
+      },
+      {
+        name: "Floor 2",
+        id: 2,
+      }
+    ]
+
+    return floors;
   }
 
   export function saveTables(tableList){

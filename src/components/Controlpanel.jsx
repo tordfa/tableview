@@ -1,12 +1,20 @@
 import * as tableController from '../controllers/tableController'
-function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
+import { openTableModal } from '../util/util'
+
+function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor, floors, setFloors}){
+
+
+    function handleSelect(e){
+        console.log(e.currentTarget.options[e.currentTarget.selectedIndex].id);
+        setActiveFloor(e.currentTarget.options[e.currentTarget.selectedIndex].id)
+    }
     return (
         <div className="controlpanel">
             <div>
                 {isEdit
                 ?
                 <>
-                <button onClick={()=>{tableController.createTable(setTableList,tableList)}}>Add Table</button>
+                <button onClick={openTableModal}>Add Table</button>
                 <button>Add Floor</button>
                 <button onClick={()=>{tableController.saveTables(tableList);setIsEdit((prevstate) => !prevstate);}}>Save</button>
                 <button onClick={()=>{
@@ -21,12 +29,15 @@ function Controlpanel({setIsEdit,isEdit,tableList,setTableList}){
 
             <div>
                 <label htmlFor="floors">Floor:</label>
-                <select name="floors" id="floorsselector">
-                    <option value={"placeholder1"}>Placeholder 1</option>
-                    <option value={"placeholder2"}>Placeholder 2</option>
-                    <option value={"placeholder3"}>Placeholder 3</option>
-                    <option value={"placeholder4"}>Placeholder 4</option>
-                    <option value={"placeholder5"}>Placeholder 5</option>
+                <select name="floors" id="floorsselector" onChange={handleSelect}>
+                    {floors
+                    ? floors.map((floor)=>{
+                        
+                        return <option key={floor.id} value={floor.name} id={floor.id}>{floor.name}</option>
+                    })
+                    : <option value={"placeholder1"} id={0}>Placeholder</option>
+                    }
+                    
                 </select>
             </div>
         </div>

@@ -4,12 +4,15 @@ import Controlpanel from './components/Controlpanel';
 import Tableinfo from './components/Tableinfo';
 import * as tableController from "./controllers/tableController"
 import {useState} from 'react';
+import Newtablemodal from './components/Newtablemodal';
 
 function App() {
 
   const [tableList, setTableList] = useState(tableController.getTables())
+  const [floors, setFloors] = useState(tableController.getFloors())
   const [isEdit, setIsEdit] = useState(false);
   const [activeTable, setActiveTable] = useState();
+  const [activeFloor, setActiveFloor] = useState("0");
 
   return (
     <div className="App">
@@ -20,12 +23,17 @@ function App() {
         tableList={tableList} 
         setIsEdit={setIsEdit}
         isEdit={isEdit}
+        floors={floors}
+        setFloors={setFloors}
+        setActiveFloor={setActiveFloor}
+        activeFloor={activeFloor}
         ></Controlpanel>
         
         <div className='tableContainer'>
           {tableList
           ? tableList.map((table) => {
-            return <Table 
+            if(table.floor === activeFloor){
+              return <Table 
               key={table.id} 
               xPos={table.x} 
               yPos={table.y} 
@@ -35,13 +43,16 @@ function App() {
               tableId={table.id}
               setActiveTable={()=>{setActiveTable(table)}}
               activeTable={activeTable}
-              ></Table>})
+              ></Table>
+            }else{return <></>}
+
+            })
           : <></>
           }
         </div>
       </div>
       <Tableinfo activeTable={activeTable}></Tableinfo>
-
+      <Newtablemodal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></Newtablemodal>    
     </div>
   );
 }
