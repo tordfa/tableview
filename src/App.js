@@ -40,7 +40,7 @@ function App() {
               isEdit={isEdit}
               tableList={tableList}
               setTableList={setTableList}
-              tableId={table.id}
+              table={table}
               setActiveTable={()=>{setActiveTable(table)}}
               activeTable={activeTable}
               ></Table>

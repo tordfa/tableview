@@ -1,5 +1,5 @@
 import { deleteTable } from "../controllers/tableController";
-function Table({xPos=0,yPos=0,isEdit,tableList, setTableList,tableId,setActiveTable,activeTable}) {
+function Table({xPos=0,yPos=0,isEdit,tableList, setTableList,table,setActiveTable,activeTable}) {
     let x = 0;
     let y = 0; 
     let tableWidth = 100;
@@ -19,7 +19,7 @@ function tableUnclicked(e){
         
         mouseDown = false;
         for (let i = 0; i < tableList.length; i++) {
-          if(tableList[i].id === tableId){
+          if(tableList[i].id === table.Id){
             let tempTableList = tableList;
             
             tempTableList[i].x = e.currentTarget.offsetLeft;
@@ -65,7 +65,6 @@ function moveTable(e){
 
     const tableStyle = {
         position: 'absolute',
-        color: 'red',
         backgroundColor: 'red',
         width: tableWidth,
         height: tableHeight,
@@ -76,17 +75,17 @@ function moveTable(e){
     }
 
     if(activeTable){
-        if(activeTable.id === tableId){
+        if(activeTable.id === table.id){
             tableStyle.backgroundColor='blue';
         }
     }
 return(
     <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseOut={tableUnclicked} onMouseMove={moveTable}>
         {isEdit
-        ? <button onClick={()=>{deleteTable(tableId,setTableList, tableList)}}>X</button>
+        ? <button onClick={()=>{deleteTable(table.id,setTableList, tableList)}}>X</button>
         : <></>
         }
-
+        <h1>{table.number}</h1>
         </div>
 )
 }
