@@ -40,6 +40,10 @@
     return tables;
   }
 
+    export function saveTables(tableList){
+    localStorage.setItem('tables', JSON.stringify(tableList));
+  }
+
   export function getFloors(){
     let floors = [
       {
@@ -59,6 +63,3 @@
     return floors;
   }
 
-  export function saveTables(tableList){
-    localStorage.setItem('tables', JSON.stringify(tableList));
-  }
