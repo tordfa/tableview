@@ -15,8 +15,8 @@ function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor, f
                 ?
                 <>
                 <button onClick={openTableModal}>Add Table</button>
-                <button>Add Floor</button>
-                <button onClick={()=>{tableController.saveTables(tableList);setIsEdit((prevstate) => !prevstate);}}>Save</button>
+                <button onClick={()=>{tableController.createFloor(floors,setFloors,{name:'Test floor'})}}>Add Floor</button>
+                <button onClick={()=>{tableController.saveTableview(tableList,floors);setIsEdit((prevstate) => !prevstate);}}>Save</button>
                 <button onClick={()=>{
                     setIsEdit(false);
                     setTableList(tableController.getTables())}}>Cancel</button>

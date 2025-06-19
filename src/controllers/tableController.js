@@ -40,26 +40,37 @@
     return tables;
   }
 
-    export function saveTables(tableList){
+    export function saveTableview(tableList,floors){
     localStorage.setItem('tables', JSON.stringify(tableList));
+    localStorage.setItem('floors', JSON.stringify(floors));
   }
 
-  export function getFloors(){
-    let floors = [
-      {
-        name: "Floor 0", 
-        id: 0,
-      },
-      {
-        name: "Floor 1",
-        id: 1,
-      },
-      {
-        name: "Floor 2",
-        id: 2,
-      }
-    ]
+  export function createFloor(floors, setFloors, floorInfo){
+    let floorId = createRandomId();
+    let newFloor = {
+      name: floorInfo.name,
+      id: floorId
+    }
+    let newArray =  [...floors, newFloor];
 
+    setFloors(newArray);
+  }
+  export function getFloors(){
+    let floors = [];
+    if(localStorage.getItem('floors')){
+      floors = JSON.parse(localStorage.getItem('floors'));
+    }else{
+      floors =[
+        {
+          name: 'Placeholder Floor',
+          id: 0,
+        }
+      ]
+    }
     return floors;
+  }
+
+  export function setFloors(floors){
+    localStorage.setItem('floors', JSON.stringify(floors));
   }
 

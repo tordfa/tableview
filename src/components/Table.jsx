@@ -16,7 +16,6 @@ function tableClicked(e){
 
 function tableUnclicked(e){
     if(mouseDown && isEdit){
-        console.log("YES");
         
         mouseDown = false;
         for (let i = 0; i < tableList.length; i++) {
