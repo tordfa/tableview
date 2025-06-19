@@ -44,7 +44,7 @@ function App() {
               setActiveTable={()=>{setActiveTable(table)}}
               activeTable={activeTable}
               ></Table>
-            }else{return <></>}
+            }else{return null}
 
             })
           : <></>

@@ -5,7 +5,6 @@ function Controlpanel({setIsEdit,isEdit,tableList,setTableList,setActiveFloor, f
 
 
     function handleSelect(e){
-        console.log(e.currentTarget.options[e.currentTarget.selectedIndex].id);
         setActiveFloor(e.currentTarget.options[e.currentTarget.selectedIndex].id)
     }
     return (
