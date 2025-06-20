@@ -42,7 +42,7 @@
 
     export function saveTableview(tableList,floors){
     localStorage.setItem('tables', JSON.stringify(tableList));
-    localStorage.setItem('floors', JSON.stringify(floors));
+    // localStorage.setItem('floors', JSON.stringify(floors));
   }
 
   export function createFloor(floors, setFloors, floorInfo){

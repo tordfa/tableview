@@ -15,11 +15,14 @@ function tableClicked(e){
 }
 
 function tableUnclicked(e){
+
     if(mouseDown && isEdit){
         
         mouseDown = false;
         for (let i = 0; i < tableList.length; i++) {
-          if(tableList[i].id === table.Id){
+
+            
+          if(tableList[i].id === table.id){
             let tempTableList = tableList;
             
             tempTableList[i].x = e.currentTarget.offsetLeft;
@@ -72,6 +75,9 @@ function moveTable(e){
         cursor: 'pointer',
         left: xPos,
         top: yPos,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 
     if(activeTable){
