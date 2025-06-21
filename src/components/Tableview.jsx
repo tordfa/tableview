@@ -14,8 +14,6 @@ function Tableview() {
     const [isEdit, setIsEdit] = useState(false);
     const [activeTable, setActiveTable] = useState();
     const [activeFloor, setActiveFloor] = useState("0");
-    // const [session, setSession] = useContext(AuthContext)
-    const {session,setSession} = useContext(AuthContext);
     
 
     return (
