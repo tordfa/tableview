@@ -3,8 +3,9 @@ import Table from './Table';
 import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
 import * as tableController from "../controllers/tableController"
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Newtablemodal from './Newtablemodal';
+import { AuthContext } from '../context/AuthContext';
 
 function Tableview() {
 
@@ -13,11 +14,13 @@ function Tableview() {
     const [isEdit, setIsEdit] = useState(false);
     const [activeTable, setActiveTable] = useState();
     const [activeFloor, setActiveFloor] = useState("0");
+    // const [session, setSession] = useContext(AuthContext)
+    const {session,setSession} = useContext(AuthContext);
+    
 
     return (
         <>
             <div className="Tableview">
-
                 <div>
                     <Controlpanel
                         setTableList={setTableList}
