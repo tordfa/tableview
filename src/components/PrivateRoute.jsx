@@ -1,11 +1,14 @@
 import React from 'react'
 import { UserAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router';
 
 export const PrivateRoute = (props) => {
 
+    let navigate = useNavigate();
+
     const {session} = UserAuth();
     if (!session) {
-        return <h1>Not session</h1>
+        navigate('/signin');
 
     } else {
         return <>{props.children}</>

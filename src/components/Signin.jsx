@@ -47,6 +47,7 @@ function SignIn() {
     border: '3px solid white',
     borderRadius: '20px',
     backgroundColor: 'grey',
+    color: 'black',
   }
 
   const buttonStyle = {

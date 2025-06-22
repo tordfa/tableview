@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { Register } from './components/Register';
 import { PrivateRoute } from './components/PrivateRoute';
 import { AuthContextProvider } from './context/AuthContext';
-
+import { DashboardLayout } from './components/DashboardLayout';
+import { Home } from './components/Home';
 
 
 
@@ -16,7 +17,10 @@ function App() {
     <AuthContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<PrivateRoute><Tableview /></PrivateRoute>}></Route>
+          <Route path={'/'} element={<PrivateRoute><DashboardLayout/></PrivateRoute>}>
+            <Route index element={<Home></Home>}></Route>
+            <Route path='tableview' element={<Tableview />}></Route>
+          </Route>
           <Route path='/signin' element={<SignIn />}></Route>
           <Route path='/register' element={<Register />}></Route>
         </Routes>
