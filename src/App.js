@@ -1,13 +1,14 @@
 
 import './App.css';
 import Tableview from './components/Tableview';
-import SignIn from './components/pages/Signin';
+import SignIn from './components/pages/SigninPage';
 import { BrowserRouter, Routes, Route } from 'react-router';
-import Signup from './components/pages/Signup';
+import Signup from './components/pages/SignupPage';
 import { PrivateRoute } from './components/PrivateRoute';
 import { AuthContextProvider } from './context/AuthContext';
 import { DashboardLayout } from './components/DashboardLayout';
-import { Home } from './components/pages/Home';
+import { Home } from './components/pages/HomePage';
+import { CalendarPage } from './components/pages/CalendarPage';
 
 
 
@@ -20,6 +21,7 @@ function App() {
           <Route path={'/'} element={<PrivateRoute><DashboardLayout/></PrivateRoute>}>
             <Route index element={<Home></Home>}></Route>
             <Route path='tableview' element={<Tableview />}></Route>
+            <Route path='calendar' element={<CalendarPage/>}></Route>
           </Route>
           <Route path='/signin' element={<SignIn />}></Route>
           <Route path='/signup' element={<Signup />}></Route>

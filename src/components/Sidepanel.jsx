@@ -16,6 +16,7 @@ export const Sidepanel = () => {
                 <h1>Sidepanel</h1>
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='/tableview'>Tableview</NavLink>
+                <NavLink to='/calendar'>Calendar</NavLink>
                 <NavLink to='/signin'>Signin</NavLink>
                 <NavLink to='/signup'>Signup</NavLink>
 
