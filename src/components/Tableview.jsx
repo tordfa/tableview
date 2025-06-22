@@ -3,9 +3,8 @@ import Table from './Table';
 import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
 import * as tableController from "../controllers/tableController"
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Newtablemodal from './Newtablemodal';
-import { AuthContext } from '../context/AuthContext';
 
 function Tableview() {
 

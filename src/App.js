@@ -1,13 +1,13 @@
 
 import './App.css';
 import Tableview from './components/Tableview';
-import SignIn from './components/Signin';
+import SignIn from './components/pages/Signin';
 import { BrowserRouter, Routes, Route } from 'react-router';
-import Signup from './components/Signup';
+import Signup from './components/pages/Signup';
 import { PrivateRoute } from './components/PrivateRoute';
 import { AuthContextProvider } from './context/AuthContext';
 import { DashboardLayout } from './components/DashboardLayout';
-import { Home } from './components/Home';
+import { Home } from './components/pages/Home';
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserAuth } from '../context/AuthContext';
+import { UserAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router';
 
 
@@ -7,7 +7,7 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { session, signInUser } = UserAuth()
+  const { signInUser } = UserAuth()
 
   const navigate = useNavigate();
 
