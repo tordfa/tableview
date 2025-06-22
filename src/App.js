@@ -3,7 +3,7 @@ import './App.css';
 import Tableview from './components/Tableview';
 import SignIn from './components/Signin';
 import { BrowserRouter, Routes, Route } from 'react-router';
-import { Register } from './components/Register';
+import Signup from './components/Signup';
 import { PrivateRoute } from './components/PrivateRoute';
 import { AuthContextProvider } from './context/AuthContext';
 import { DashboardLayout } from './components/DashboardLayout';
@@ -22,7 +22,7 @@ function App() {
             <Route path='tableview' element={<Tableview />}></Route>
           </Route>
           <Route path='/signin' element={<SignIn />}></Route>
-          <Route path='/register' element={<Register />}></Route>
+          <Route path='/signup' element={<Signup />}></Route>
         </Routes>
       </BrowserRouter>
     </AuthContextProvider>

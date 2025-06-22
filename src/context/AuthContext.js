@@ -26,12 +26,12 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     const signUpNewUser = async (email, password) => {
-        const { data, error } = await supabase.auth.signInWithPassword({ email: email, password: password })
+        const { data, error } = await supabase.auth.signUp({ email: email, password: password })
         if (error) {
-            console.error("There was an error signing in");
+            console.error("There was an error signing Up", error);
             return { success: false, error }
         }
-        return { sucess: true, data };
+        return { success: true, data };
     }
 
     useEffect(() => {
