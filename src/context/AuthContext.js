@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl =process.env.REACT_APP_SUPABASE_URL;
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-export const supabase = createClient(supabaseUrl,supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 
 const AuthContext = createContext();
@@ -18,9 +18,9 @@ export const AuthContextProvider = ({ children }) => {
                 console.error("There was an error signing in");
                 return { success: false, error: error.message };
             }
-            console.log("Sign in sucess" , data);
-            return {success: true, data}
-        }catch(error){
+            console.log("Sign in sucess", data);
+            return { success: true, data }
+        } catch (error) {
             console.error("An error occured ", error)
         }
     }
