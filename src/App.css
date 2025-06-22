@@ -20,8 +20,8 @@ html,body{
 
 .tableContainer{
   position: relative;
-  width: 1000px;
-  height: 700px;
+  width: 100%;
+  height: calc(100% - 58px);
   border: 2px solid rgb(211, 208, 208);
   display: block;
 
@@ -31,10 +31,15 @@ html,body{
   display: flex;
   align-items: center;
   gap: 50px;
-  width: 1000px;
+  width: 100%;
   height: 50px;
   background-color: aliceblue;
   color: black;
   border: 2px solid rgb(211, 208, 208);
 
+}
+
+.tableviewController{
+  width: 100%;
+  height: 100%;
 }

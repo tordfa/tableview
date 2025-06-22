@@ -14,12 +14,12 @@ function Tableview() {
     const [isEdit, setIsEdit] = useState(false);
     const [activeTable, setActiveTable] = useState();
     const [activeFloor, setActiveFloor] = useState("0");
-    
+
 
     return (
         <>
             <div className="Tableview">
-                <div>
+                <div className='tableviewController'>
                     <Controlpanel
                         setTableList={setTableList}
                         tableList={tableList}
@@ -29,7 +29,7 @@ function Tableview() {
                         setFloors={setFloors}
                         setActiveFloor={setActiveFloor}
                         activeFloor={activeFloor}
-                    ></Controlpanel>
+                    />
 
                     <div className='tableContainer'>
                         {tableList
@@ -45,7 +45,7 @@ function Tableview() {
                                         table={table}
                                         setActiveTable={() => { setActiveTable(table) }}
                                         activeTable={activeTable}
-                                    ></Table>
+                                    />
                                 } else { return null }
 
                             })
