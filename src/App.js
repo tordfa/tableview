@@ -1,59 +1,33 @@
+
 import './App.css';
-import Table from './components/Table';
-import Controlpanel from './components/Controlpanel';
-import Tableinfo from './components/Tableinfo';
-import * as tableController from "./controllers/tableController"
-import {useState} from 'react';
-import Newtablemodal from './components/Newtablemodal';
+import Tableview from './components/Tableview';
+import SignIn from './components/Signin';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Signup from './components/Signup';
+import { PrivateRoute } from './components/PrivateRoute';
+import { AuthContextProvider } from './context/AuthContext';
+import { DashboardLayout } from './components/DashboardLayout';
+import { Home } from './components/Home';
+
+
 
 function App() {
 
-  const [tableList, setTableList] = useState(tableController.getTables())
-  const [floors, setFloors] = useState(tableController.getFloors())
-  const [isEdit, setIsEdit] = useState(false);
-  const [activeTable, setActiveTable] = useState();
-  const [activeFloor, setActiveFloor] = useState("0");
-
   return (
-    <div className="App">
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path={'/'} element={<PrivateRoute><DashboardLayout/></PrivateRoute>}>
+            <Route index element={<Home></Home>}></Route>
+            <Route path='tableview' element={<Tableview />}></Route>
+          </Route>
+          <Route path='/signin' element={<SignIn />}></Route>
+          <Route path='/signup' element={<Signup />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthContextProvider>
 
-      <div>
-        <Controlpanel 
-        setTableList={setTableList}
-        tableList={tableList} 
-        setIsEdit={setIsEdit}
-        isEdit={isEdit}
-        floors={floors}
-        setFloors={setFloors}
-        setActiveFloor={setActiveFloor}
-        activeFloor={activeFloor}
-        ></Controlpanel>
-        
-        <div className='tableContainer'>
-          {tableList
-          ? tableList.map((table) => {
-            if(table.floor === activeFloor){
-              return <Table 
-              key={table.id} 
-              xPos={table.x} 
-              yPos={table.y} 
-              isEdit={isEdit}
-              tableList={tableList}
-              setTableList={setTableList}
-              table={table}
-              setActiveTable={()=>{setActiveTable(table)}}
-              activeTable={activeTable}
-              ></Table>
-            }else{return null}
 
-            })
-          : <></>
-          }
-        </div>
-      </div>
-      <Tableinfo activeTable={activeTable}></Tableinfo>
-      <Newtablemodal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></Newtablemodal>    
-    </div>
   );
 }
 

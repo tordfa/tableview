@@ -6,7 +6,7 @@ function Tableinfo({activeTable}){
         border: '1px solid rgb(211, 208, 208)',
         borderLeft: '0',
         width: 250,
-        height: 750,
+        height: 'calc(100% - 2px)',
 
         display: 'flex',
         flexDirection: 'column',
