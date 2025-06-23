@@ -1,3 +1,5 @@
+ import { supabase } from "../supabaseClient";
+ 
  // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
   function createRandomId(){
     let date = new Date();
@@ -74,3 +76,7 @@
     localStorage.setItem('floors', JSON.stringify(floors));
   }
 
+  export async function testDbSelect(){
+    const {data, error} = await supabase.from('tables').select()
+    return data;
+  }

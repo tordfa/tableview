@@ -15,6 +15,7 @@ export const Sidepanel = () => {
             <div style={style}>
                 <h1>Sidepanel</h1>
                 <NavLink to='/'>Home</NavLink>
+                <NavLink to='/testpage'>Testpage</NavLink>
                 <NavLink to='/tableview'>Tableview</NavLink>
                 <NavLink to='/calendar'>Calendar</NavLink>
                 <NavLink to='/signin'>Signin</NavLink>

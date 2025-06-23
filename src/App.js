@@ -9,6 +9,7 @@ import { AuthContextProvider } from './context/AuthContext';
 import { DashboardLayout } from './components/DashboardLayout';
 import { Home } from './components/pages/HomePage';
 import { CalendarPage } from './components/pages/CalendarPage';
+import { Testpage } from './components/pages/Testpage';
 
 
 
@@ -22,6 +23,7 @@ function App() {
             <Route index element={<Home></Home>}></Route>
             <Route path='tableview' element={<Tableview />}></Route>
             <Route path='calendar' element={<CalendarPage/>}></Route>
+            <Route path='testpage' element={<Testpage></Testpage>}></Route>
           </Route>
           <Route path='/signin' element={<SignIn />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
