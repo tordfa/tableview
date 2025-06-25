@@ -3,16 +3,39 @@ import Table from './Table';
 import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
 import * as tableController from "../controllers/tableController"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Newtablemodal from './Newtablemodal';
 
 function Tableview() {
 
-    const [tableList, setTableList] = useState(tableController.getTables())
-    const [floors, setFloors] = useState(tableController.getFloors())
+    const [tableList, setTableList] = useState(null)
+    const [floors, setFloors] = useState(null)
     const [isEdit, setIsEdit] = useState(false);
     const [activeTable, setActiveTable] = useState();
-    const [activeFloor, setActiveFloor] = useState("0");
+    const [activeFloor, setActiveFloor] = useState(null);
+
+    // Getting Floors and tables from DB
+    useEffect(() => {
+        (async () => {
+            try {
+                let newfloors = await tableController.getFloors();
+                console.log(newfloors[0].id);
+                setActiveFloor(newfloors[0].id)
+                setFloors(newfloors);
+            }
+            catch (e) {console.error(e);}
+        })();
+        (async () => {
+            try {
+                let tables = await tableController.getTables();
+                setTableList(tables);
+            }
+            catch(e){ console.error(e); }
+            
+        })();
+
+
+    }, [])
 
 
     return (

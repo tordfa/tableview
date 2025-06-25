@@ -1,9 +1,8 @@
-import { testDbSelect } from "../../controllers/tableController"
 
 export const Testpage = () => {
 
     const handleClick = async () => {
-        console.log( await testDbSelect());
+
 
     }
 

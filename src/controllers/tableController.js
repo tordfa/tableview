@@ -1,42 +1,40 @@
 import { supabase } from "../supabaseClient";
 
 // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
-function createRandomId() {
-  let date = new Date();
-  return date.getDate().toString() + date.getMonth().toString() + Math.floor(date.getTime() * Math.random());
-}
-
 export async function createTable(setTableList, tableList, tableInfo, activeFloor) {
+  const userdata = await supabase.auth.getUser();
 
-  // Getting User id from supabase
-  let { data, error } = await supabase.auth.getUser();
-  if (error) {
-    console.error("There was an error authenticating user");
-    return;
-  }
-  let newTable = {
-    name: tableInfo.name,
-    number: tableInfo.number,
-    seats: tableInfo.seats,
-    x: 100,
-    y: 200,
-    floor: activeFloor,
-  }
-
-  const { error2 } = await supabase
+  const { data, error } = await supabase
     .from('tables')
-    .insert({ ...newTable, user_id: data.user.id });
-  if (error) {
-    console.error("There was an error adding table", error);
-  }
+    .insert({
+      user_id: userdata.data.user.id,
+      name: tableInfo.name,
+      number: tableInfo.number,
+      seats: tableInfo.seats,
+      x: 100,
+      y: 200,
+      floor: activeFloor
+    })
+    .select()
 
-  // Creating new array here because React will not rerender changes to objects in shallow copy arrays.
-  let newArray = [...tableList, newTable]
+  if (error) { 
+    console.error('There was an error creating table: ', error);
+    return;
+   }
+
+  let newArray = [...tableList, data[0]]
   setTableList(newArray);
 
-
 }
-export function deleteTable(tableid, setTableList, tableList) {
+export async function deleteTable(tableid, setTableList, tableList) {
+
+  const {error} = await supabase.from('tables').delete().eq('id',tableid)
+  if (error) {
+    console.error('There was an error deleting table');
+    return;
+  }
+
+  //Delete from state
   for (let i = 0; i < tableList.length; i++) {
     if (tableList[i].id === tableid) {
       let newArray = [...tableList]
@@ -46,50 +44,52 @@ export function deleteTable(tableid, setTableList, tableList) {
   }
 }
 
-export function getTables() {
-  let tables = [];
-  if (localStorage.getItem('tables')) {
-    tables = JSON.parse(localStorage.getItem('tables'));
+export async function getTables() {
+  const {data, error} = await supabase.from('tables').select()
+  if(error){
+    throw new Error("There was an error getting tables", error)
   }
+  return data;
 
-  return tables;
 }
 
-export function saveTableview(tableList, floors) {
-  localStorage.setItem('tables', JSON.stringify(tableList));
-  // localStorage.setItem('floors', JSON.stringify(floors));
+export async function saveTables(tableList) {
+  const { error } = await supabase
+    .from('tables')
+    .upsert(tableList);
+  if (error) {
+    console.error("Error upserting tables: ", error);
+  }
 }
 
-export function createFloor(floors, setFloors, floorInfo) {
-  let floorId = createRandomId();
-  let newFloor = {
-    name: floorInfo.name,
-    id: floorId
-  }
-  let newArray = [...floors, newFloor];
+export async function createFloor(floorInfo) {
+  const userdata = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from('floors')
+    .insert({
+      name: floorInfo.name,
+      user_id: userdata.data.user.id
+    })
+    .select();
 
-  setFloors(newArray);
-}
-export function getFloors() {
-  let floors = [];
-  if (localStorage.getItem('floors')) {
-    floors = JSON.parse(localStorage.getItem('floors'));
-  } else {
-    floors = [
-      {
-        name: 'Placeholder Floor',
-        id: 0,
-      }
-    ]
+  if (error) {
+    throw new Error("There was an error creating floor",error);
   }
-  return floors;
+  console.log('success', data);
+
+  return data[0];
+  // let newArray = [...floors, data[0]];
+  // setFloors(newArray);
+}
+export async function getFloors() {
+
+  const {data, error} = await supabase.from('floors').select();
+  if(error){
+    throw new Error("There was an error getting floors", error)
+  }
+  return data;
 }
 
 export function setFloors(floors) {
   localStorage.setItem('floors', JSON.stringify(floors));
-}
-
-export async function testDbSelect() {
-  const { data, error } = await supabase.from('tables').select()
-  return data;
 }
