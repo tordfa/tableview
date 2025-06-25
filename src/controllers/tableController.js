@@ -75,11 +75,7 @@ export async function createFloor(floorInfo) {
   if (error) {
     throw new Error("There was an error creating floor",error);
   }
-  console.log('success', data);
-
   return data[0];
-  // let newArray = [...floors, data[0]];
-  // setFloors(newArray);
 }
 export async function getFloors() {
 
