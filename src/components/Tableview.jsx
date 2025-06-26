@@ -14,8 +14,18 @@ function Tableview() {
     const [activeTable, setActiveTable] = useState();
     const [activeFloor, setActiveFloor] = useState(null);
 
+
+    async function getTables() {
+        try {
+            let tables = await tableController.getTables();
+            setTableList(tables);
+        }
+        catch (e) { console.error(e); }
+    }
     // Getting Floors and tables from DB
     useEffect(() => {
+        getTables();
+
         (async () => {
             try {
                 let newfloors = await tableController.getFloors();
@@ -23,15 +33,7 @@ function Tableview() {
                 setActiveFloor(newfloors[0].id)
                 setFloors(newfloors);
             }
-            catch (e) {console.error(e);}
-        })();
-        (async () => {
-            try {
-                let tables = await tableController.getTables();
-                setTableList(tables);
-            }
-            catch(e){ console.error(e); }
-            
+            catch (e) { console.error(e); }
         })();
 
 
@@ -43,7 +45,7 @@ function Tableview() {
             <div className="Tableview">
                 <div className='tableviewController'>
                     <Controlpanel
-                        setTableList={setTableList}
+                        getTables={getTables}
                         tableList={tableList}
                         setIsEdit={setIsEdit}
                         isEdit={isEdit}

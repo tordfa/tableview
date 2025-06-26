@@ -1,7 +1,7 @@
 import * as tableController from '../controllers/tableController'
 import { openTableModal } from '../util/util'
 
-function Controlpanel({ setIsEdit, isEdit, tableList, setTableList, setActiveFloor, floors, setFloors }) {
+function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor, floors, setFloors }) {
 
 
     function handleSelect(e) {
@@ -30,7 +30,7 @@ function Controlpanel({ setIsEdit, isEdit, tableList, setTableList, setActiveFlo
                         <button onClick={() => { tableController.saveTables(tableList); setIsEdit((prevstate) => !prevstate); }}>Save</button>
                         <button onClick={() => {
                             setIsEdit(false);
-                            setTableList(tableController.getTables())
+                            getTables();
                         }}>Cancel</button>
                     </>
                     :
