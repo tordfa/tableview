@@ -4,7 +4,7 @@ import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
 import * as tableController from "../controllers/tableController"
 import { useEffect, useState } from 'react';
-import Newtablemodal from './Newtablemodal';
+import MainModal from './modals/MainModal';
 
 function Tableview() {
 
@@ -78,7 +78,7 @@ function Tableview() {
                     </div>
                 </div>
                 <Tableinfo activeTable={activeTable}></Tableinfo>
-                <Newtablemodal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></Newtablemodal>
+                <MainModal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></MainModal>
             </div>
         </>)
 }
