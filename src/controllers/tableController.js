@@ -85,7 +85,3 @@ export async function getFloors() {
   }
   return data;
 }
-
-export function setFloors(floors) {
-  localStorage.setItem('floors', JSON.stringify(floors));
-}
