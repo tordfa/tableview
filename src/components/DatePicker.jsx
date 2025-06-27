@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 export const DatePicker = () => {
 
-    const [activeMonth, setActiveMonth ] = useState(0);
-    const [activeYear, setActiveYear] = useState(0);
+    const [activeMonth, setActiveMonth] = useState(1);
+    const [activeYear, setActiveYear] = useState(2027);
+    const [activeYearObject, setActiveYearObject] = useState(null);
 
     const months = {
         0: 'January',
@@ -20,16 +21,16 @@ export const DatePicker = () => {
         11: 'December'
     }
 
-    function getDaysInMonth(year_input, month_input) {
-        return new Date(year_input, month_input, 0).getDate();
-    }
+    // function getDaysInMonth(year_input, month_input) {
+    //     return new Date(year_input, month_input, 0).getDate();
+    // }
 
     function createDaysObject(year_input) {
         let dates = [];
         //Loop through months
-        for (let i = 0; i < 12; i++) {
+        for (let i = 1; i < 13; i++) {
             let month = [];
-            let daysInMonth = getDaysInMonth(year_input, i);
+            let daysInMonth = new Date(year_input,i,0).getDate();
             for (let j = 0; j < daysInMonth; j++) {
                 month.push(j);
             }
@@ -40,27 +41,62 @@ export const DatePicker = () => {
 
     }
 
-    useEffect(()=>{
-    let obj = createDaysObject(2025)
-    setActiveYear(obj);
-    
-    },[])
+    function handleChangeMonth(direction) {
+        if (activeMonth + direction < 0) {
+            setActiveMonth(11);
+            setActiveYear(prevState => prevState - 1);
 
+        }
+        else if (activeMonth + direction > 11) {
+            setActiveMonth(0);
+            setActiveYear(prevState => prevState + 1);
+        }
+        else {
+            setActiveMonth(prevState => prevState + direction);
+        }
+    }
+
+    function handleChangeYear(direction){
+        setActiveYear(prevState => prevState + direction);
+    }
+
+    function testfunc() {
+       console.log(new Date(activeYear,activeMonth,0).getDate())
+
+    }
+
+    useEffect(() => {
+        
+        let obj = createDaysObject(activeYear)
+        
+        setActiveYearObject(obj);
+        
+
+    }, [activeYear])
 
     return (
         <>
             <h1>DatePicker</h1>
 
             <div className='datepicker-container'>
+                <button onClick={testfunc}>test</button>
                 <div className='month-container'>
-                    <button>&lt;--</button>
+                    <button onClick={() => { handleChangeYear(-1) }}>&lt;--</button>
+                    <h1>{activeYear}</h1>
+                    <button onClick={() => { handleChangeYear(1) }}>--&gt;</button>
+                </div>
+                <div className='month-container'>
+                    <button onClick={() => { handleChangeMonth(-1) }}>&lt;--</button>
                     <h1>{months[activeMonth]}</h1>
-                    <button>--&gt;</button>
+                    <button onClick={() => { handleChangeMonth(1) }}>--&gt;</button>
                 </div>
                 <div className='calendar-container'>
-                    {activeYear[activeMonth].map((day)=>{
-                        return <div className='day-container'>{day}</div>
-                    })}
+                    {activeYearObject
+                        ? activeYearObject[activeMonth].map((day) => {
+                            return <div key={day} className='day-container'>{day + 1}</div>
+                        })
+                        : <></>
+                    }
                 </div>
             </div>
         </>
