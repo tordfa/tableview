@@ -30,7 +30,7 @@ export const DatePicker = () => {
         //Loop through months
         for (let i = 1; i < 13; i++) {
             let month = [];
-            let daysInMonth = new Date(year_input,i,0).getDate();
+            let daysInMonth = new Date(year_input, i, 0).getDate();
             for (let j = 0; j < daysInMonth; j++) {
                 month.push(j);
             }
@@ -56,30 +56,29 @@ export const DatePicker = () => {
         }
     }
 
-    function handleChangeYear(direction){
+    function handleChangeYear(direction) {
         setActiveYear(prevState => prevState + direction);
     }
 
     function testfunc() {
-       console.log(new Date(activeYear,activeMonth,0).getDate())
+        console.log(new Date(activeYear, activeMonth, 0).getDate())
 
     }
 
     useEffect(() => {
-        
+
         let obj = createDaysObject(activeYear)
-        
+
         setActiveYearObject(obj);
-        
+
 
     }, [activeYear])
 
     return (
         <>
-            <h1>DatePicker</h1>
-
+            <button onClick={testfunc}>test</button>
             <div className='datepicker-container'>
-                <button onClick={testfunc}>test</button>
+
                 <div className='month-container'>
                     <button onClick={() => { handleChangeYear(-1) }}>&lt;--</button>
                     <p>{activeYear}</p>
