@@ -45,7 +45,7 @@ function Tableview() {
     }
     async function deleteFloor(floorid_input) {
         try {
-            let result = await tableController.deleteFloor(floorid_input);
+            await tableController.deleteFloor(floorid_input);
             getFloors();
         }
         catch (error) {
