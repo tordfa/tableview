@@ -22,6 +22,18 @@ function Tableview() {
         }
         catch (e) { console.error(e); }
     }
+
+    async function createFloor(name_input) {
+        try {
+            let result = await tableController.createFloor({ name: name_input })
+            let newArray = [...floors, result];
+            setFloors(newArray);
+        }
+        catch (e) {
+            console.error(e);
+        }
+
+    }
     // Getting Floors and tables from DB
     useEffect(() => {
         getTables();
@@ -46,11 +58,11 @@ function Tableview() {
                 <div className='tableviewController'>
                     <Controlpanel
                         getTables={getTables}
+                        createFloor={createFloor}
                         tableList={tableList}
                         setIsEdit={setIsEdit}
                         isEdit={isEdit}
                         floors={floors}
-                        setFloors={setFloors}
                         setActiveFloor={setActiveFloor}
                         activeFloor={activeFloor}
                     />

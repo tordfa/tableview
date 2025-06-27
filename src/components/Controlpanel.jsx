@@ -1,24 +1,13 @@
 import * as tableController from '../controllers/tableController'
 import { openTableModal } from '../util/util'
 
-function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor, floors, setFloors }) {
+function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor, floors, createFloor}) {
 
 
     function handleSelect(e) {
         setActiveFloor(parseInt(e.currentTarget.options[e.currentTarget.selectedIndex].id))
     }
 
-    async function createFloor() {
-        try {
-            let result = await tableController.createFloor({ name: 'test' })
-            let newArray = [...floors, result];
-            setFloors(newArray);
-        }
-        catch (e) {
-            console.error(e);
-        }
-
-    }
     return (
         <div className="controlpanel">
             <div>
@@ -26,7 +15,7 @@ function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor,
                     ?
                     <>
                         <button onClick={openTableModal}>Add Table</button>
-                        <button onClick={() => { createFloor() }}>Add Floor</button>
+                        <button onClick={() => { createFloor('test2') }}>Add Floor</button>
                         <button onClick={() => { tableController.saveTables(tableList); setIsEdit((prevstate) => !prevstate); }}>Save</button>
                         <button onClick={() => {
                             setIsEdit(false);
