@@ -82,12 +82,12 @@ export const DatePicker = () => {
                 <button onClick={testfunc}>test</button>
                 <div className='month-container'>
                     <button onClick={() => { handleChangeYear(-1) }}>&lt;--</button>
-                    <h1>{activeYear}</h1>
+                    <p>{activeYear}</p>
                     <button onClick={() => { handleChangeYear(1) }}>--&gt;</button>
                 </div>
                 <div className='month-container'>
                     <button onClick={() => { handleChangeMonth(-1) }}>&lt;--</button>
-                    <h1>{months[activeMonth]}</h1>
+                    <h3>{months[activeMonth]}</h3>
                     <button onClick={() => { handleChangeMonth(1) }}>--&gt;</button>
                 </div>
                 <div className='calendar-container'>

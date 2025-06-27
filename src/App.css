@@ -45,25 +45,35 @@ html,body{
 }
 
 .calendar-container{
-  background-color: blue;
+  background-color: rgb(228, 228, 230);
   width: 20rem;
-  height: 20rem;
+  height: 15rem;
   display: grid;
   grid-template-columns: repeat(7,1fr);
+  gap: 1px;
+  margin-top: 2px;
+  border: 1px solid black;
+  border-top: none;
 }
 
 .month-container{
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
+  border-bottom: none;
 }
 
 .day-container{
-  background-color: red;
+  background-color: rgb(129, 180, 247);
   /* width: 2rem; */
   border: 1px solid black;
+  border-radius: 4px;
   height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.day-container:hover{
+  background-color: rgb(126, 126, 240);
+  cursor: pointer;
 }
