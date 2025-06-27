@@ -23,6 +23,15 @@ function Tableview() {
         catch (e) { console.error(e); }
     }
 
+    async function getFloors() {
+        try {
+            let newfloors = await tableController.getFloors();
+            setActiveFloor(newfloors[0].id)
+            setFloors(newfloors);
+        }
+        catch (e) { console.error(e); }
+    }
+
     async function createFloor(name_input) {
         try {
             let result = await tableController.createFloor({ name: name_input })
@@ -34,19 +43,19 @@ function Tableview() {
         }
 
     }
+    async function deleteFloor(floorid_input) {
+        try {
+            let result = await tableController.deleteFloor(floorid_input);
+            getFloors();
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
     // Getting Floors and tables from DB
     useEffect(() => {
         getTables();
-
-        (async () => {
-            try {
-                let newfloors = await tableController.getFloors();
-                console.log(newfloors[0].id);
-                setActiveFloor(newfloors[0].id)
-                setFloors(newfloors);
-            }
-            catch (e) { console.error(e); }
-        })();
+        getFloors();
 
 
     }, [])
@@ -59,6 +68,7 @@ function Tableview() {
                     <Controlpanel
                         getTables={getTables}
                         createFloor={createFloor}
+                        deleteFloor={deleteFloor}
                         tableList={tableList}
                         setIsEdit={setIsEdit}
                         isEdit={isEdit}

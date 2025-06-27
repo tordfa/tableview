@@ -10,13 +10,14 @@ function tableClicked(e){
     mouseDown = true;
     x = e.currentTarget.offsetLeft - e.clientX;
     y = e.currentTarget.offsetTop - e.clientY;
-    setActiveTable();
+    
     e.preventDefault();
 }
 
 function tableUnclicked(e){
-
+    
     if(mouseDown && isEdit){
+        setActiveTable();
         
         mouseDown = false;
         for (let i = 0; i < tableList.length; i++) {

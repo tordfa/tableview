@@ -77,6 +77,17 @@ export async function createFloor(floorInfo) {
   }
   return data[0];
 }
+
+export async function deleteFloor(floorid_input){
+  const {data,error} = await supabase
+    .from('floors')
+    .delete().eq('id', floorid_input)
+  if(error){
+    throw new Error("There was an error deleting floors", error)
+  }
+  return {success: true, data: data}
+}
+
 export async function getFloors() {
 
   const {data, error} = await supabase.from('floors').select();
