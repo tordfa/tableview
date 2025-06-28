@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { DateDay } from './DateDay';
 
 export const DatePicker = () => {
 
     const [activeMonth, setActiveMonth] = useState(1);
     const [activeYear, setActiveYear] = useState(2027);
-    const [activeYearObject, setActiveYearObject] = useState(null);
+    const [activeYearArray, setActiveYearArray] = useState(null);
 
     const months = {
         0: 'January',
@@ -21,12 +22,10 @@ export const DatePicker = () => {
         11: 'December'
     }
 
-    // function getDaysInMonth(year_input, month_input) {
-    //     return new Date(year_input, month_input, 0).getDate();
-    // }
 
-    function createDaysObject(year_input) {
-        let dates = [];
+    
+    function createDaysArray(year_input) {
+        let daysInYear = []
         //Loop through months
         for (let i = 1; i < 13; i++) {
             let month = [];
@@ -34,11 +33,10 @@ export const DatePicker = () => {
             for (let j = 0; j < daysInMonth; j++) {
                 month.push(j);
             }
-            dates.push(month)
+            daysInYear.push(month)
             month = {};
         }
-        return dates;
-
+        return daysInYear;
     }
 
     function handleChangeMonth(direction) {
@@ -67,9 +65,8 @@ export const DatePicker = () => {
 
     useEffect(() => {
 
-        let obj = createDaysObject(activeYear)
-
-        setActiveYearObject(obj);
+        let daysArray = createDaysArray(activeYear)
+        setActiveYearArray(daysArray);
 
 
     }, [activeYear])
@@ -90,9 +87,9 @@ export const DatePicker = () => {
                     <button onClick={() => { handleChangeMonth(1) }}>--&gt;</button>
                 </div>
                 <div className='calendar-container'>
-                    {activeYearObject
-                        ? activeYearObject[activeMonth].map((day) => {
-                            return <div key={day} className='day-container'>{day + 1}</div>
+                    {activeYearArray
+                        ? activeYearArray[activeMonth].map((day) => {
+                            return <DateDay key={day} isActive={true} day={day}></DateDay>
                         })
                         : <></>
                     }
