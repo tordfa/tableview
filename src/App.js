@@ -10,6 +10,7 @@ import { DashboardLayout } from './components/DashboardLayout';
 import { Home } from './components/pages/HomePage';
 import { CalendarPage } from './components/pages/CalendarPage';
 import { Testpage } from './components/pages/Testpage';
+import { BookingPage } from './components/pages/BookingPage';
 
 
 
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route path='/signin' element={<SignIn />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
+          <Route path='/booking/:store_id' element={<BookingPage></BookingPage>}></Route>
         </Routes>
       </BrowserRouter>
     </AuthContextProvider>
