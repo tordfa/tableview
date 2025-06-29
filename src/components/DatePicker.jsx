@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { DateDay } from './DateDay';
 
-export const DatePicker = () => {
+export const DatePicker = ({ setDateTime }) => {
 
     const [activeMonth, setActiveMonth] = useState(1);
-    const [activeYear, setActiveYear] = useState(2027);
+    const [activeYear, setActiveYear] = useState(2025);
     const [activeYearArray, setActiveYearArray] = useState(null);
 
     const months = {
@@ -23,7 +23,7 @@ export const DatePicker = () => {
     }
 
 
-    
+
     function createDaysArray(year_input) {
         let daysInYear = []
         //Loop through months
@@ -73,28 +73,29 @@ export const DatePicker = () => {
 
     return (
         <>
-            <button onClick={testfunc}>test</button>
-            <div className='datepicker-container'>
 
-                <div className='month-container'>
-                    <button onClick={() => { handleChangeYear(-1) }}>&lt;--</button>
-                    <p>{activeYear}</p>
-                    <button onClick={() => { handleChangeYear(1) }}>--&gt;</button>
+                <div className='datepicker-container'>
+                    <div className='month-container'>
+                        <button onClick={() => { handleChangeYear(-1) }}>&lt;--</button>
+                        <p>{activeYear}</p>
+                        <button onClick={() => { handleChangeYear(1) }}>--&gt;</button>
+                    </div>
+                    <div className='month-container'>
+                        <button onClick={() => { handleChangeMonth(-1) }}>&lt;--</button>
+                        <h3>{months[activeMonth]}</h3>
+                        <button onClick={() => { handleChangeMonth(1) }}>--&gt;</button>
+                    </div>
+                    <div className='calendar-container'>
+                        {activeYearArray
+                            ? activeYearArray[activeMonth].map((day) => {
+                                return <DateDay key={day} isActive={true} day={day}></DateDay>
+                            })
+                            : <></>
+                        }
+                    </div>
                 </div>
-                <div className='month-container'>
-                    <button onClick={() => { handleChangeMonth(-1) }}>&lt;--</button>
-                    <h3>{months[activeMonth]}</h3>
-                    <button onClick={() => { handleChangeMonth(1) }}>--&gt;</button>
-                </div>
-                <div className='calendar-container'>
-                    {activeYearArray
-                        ? activeYearArray[activeMonth].map((day) => {
-                            return <DateDay key={day} isActive={true} day={day}></DateDay>
-                        })
-                        : <></>
-                    }
-                </div>
-            </div>
+
+
         </>
 
     )

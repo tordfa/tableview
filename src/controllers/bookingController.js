@@ -24,3 +24,11 @@ export async function getAllBookings(user_id_input) {
     }
     return data;
 }
+
+export async function getClosedDates(){
+    const {data, error} = await supabase.from('closed').select();
+    if(error){
+        throw new Error("There was an error getting closed dates")
+    }
+    return data;
+}
