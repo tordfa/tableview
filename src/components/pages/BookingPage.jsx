@@ -1,17 +1,25 @@
-import { useParams } from "react-router"
+import { useParams,useNavigate } from "react-router"
 import { getAllBookings } from "../../controllers/bookingController";
 import { useEffect } from "react";
 
 export const BookingPage = () => {
     
     let params = useParams();
+    let navigate = useNavigate()
 
     async function getBookings() {
         //Check if store_id/user_id exists
         // If not : Redirect
         // If exist:
+        try{
         let bookings = await getAllBookings(params.store_id);
         console.log(bookings);
+        }
+        catch(error){
+            console.log(error);
+            navigate('/'); 
+        }
+
         
     }
 
