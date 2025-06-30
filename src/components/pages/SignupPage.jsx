@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { UserAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router';
+import { signup } from '../../controllers/userController';
 
 
 function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signUpNewUser } = UserAuth()
 
   const navigate = useNavigate();
 
@@ -15,16 +14,13 @@ function Signup() {
     event.preventDefault();
     setLoading(true);
     try {
-      const result = await signUpNewUser(email, password);
-      console.log(result.success);
-      
-      if (result.success) {
+      const result = await signup(email, password);
+      if (result.ok) {
         console.log("LOGIN SUCCESS");
         navigate('/');
       }
     } catch (err) {
       console.log("ERROR OCCURED");
-
     }
 
   };

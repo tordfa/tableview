@@ -1,3 +1,5 @@
+-- DB Diagram : https://dbdiagram.io/d/686164e6f413ba35086599c7
+
 CREATE TABLE tenants (
     id UUID PRIMARY KEY,
     tenant_name VARCHAR,

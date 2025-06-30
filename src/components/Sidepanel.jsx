@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router'
+import { logout } from '../controllers/userController'
 
 const style = {
     backgroundColor: 'grey',
@@ -21,6 +22,9 @@ export const Sidepanel = () => {
                 <NavLink to='/calendar'>Calendar</NavLink>
                 <NavLink to='/signin'>Signin</NavLink>
                 <NavLink to='/signup'>Signup</NavLink>
+                <button onClick={()=>{
+                    logout();
+                }}>Logout</button>
 
             </div>
         </>

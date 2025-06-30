@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { UserAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router';
-
+import { signIn } from '../../controllers/userController';
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signInUser } = UserAuth()
+
 
   const navigate = useNavigate();
 
@@ -15,8 +14,8 @@ function SignIn() {
     event.preventDefault();
     setLoading(true);
     try {
-      const result = await signInUser(email, password);
-      if (result.success) {
+      const result = await signIn(email, password);
+      if (result.ok) {
         console.log("LOGIN SUCCESS");
         navigate('/');
       }
