@@ -1,6 +1,8 @@
 import React from 'react'
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import { logout } from '../controllers/userController'
+
+
 
 const style = {
     backgroundColor: 'grey',
@@ -11,6 +13,7 @@ const style = {
     gap: '20px',
 }
 export const Sidepanel = () => {
+    let navigate = useNavigate();
     return (
         <>
             <div style={style}>
@@ -24,6 +27,7 @@ export const Sidepanel = () => {
                 <NavLink to='/signup'>Signup</NavLink>
                 <button onClick={()=>{
                     logout();
+                    navigate('/signin');
                 }}>Logout</button>
 
             </div>

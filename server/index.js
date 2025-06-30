@@ -1,15 +1,11 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const app = express()
 const port = 4000
 const { supabase } = require('./supabaseClient.js')
-const { getUsers } = require('./controllers/user_dbController.js')
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
 
 const isAuthenticated = async (req, res, next) => {
-    console.log('Not Authenticated');
-    
     const token = req.cookies.access_token;
     if (!token) return res.sendStatus(401);
 
@@ -70,6 +66,10 @@ app.post('/api/login', async (req, res) => {
 
 // Protected Routes!
 app.use(isAuthenticated);
+
+app.get('/api/auth', async (request, response) => {
+    response.sendStatus(200);
+})
 
 app.get('/api/logout', async (request, response) => {
     console.log('LOGGING OUT!!');
