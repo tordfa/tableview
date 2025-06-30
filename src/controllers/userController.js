@@ -26,6 +26,7 @@ export async function signIn(email_input, password_input) {
     const signinUrl = process.env.REACT_APP_HOST_URL + "/api/login"
     try {
         const response = await fetch(signinUrl, {
+            credentials: 'include',
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email_input, password: password_input })
@@ -45,10 +46,14 @@ const logoutUrl = process.env.REACT_APP_HOST_URL + "/api/logout"
 console.log('Logging out!');
 
     try {
-        const response = await fetch(logoutUrl);
+        const response = await fetch(logoutUrl,{
+            credentials: 'include'
+        });
         if (!response.ok) {
             throw new Error('Response status:' + response.status)
         }
+        console.log('BSALGA');
+        
         console.log(response);
         
         return response;

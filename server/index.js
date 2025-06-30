@@ -8,18 +8,30 @@ const cookieParser = require("cookie-parser");
 const cors = require('cors');
 
 const isAuthenticated = async (req, res, next) => {
+    console.log('Not Authenticated');
+    
     const token = req.cookies.access_token;
-    if (!token) return res.redirect('/api/error');
+    if (!token) return res.sendStatus(401);
 
     const { data, error } = await supabase.auth.getUser(token);
-    if (error) return res.redirect('/api/error');
+
+    if (error) {
+
+        return res.sendStatus(401);
+    }
     next();
 
 }
 
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200
+}
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get('/', async (req, response) => {
     console.log(req.body);
