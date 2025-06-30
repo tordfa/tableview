@@ -1,11 +1,10 @@
 const {pool} = require('./dbConnection.js');
 
-const createUser = (request, response) => {
-    pool.query('INSERT INTO users', (error, results) => {
+const createUser = (id, email_input) => {
+    pool.query(`INSERT INTO users (id,email) VALUES('${id}', '${email_input}')`, (error, results) => {
         if (error) {
             throw error
         }
-        response.status(200).json(results.rows)
     })
 }
 

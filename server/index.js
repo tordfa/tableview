@@ -4,6 +4,7 @@ const port = 4000
 const { supabase } = require('./supabaseClient.js')
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
+const {createUser} = require('./controllers/user_dbController.js')
 
 const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.access_token;
@@ -45,6 +46,7 @@ app.post("/api/signup", async (req, res) => {
     if (error) {
         return res.status(401).json({ info: 'Error signing up!', error })
     }
+    createUser(data.user.id,data.user.email);
     res.cookie('access_token', data.session.access_token)
     res.sendStatus(200);
 })

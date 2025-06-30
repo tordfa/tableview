@@ -2,6 +2,7 @@ export async function signup(email_input, password_input) {
     const signupUrl = process.env.REACT_APP_HOST_URL + "/api/signup"
     try {
         const response = await fetch(signupUrl, {
+            credentials: 'include',
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email_input, password: password_input })
