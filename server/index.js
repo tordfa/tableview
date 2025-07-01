@@ -4,7 +4,7 @@ const port = 4000
 const { supabase } = require('./supabaseClient.js')
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
-const {createUser} = require('./controllers/user_dbController.js')
+const {createUser ,createTenant} = require('./controllers/user_dbController.js')
 
 const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.access_token;
@@ -81,6 +81,8 @@ app.get('/api/logout', async (request, response) => {
 app.get('/api/protected', async (req, res) => {
     res.json({ info: 'You accessed a protected route!' });
 })
+
+app.post('/api/createtenant', createTenant )
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

@@ -1,7 +1,10 @@
 -- DB Diagram : https://dbdiagram.io/d/686164e6f413ba35086599c7
 
+-- RUN FIRST TO enable generation of uuid:
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE tenants (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid,
     tenant_name VARCHAR,
     tenant_url VARCHAR
 );
