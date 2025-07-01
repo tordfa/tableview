@@ -32,8 +32,7 @@ CREATE TABLE tables (
     number INT,
     floor_id UUID,
     is_active BOOLEAN,
-    FOREIGN KEY (tenant_id) REFERENCES tenants(id),
-    FOREIGN KEY (floor_id) REFERENCES floors(id)
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id)
 );
 
 CREATE TABLE bookings (

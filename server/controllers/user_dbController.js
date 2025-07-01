@@ -33,6 +33,15 @@ const getUserId = async (req) => {
 
 }
 
+const getTenantIdFromUser = async (user_id) => {
+    try {
+        let result = await pool.query(`SELECT tenant_id FROM users WHERE id = '${user_id}'`)
+        return result.rows[0].tenant_id;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const createTenant = async (req, res) => {
     try {
         let user_id = await getUserId(req);
@@ -49,4 +58,4 @@ const createTenant = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getUsers, createTenant }
+module.exports = { createUser, getUsers, createTenant, getUserId, getTenantIdFromUser }
