@@ -23,8 +23,8 @@ function Tableinfo({activeTable}){
         <>
         <h1>Tableinfo:</h1>
         <p>Table Id: {activeTable.id} </p>
-        <p>Tablenumber: {activeTable.number}</p>
-        <p>Tablename: {activeTable.name}</p>
+        <p>Tablenumber: {activeTable.table_number}</p>
+        <p>Tablename: {activeTable.table_name}</p>
         <p>Table Position: X: {activeTable.x}, Y: {activeTable.y}</p>
         </>
         :<></>

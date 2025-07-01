@@ -17,7 +17,7 @@ function Tableview() {
 
     async function getTables() {
         try {
-            let tables = await tableController.getTables();
+            let { tables } = await tableController.getTables();
             setTableList(tables);
         }
         catch (e) { console.error(e); }
@@ -25,9 +25,10 @@ function Tableview() {
 
     async function getFloors() {
         try {
-            let newfloors = await tableController.getFloors();
-            setActiveFloor(newfloors[0].id)
-            setFloors(newfloors);
+            let { floors } = await tableController.getFloors();
+            
+            setActiveFloor(floors[0].id)
+            setFloors(floors);
         }
         catch (e) { console.error(e); }
     }
@@ -80,7 +81,7 @@ function Tableview() {
                     <div className='tableContainer'>
                         {tableList
                             ? tableList.map((table) => {
-                                if (table.floor === activeFloor) {
+                                if (table.floor_id === activeFloor) {
                                     return <Table
                                         key={table.id}
                                         xPos={table.x}

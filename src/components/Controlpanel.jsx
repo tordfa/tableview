@@ -38,7 +38,7 @@ function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor,
                     {floors
                         ? floors.map((floor) => {
 
-                            return <option key={floor.id} value={floor.name} id={floor.id}>{floor.name}</option>
+                            return <option key={floor.id} value={floor.name} id={floor.id}>{floor.floor_name}</option>
                         })
                         : <option value={"placeholder1"} id={0}>Placeholder</option>
                     }

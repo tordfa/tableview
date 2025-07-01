@@ -45,12 +45,21 @@ export async function deleteTable(tableid, setTableList, tableList) {
 }
 
 export async function getTables() {
-  // const {data, error} = await supabase.from('tables').select()
-  // if(error){
-  //   throw new Error("There was an error getting tables", error)
-  // }
-  // return data;
-
+  const getTablesUrl = process.env.REACT_APP_HOST_URL + "/api/gettables"
+  try {
+    const response = await fetch(getTablesUrl, {
+      credentials: 'include',
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error getting tables');
+    return { success: false, error: error }
+  }
 }
 
 export async function saveTables(tableList) {
@@ -78,7 +87,7 @@ export async function createFloor(floorInfo) {
   // return data[0];
 }
 
-export async function deleteFloor(floorid_input){
+export async function deleteFloor(floorid_input) {
   // const {data,error} = await supabase
   //   .from('floors')
   //   .delete().eq('id', floorid_input)
@@ -90,9 +99,19 @@ export async function deleteFloor(floorid_input){
 
 export async function getFloors() {
 
-  // const {data, error} = await supabase.from('floors').select();
-  // if(error){
-  //   throw new Error("There was an error getting floors", error)
-  // }
-  // return data;
+  const getFloorsUrl = process.env.REACT_APP_HOST_URL + "/api/getfloors"
+  try {
+    const response = await fetch(getFloorsUrl, {
+      credentials: 'include',
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error getting tables');
+    return { success: false, error: error }
+  }
 }

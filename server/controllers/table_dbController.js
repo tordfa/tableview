@@ -1,16 +1,16 @@
 const { pool } = require('./dbConnection.js');
 const { getUserId, getTenantIdFromUser } = require('./user_dbController.js')
 
-// NOT DONE
+
 const createTable = async (req, res) => {
     try {
         let user_id = await getUserId(req);
         let tenant_id = await getTenantIdFromUser(user_id);
 
-        const { table_name, table_number, table_seats, floor_id } = req.body;
+        const { table_name, table_number, table_seats, floor_id,x_pos,y_pos } = await req.body;
         let result = await pool.query(
-            `INSERT INTO tables (tenant_id, table_name, table_number, table_seats, floor_id) 
-        VALUES('${tenant_id}','${table_name}', '${table_number}', '${table_seats}', '${floor_id}') RETURNING id, floor_id`);
+            `INSERT INTO tables (tenant_id, table_name, table_number, table_seats, floor_id, x_pos, y_pos) 
+        VALUES('${tenant_id}','${table_name}', '${table_number}', '${table_seats}', '${floor_id}', '${x_pos}', '${y_pos}') RETURNING id, floor_id`);
 
         return res.status(200).json({ success: true, result })
     } catch (error) {
@@ -18,14 +18,14 @@ const createTable = async (req, res) => {
     }
 }
 
-// NOT DONE
+
 const deleteTable = async (req, res) => {
     try {
         // 1.First check if user is authenticated and get user ID from supabase
         let user_id = await getUserId(req);
         // 2. Get user tenant_id from db
         let tenant_id = await getTenantIdFromUser(user_id);
-        let {table_id} = req.body;
+        let { table_id } = await req.body;
         // 3. DELETE table from db based on table_id and tenant_id
         let result = await pool.query(`DELETE FROM tables WHERE id = '${table_id}' AND tenant_id = '${tenant_id}'`);
         return res.status(200).json({ success: true, result });
@@ -33,7 +33,7 @@ const deleteTable = async (req, res) => {
         return res.status(401).json({ success: false, error })
     }
 }
-// NOT DONE
+
 const getTables = async (req, res) => {
     // Get tables from db.
     try {
@@ -51,18 +51,41 @@ const getTables = async (req, res) => {
 
 }
 
-// NOT DONE
-const saveTables = (request, response) => {
-    const { session } = request.body;
-    pool.query('', (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
+const saveTables = async (req, res) => {
+    // {id: table_id, name: table_name, number: table_number, seats: table_seats, x: x_pos, y: y_pos floor_id: activefloor_id}
+    try {
+        let user_id = await getUserId(req);
+        let tenant_id = await getTenantIdFromUser(user_id);
+        let { tables } = await req.body;
+
+        const values = [];
+        const placeholders = tables.map((row, i) => {
+            const idx = i * 8;
+            values.push(row.id, row.tenant_id, row.table_name, row.table_number, row.table_seats, row.x, row.y, floor_id);
+            return `($${idx + 1}, $${idx + 2}, $${idx + 3}, $${idx + 4}, $${idx + 5}, $${idx + 6}, $${idx + 7}, $${idx + 8})`;
+        }).join(',');
+
+        const query = `
+                    INSERT INTO tables (id, tenant_id, table_name, table_number,table_seats, x, y, floor_id)
+                    VALUES ${placeholders}
+                    ON CONFLICT (id) DO UPDATE
+                    SET tenant_id = EXCLUDED.tenant_id,
+                        table_name = EXCLUDED.table_name,
+                        table_number = EXCLUDED.table_number,
+                        table_seat = EXCLUDED.table_seats,
+                        x = EXCLUDED.x,
+                        y = EXCLUDED.y,
+                        floor_id = EXCLUDED.floor_id;
+                    `;
+
+        let result = await pool.query(query, values);
+
+        return res.status(200).json({ success: true, result })
+    } catch (error) {
+        return res.status(401).json({ success: false })
+    }
 }
 
-// NOT DONE
 const createFloor = async (req, res) => {
     try {
         let user_id = await getUserId(req);
@@ -79,14 +102,13 @@ const createFloor = async (req, res) => {
     }
 }
 
-// NOT DONE
 const deleteFloor = async (req, res) => {
     try {
         // 1.First check if user is authenticated and get user ID from supabase
         let user_id = await getUserId(req);
         // 2. Get user tenant_id from db
         let tenant_id = await getTenantIdFromUser(user_id);
-        let {floor_id} = req.body;
+        let { floor_id } = await req.body;
         // 3. DELETE floor from db based on table_id and tenant_id
         let result = await pool.query(`DELETE FROM floors WHERE id = '${floor_id}' AND tenant_id = '${tenant_id}'`);
         return res.status(200).json({ success: true, result });
@@ -111,4 +133,4 @@ const getFloors = async (req, res) => {
     }
 }
 
-module.exports = { createTable, deleteTable, getTables, saveTables, createFloor, deleteFloor, getFloors, createFloor }
+module.exports = { createTable, deleteTable, getTables, saveTables, createFloor, deleteFloor, getFloors, createFloor, saveTables }

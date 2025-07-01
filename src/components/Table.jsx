@@ -92,7 +92,7 @@ return(
         ? <button onClick={()=>{deleteTable(table.id,setTableList, tableList)}}>X</button>
         : <></>
         }
-        <h1>{table.number}</h1>
+        <h1>{table.table_number}</h1>
         </div>
 )
 }
