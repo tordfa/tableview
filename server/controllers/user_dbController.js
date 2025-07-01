@@ -1,11 +1,12 @@
-const {pool} = require('./dbConnection.js');
+const { pool } = require('./dbConnection.js');
 
-const createUser = (id, email_input) => {
-    pool.query(`INSERT INTO users (id,email) VALUES('${id}', '${email_input}')`, (error, results) => {
-        if (error) {
-            throw error
-        }
-    })
+const createUser = async (id, email_input) => {
+    try {
+        let result = await pool.query(`INSERT INTO users (id,email) VALUES('${id}', '${email_input}')`)
+        return { success: true, result };
+    } catch (error) {
+        console.log("There was an error inserting user" + error);
+    }
 }
 
 const getUsers = (request, response) => {
@@ -18,4 +19,4 @@ const getUsers = (request, response) => {
 }
 
 
-module.exports = {createUser, getUsers}
+module.exports = { createUser, getUsers }

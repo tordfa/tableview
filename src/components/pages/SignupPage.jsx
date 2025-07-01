@@ -13,15 +13,15 @@ function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    try {
-      const result = await signup(email, password);
-      if (result.ok) {
-        console.log("LOGIN SUCCESS");
-        navigate('/');
-      }
-    } catch (err) {
-      console.log("ERROR OCCURED");
+
+    const result = await signup(email, password);
+    if (!result.success) {
+      console.log("Signup Failed");
+      setLoading(false);
+      return;
     }
+    console.log("LOGIN SUCCESS");
+    navigate('/');
 
   };
 

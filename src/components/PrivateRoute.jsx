@@ -8,19 +8,12 @@ export const PrivateRoute = (props) => {
     let navigate = useNavigate();
 
     const isAuth = async () => {
-        try {
-            const response = await isAuthenticated()
-            if (!response.ok) {
-                setAuth(false);
-                navigate('/signin')
-            }
-            setAuth(true);
-
-        }
-        catch (error) {
+        const response = await isAuthenticated()
+        if (!response.success) {
+            setAuth(false);
             navigate('/signin')
         }
-
+        setAuth(true);
     }
     useEffect(() => {
         isAuth();
@@ -29,7 +22,6 @@ export const PrivateRoute = (props) => {
 
     if (auth) {
         return <><Outlet></Outlet></>
-
     }
 
 }

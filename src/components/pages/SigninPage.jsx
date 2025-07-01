@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { signIn } from '../../controllers/userController';
 
@@ -13,17 +13,17 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    try {
-      const result = await signIn(email, password);
-      if (result.ok) {
-        console.log("LOGIN SUCCESS");
-        navigate('/');
-      }
-    } catch (err) {
-      console.log("ERROR OCCURED");
 
+    const result = await signIn(email, password);
+    
+    if (!result.success) {
+      console.log("NOSUCCESSs");
+      
+      setLoading(false)
+      return;
     }
-
+    console.log("LOGIN SUCCESS");
+    navigate('/');
   };
 
   const style = {
@@ -50,47 +50,47 @@ function SignIn() {
   }
 
   const buttonStyle = {
-    width:'100px',
+    width: '100px',
     border: '2px solid white',
     borderRadius: '20px',
     marginTop: '10px',
   }
 
   return (
-      <div style={style}>
-        {loading
-          ? <h1>Loading........</h1>
-          : <form 
-              style={formStyle}
-              onSubmit={handleSubmit}
-            >
-            <h2>Sign In</h2>
-            <div>
-              <input
+    <div style={style}>
+      {loading
+        ? <h1>Loading........</h1>
+        : <form
+          style={formStyle}
+          onSubmit={handleSubmit}
+        >
+          <h2>Sign In</h2>
+          <div>
+            <input
               className='mt-10'
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder='Email'
-                required
-              />
-            </div>
-            <div>
-              <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Email'
+              required
+            />
+          </div>
+          <div>
+            <input
               className='mt-10'
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder='Password'
-                required
-              />
-            </div>
-            <button type="submit" style={buttonStyle}>Sign In</button>
-          </form>
-        }
-      </div>
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Password'
+              required
+            />
+          </div>
+          <button type="submit" style={buttonStyle}>Sign In</button>
+        </form>
+      }
+    </div>
 
   );
 }

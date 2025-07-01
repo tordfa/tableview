@@ -8,12 +8,13 @@ export async function signup(email_input, password_input) {
             body: JSON.stringify({ email: email_input, password: password_input })
         });
         if (!response.ok) {
-            throw new Error('Response status:' + response.status)
+            throw new Error('Response status:' + response)
         }
-        return response;
+        return { success: true, response: response };
     }
     catch (error) {
         console.error('There was an error signing up');
+        return { success: false, error: error }
     }
 }
 
@@ -29,10 +30,11 @@ export async function signIn(email_input, password_input) {
         if (!response.ok) {
             throw new Error('Response status:' + response.status)
         }
-        return response;
+        return { success: true, response: response };
     }
     catch (error) {
-        console.error('There was an error signing in');
+        console.log('There was an error signing in');
+        return { success: false, error: error }
     }
 }
 
@@ -45,15 +47,16 @@ export async function logout() {
         if (!response.ok) {
             throw new Error('Response status:' + response.status)
         }
-        return response;
+        return { success: true, response: response };
     }
     catch (error) {
         console.error('There was an error logging out');
+        return { success: false, error: error }
     }
 }
 
 export async function isAuthenticated() {
-    
+
     const authUrl = process.env.REACT_APP_HOST_URL + "/api/auth"
     try {
         const response = await fetch(authUrl, {
@@ -62,9 +65,9 @@ export async function isAuthenticated() {
         if (!response.ok) {
             throw new Error('Response status:' + response.status)
         }
-        return response;
+        return { success: true, response: response };
     }
     catch (error) {
-
+        return { success: false, error: error }
     }
 }

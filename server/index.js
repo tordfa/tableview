@@ -55,13 +55,13 @@ app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) { return res.json({ info: ' Problem logging in!', error }) }
+        if (error) { return res.status(401).json({ info: ' Problem logging in!', error }) }
 
         res.cookie("access_token", data.session.access_token);
         res.json({ info: 'Login succesful!' })
     }
     catch (error) {
-        return res.json({ info: 'NO EMAIL OR PASSWORD', error });
+        return res.status(401).json({ info: 'NO EMAIL OR PASSWORD', error });
     }
 
 })
@@ -74,7 +74,6 @@ app.get('/api/auth', async (request, response) => {
 })
 
 app.get('/api/logout', async (request, response) => {
-    console.log('LOGGING OUT!!');
     response.clearCookie("access_token");
     response.sendStatus(200);
 })
