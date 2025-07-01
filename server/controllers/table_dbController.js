@@ -19,14 +19,19 @@ const createTable = async (req, res) => {
 }
 
 // NOT DONE
-const deleteTable = (request, response) => {
-    const { session } = request.body;
-    pool.query('', (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
+const deleteTable = async (req, res) => {
+    try {
+        // 1.First check if user is authenticated and get user ID from supabase
+        let user_id = await getUserId(req);
+        // 2. Get user tenant_id from db
+        let tenant_id = await getTenantIdFromUser(user_id);
+        let {table_id} = req.body;
+        // 3. DELETE table from db based on table_id and tenant_id
+        let result = await pool.query(`DELETE FROM tables WHERE id = '${table_id}' AND tenant_id = '${tenant_id}'`);
+        return res.status(200).json({ success: true, result });
+    } catch (error) {
+        return res.status(401).json({ success: false, error })
+    }
 }
 // NOT DONE
 const getTables = async (req, res) => {
@@ -75,14 +80,20 @@ const createFloor = async (req, res) => {
 }
 
 // NOT DONE
-const deleteFloor = (request, response) => {
-    const { session } = request.body;
-    pool.query('', (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
+const deleteFloor = async (req, res) => {
+    try {
+        // 1.First check if user is authenticated and get user ID from supabase
+        let user_id = await getUserId(req);
+        // 2. Get user tenant_id from db
+        let tenant_id = await getTenantIdFromUser(user_id);
+        let {floor_id} = req.body;
+        // 3. DELETE floor from db based on table_id and tenant_id
+        let result = await pool.query(`DELETE FROM floors WHERE id = '${floor_id}' AND tenant_id = '${tenant_id}'`);
+        return res.status(200).json({ success: true, result });
+
+    } catch (error) {
+        return res.status(401).json({ success: false, error })
+    }
 }
 
 const getFloors = async (req, res) => {
@@ -100,4 +111,4 @@ const getFloors = async (req, res) => {
     }
 }
 
-module.exports = { createTable, deleteTable, getTables, saveTables, createFloor, deleteFloor, getFloors ,createFloor}
+module.exports = { createTable, deleteTable, getTables, saveTables, createFloor, deleteFloor, getFloors, createFloor }

@@ -5,7 +5,7 @@ const { supabase } = require('./supabaseClient.js')
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
 const {createUser ,createTenant} = require('./controllers/user_dbController.js');
-const { createTable, getTables, getFloors, createFloor } = require('./controllers/table_dbController.js');
+const { createTable, getTables, getFloors, createFloor, deleteFloor } = require('./controllers/table_dbController.js');
 
 const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.access_token;
@@ -88,6 +88,9 @@ app.post('/api/createtenant', createTenant )
 app.post('/api/createtable', createTable)
 
 app.post('/api/createfloor', createFloor)
+
+app.post('/api/deletefloor', deleteFloor)
+
 
 app.get('/api/gettables', getTables)
 
