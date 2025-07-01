@@ -16,21 +16,24 @@ function Tableview() {
 
 
     async function getTables() {
-        try {
-            let { tables } = await tableController.getTables();
-            setTableList(tables);
+        let result = await tableController.getTables();
+        if (!result.success) {
+            console.error(result.error);
+            return;
         }
-        catch (e) { console.error(e); }
+
+        setTableList(result.tables);
     }
 
     async function getFloors() {
-        try {
-            let { floors } = await tableController.getFloors();
-            
-            setActiveFloor(floors[0].id)
-            setFloors(floors);
+        let result = await tableController.getFloors();
+        if (!result.success) {
+            console.error(result.error);
+            return;
         }
-        catch (e) { console.error(e); }
+        setActiveFloor(result.floors[0].id)
+        setFloors(result.floors);
+
     }
 
     async function createFloor(name_input) {
