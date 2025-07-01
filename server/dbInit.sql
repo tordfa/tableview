@@ -4,13 +4,13 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE tenants (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_name VARCHAR,
     tenant_url VARCHAR
 );
 
 CREATE TABLE floors (
-    id UUID,
+    id UUID DEFAULT gen_random_uuid(),
     tenant_id UUID,
     floor_name VARCHAR,
     FOREIGN KEY (tenant_id) REFERENCES tenants(id)
@@ -26,17 +26,18 @@ CREATE TABLE users (
 );
 
 CREATE TABLE tables (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL,
-    name VARCHAR,
-    number INT,
+    table_name VARCHAR,
+    table_number INT,
+    table_seats INT,
     floor_id UUID,
     is_active BOOLEAN,
     FOREIGN KEY (tenant_id) REFERENCES tenants(id)
 );
 
 CREATE TABLE bookings (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL,
     customer_name VARCHAR,
     customer_email VARCHAR,
@@ -46,7 +47,7 @@ CREATE TABLE bookings (
 );
 
 CREATE TABLE closeddates (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL,
     closed_date TIMESTAMP,
     FOREIGN KEY (tenant_id) REFERENCES tenants(id)
