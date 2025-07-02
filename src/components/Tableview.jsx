@@ -87,8 +87,8 @@ function Tableview() {
                                 if (table.floor_id === activeFloor) {
                                     return <Table
                                         key={table.id}
-                                        xPos={table.x}
-                                        yPos={table.y}
+                                        xPos={table.x_pos}
+                                        yPos={table.y_pos}
                                         isEdit={isEdit}
                                         tableList={tableList}
                                         setTableList={setTableList}

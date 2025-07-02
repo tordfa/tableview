@@ -56,32 +56,36 @@ const saveTables = async (req, res) => {
     try {
         let user_id = await getUserId(req);
         let tenant_id = await getTenantIdFromUser(user_id);
-        let { tables } = await req.body;
-
+        let tables = await req.body;
+        
         const values = [];
-        const placeholders = tables.map((row, i) => {
+        const placeholders = tables.map((row, i) => {    
             const idx = i * 8;
-            values.push(row.id, row.tenant_id, row.table_name, row.table_number, row.table_seats, row.x, row.y, floor_id);
-            return `($${idx + 1}, $${idx + 2}, $${idx + 3}, $${idx + 4}, $${idx + 5}, $${idx + 6}, $${idx + 7}, $${idx + 8})`;
+            values.push(row.id, row.tenant_id, row.table_name, row.table_number, row.table_seats, row.x_pos, row.y_pos, row.floor_id);
+            return `($${idx + 1}::uuid, $${idx + 2}::uuid, $${idx + 3}::text, $${idx + 4}::integer, $${idx + 5}::integer, $${idx + 6}::integer, $${idx + 7}::integer, $${idx + 8}::uuid)`;
         }).join(',');
 
         const query = `
-                    INSERT INTO tables (id, tenant_id, table_name, table_number,table_seats, x, y, floor_id)
-                    VALUES ${placeholders}
-                    ON CONFLICT (id) DO UPDATE
-                    SET tenant_id = EXCLUDED.tenant_id,
-                        table_name = EXCLUDED.table_name,
-                        table_number = EXCLUDED.table_number,
-                        table_seat = EXCLUDED.table_seats,
-                        x = EXCLUDED.x,
-                        y = EXCLUDED.y,
-                        floor_id = EXCLUDED.floor_id;
+                    UPDATE tables AS t
+                    SET
+                        table_name = v.table_name,
+                        table_number = v.table_number,
+                        table_seats = v.table_seats,
+                        x_pos = v.x_pos,
+                        y_pos = v.y_pos,
+                        floor_id = v.floor_id
+                    FROM (
+                        VALUES ${placeholders}
+                    ) AS v(id,tenant_id,table_name,table_number,table_seats,x_pos,y_pos,floor_id)
+                     WHERE (t.id = v.id AND t.tenant_id = '${tenant_id}')
                     `;
 
         let result = await pool.query(query, values);
 
         return res.status(200).json({ success: true, result })
     } catch (error) {
+        console.log(error);
+        
         return res.status(401).json({ success: false })
     }
 }

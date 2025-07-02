@@ -63,12 +63,35 @@ export async function getTables() {
 }
 
 export async function saveTables(tableList) {
+
+  console.log(tableList);
+  
+  const saveTablesUrl = process.env.REACT_APP_HOST_URL + "/api/savetables"
+  try {
+    const response = await fetch(saveTablesUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(tableList)
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return { success: true, response: response };
+  }
+  catch (error) {
+    console.error('There was an error saving tables');
+    return { success: false, error: error }
+  }
   // const { error } = await supabase
   //   .from('tables')
   //   .upsert(tableList);
   // if (error) {
   //   console.error("Error upserting tables: ", error);
   // }
+
+  console.log(tableList);
+
 }
 
 export async function createFloor(floorInfo) {
