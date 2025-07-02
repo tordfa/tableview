@@ -41,20 +41,7 @@ export async function deleteTable(tableid) {
     console.error('There was an error creating table');
     return { success: false, error: error }
   }
-  // const {error} = await supabase.from('tables').delete().eq('id',tableid)
-  // if (error) {
-  //   console.error('There was an error deleting table');
-  //   return;
-  // }
 
-  // //Delete from state
-  // for (let i = 0; i < tableList.length; i++) {
-  //   if (tableList[i].id === tableid) {
-  //     let newArray = [...tableList]
-  //     newArray.splice(i, 1);
-  //     setTableList([...newArray]);
-  //   }
-  // }
 }
 
 export async function getTables() {
