@@ -25,9 +25,9 @@ const deleteTable = async (req, res) => {
         let user_id = await getUserId(req);
         // 2. Get user tenant_id from db
         let tenant_id = await getTenantIdFromUser(user_id);
-        let { table_id } = await req.body;
+        let { id } = await req.body;
         // 3. DELETE table from db based on table_id and tenant_id
-        let result = await pool.query(`DELETE FROM tables WHERE id = '${table_id}' AND tenant_id = '${tenant_id}'`);
+        let result = await pool.query(`DELETE FROM tables WHERE id = '${id}' AND tenant_id = '${tenant_id}' RETURNING id`);
         return res.status(200).json({ success: true, result });
     } catch (error) {
         return res.status(401).json({ success: false, error })

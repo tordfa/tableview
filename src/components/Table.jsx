@@ -6,6 +6,22 @@ function Table({ xPos = 0, yPos = 0, isEdit, tableList, setTableList, table, set
     let tableHeight = 100;
     let mouseDown = false;
 
+    async function handleDelete() {
+        let { success, result } = await deleteTable(table.id)
+        if (!success) {
+            console.log("No success!");
+            return;
+        }
+        //Delete from state
+        for (let i = 0; i < tableList.length; i++) {
+            if (tableList[i].id === result.rows[0].id) {
+                let newArray = [...tableList]
+                newArray.splice(i, 1);
+                setTableList([...newArray]);
+            }
+        }
+    }
+
     function tableClicked(e) {
         mouseDown = true;
         x = e.currentTarget.offsetLeft - e.clientX;
@@ -84,7 +100,7 @@ function Table({ xPos = 0, yPos = 0, isEdit, tableList, setTableList, table, set
     return (
         <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseOut={tableUnclicked} onMouseMove={moveTable}>
             {isEdit
-                ? <button onClick={() => { deleteTable(table.id, setTableList, tableList) }}>X</button>
+                ? <button onClick={handleDelete}>X</button>
                 : <></>
             }
             <h1>{table.table_number}</h1>

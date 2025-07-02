@@ -20,32 +20,27 @@ export async function createTable(setTableList, tableList, newtable) {
     console.error('There was an error creating table');
     return { success: false, error: error }
   }
-  // const userdata = await supabase.auth.getUser();
-
-  // const { data, error } = await supabase
-  //   .from('tables')
-  //   .insert({
-  //     user_id: userdata.data.user.id,
-  //     name: tableInfo.name,
-  //     number: tableInfo.number,
-  //     seats: tableInfo.seats,
-  //     x: 100,
-  //     y: 200,
-  //     floor: activeFloor
-  //   })
-  //   .select()
-
-  // if (error) { 
-  //   console.error('There was an error creating table: ', error);
-  //   return;
-  //  }
-
-  // let newArray = [...tableList, data[0]]
-  // setTableList(newArray);
 
 }
-export async function deleteTable(tableid, setTableList, tableList) {
+export async function deleteTable(tableid) {
 
+  const deleteTableUrl = process.env.REACT_APP_HOST_URL + "/api/deletetable"
+  try {
+    const response = await fetch(deleteTableUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id: tableid})
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
+  }
   // const {error} = await supabase.from('tables').delete().eq('id',tableid)
   // if (error) {
   //   console.error('There was an error deleting table');
