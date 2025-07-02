@@ -1,7 +1,7 @@
 
 
 // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
-export async function createTable(setTableList, tableList, newtable) {
+export async function createTable(newtable) {
 
   const createTableUrl = process.env.REACT_APP_HOST_URL + "/api/createtable"
   try {
@@ -64,8 +64,6 @@ export async function getTables() {
 
 export async function saveTables(tableList) {
 
-  console.log(tableList);
-
   const saveTablesUrl = process.env.REACT_APP_HOST_URL + "/api/savetables"
   try {
     const response = await fetch(saveTablesUrl, {
@@ -86,30 +84,48 @@ export async function saveTables(tableList) {
 
 }
 
-export async function createFloor(floorInfo) {
-  // const userdata = await supabase.auth.getUser();
-  // const { data, error } = await supabase
-  //   .from('floors')
-  //   .insert({
-  //     name: floorInfo.name,
-  //     user_id: userdata.data.user.id
-  //   })
-  //   .select();
+export async function createFloor(floor_name) {
 
-  // if (error) {
-  //   throw new Error("There was an error creating floor",error);
-  // }
-  // return data[0];
+    const createFloorUrl = process.env.REACT_APP_HOST_URL + "/api/createfloor"
+  try {
+    const response = await fetch(createFloorUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(floor_name)
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
+  }
 }
 
+//NOT TESTED
 export async function deleteFloor(floorid_input) {
-  // const {data,error} = await supabase
-  //   .from('floors')
-  //   .delete().eq('id', floorid_input)
-  // if(error){
-  //   throw new Error("There was an error deleting floors", error)
-  // }
-  // return {success: true, data: data}
+
+    const deleteFloorUrl = process.env.REACT_APP_HOST_URL + "/api/deletefloor"
+  try {
+    const response = await fetch(deleteFloorUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({floor_id: floorid_input})
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
+  }
+
 }
 
 export async function getFloors() {

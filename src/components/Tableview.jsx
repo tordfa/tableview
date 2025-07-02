@@ -37,15 +37,11 @@ function Tableview() {
     }
 
     async function createFloor(name_input) {
-        try {
-            let result = await tableController.createFloor({ name: name_input })
-            let newArray = [...floors, result];
+            let {success, result} = await tableController.createFloor({ floor_name: name_input })
+            if(!success){console.error("Error creating floor");return;}
+            console.log(result.rows[0]);
+            let newArray = [...floors,result.rows[0]]
             setFloors(newArray);
-        }
-        catch (e) {
-            console.error(e);
-        }
-
     }
     async function deleteFloor(floorid_input) {
         try {

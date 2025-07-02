@@ -5,7 +5,9 @@ function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor,
 
 
     function handleSelect(e) {
-        setActiveFloor(parseInt(e.currentTarget.options[e.currentTarget.selectedIndex].id))
+        console.log("handle Select");
+        
+        setActiveFloor(e.currentTarget.options[e.currentTarget.selectedIndex].id)
     }
 
     return (
@@ -15,7 +17,7 @@ function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor,
                     ?
                     <>
                         <button onClick={openTableModal}>Add Table</button>
-                        <button onClick={() => { createFloor('test2') }}>Add Floor</button>
+                        <button onClick={()=>{createFloor("testfloor5")}}>Add Floor</button>
                         <button onClick={()=>{
                             deleteFloor(activeFloor)
                             }}>Delete Floor</button>

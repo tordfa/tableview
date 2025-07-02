@@ -95,7 +95,8 @@ const createFloor = async (req, res) => {
         let user_id = await getUserId(req);
         let tenant_id = await getTenantIdFromUser(user_id);
 
-        const { floor_name } = req.body;
+        const {floor_name}  = await req.body;
+        
         let result = await pool.query(
             `INSERT INTO floors (tenant_id, floor_name) 
         VALUES('${tenant_id}','${floor_name}') RETURNING id, floor_name`);
@@ -113,8 +114,9 @@ const deleteFloor = async (req, res) => {
         // 2. Get user tenant_id from db
         let tenant_id = await getTenantIdFromUser(user_id);
         let { floor_id } = await req.body;
+        
         // 3. DELETE floor from db based on table_id and tenant_id
-        let result = await pool.query(`DELETE FROM floors WHERE id = '${floor_id}' AND tenant_id = '${tenant_id}'`);
+        let result = await pool.query(`DELETE FROM floors WHERE id = '${floor_id}' AND tenant_id = '${tenant_id}' RETURNING id`);
         return res.status(200).json({ success: true, result });
 
     } catch (error) {
