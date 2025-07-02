@@ -105,7 +105,6 @@ export async function createFloor(floor_name) {
   }
 }
 
-//NOT TESTED
 export async function deleteFloor(floorid_input) {
 
     const deleteFloorUrl = process.env.REACT_APP_HOST_URL + "/api/deletefloor"
