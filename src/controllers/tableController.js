@@ -1,7 +1,25 @@
 
 
 // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
-export async function createTable(setTableList, tableList, tableInfo, activeFloor) {
+export async function createTable(setTableList, tableList, newtable) {
+
+  const createTableUrl = process.env.REACT_APP_HOST_URL + "/api/createtable"
+  try {
+    const response = await fetch(createTableUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newtable)
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
+  }
   // const userdata = await supabase.auth.getUser();
 
   // const { data, error } = await supabase
@@ -65,7 +83,7 @@ export async function getTables() {
 export async function saveTables(tableList) {
 
   console.log(tableList);
-  
+
   const saveTablesUrl = process.env.REACT_APP_HOST_URL + "/api/savetables"
   try {
     const response = await fetch(saveTablesUrl, {
@@ -83,14 +101,6 @@ export async function saveTables(tableList) {
     console.error('There was an error saving tables');
     return { success: false, error: error }
   }
-  // const { error } = await supabase
-  //   .from('tables')
-  //   .upsert(tableList);
-  // if (error) {
-  //   console.error("Error upserting tables: ", error);
-  // }
-
-  console.log(tableList);
 
 }
 

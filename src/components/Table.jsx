@@ -18,8 +18,6 @@ function Table({ xPos = 0, yPos = 0, isEdit, tableList, setTableList, table, set
         if (mouseDown) {
             setActiveTable();
             if (isEdit) {
-                console.log("ISEDIT");
-                
                 mouseDown = false;
                 for (let i = 0; i < tableList.length; i++) {
                     if (tableList[i].id === table.id) {

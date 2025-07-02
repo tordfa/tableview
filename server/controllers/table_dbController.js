@@ -10,7 +10,7 @@ const createTable = async (req, res) => {
         const { table_name, table_number, table_seats, floor_id,x_pos,y_pos } = await req.body;
         let result = await pool.query(
             `INSERT INTO tables (tenant_id, table_name, table_number, table_seats, floor_id, x_pos, y_pos) 
-        VALUES('${tenant_id}','${table_name}', '${table_number}', '${table_seats}', '${floor_id}', '${x_pos}', '${y_pos}') RETURNING id, floor_id`);
+        VALUES('${tenant_id}','${table_name}', '${table_number}', '${table_seats}', '${floor_id}', '${x_pos}', '${y_pos}') RETURNING id, tenant_id, table_name, table_number, table_seats, floor_id, x_pos, y_pos`);
 
         return res.status(200).json({ success: true, result })
     } catch (error) {
