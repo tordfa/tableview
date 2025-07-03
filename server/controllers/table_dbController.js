@@ -6,7 +6,7 @@ const createTable = async (req, res) => {
     try {
         let user_id = await getUserId(req);
         let tenant_id = await getTenantIdFromUser(user_id);
-
+        
         const { table_name, table_number, table_seats, floor_id,x_pos,y_pos } = await req.body;
         let result = await pool.query(
             `INSERT INTO tables (tenant_id, table_name, table_number, table_seats, floor_id, x_pos, y_pos) 
