@@ -3,17 +3,16 @@ import * as tableController from '../controllers/tableController'
 import { openTableModal } from '../util/util'
 import { TableContext } from './Tableview';
 
-function Controlpanel({ getTables, createFloor,deleteFloor}) {
+function Controlpanel() {
     const {
         tableList,
         activeFloor, setActiveFloor,
         isEdit, setIsEdit,
-        floors
+        floors,
+        createFloor,deleteFloor,getTables, saveTables
     } = useContext(TableContext);
 
     function handleSelect(e) {
-        console.log("handle Select");
-        
         setActiveFloor(e.currentTarget.options[e.currentTarget.selectedIndex].id)
     }
 
@@ -28,7 +27,10 @@ function Controlpanel({ getTables, createFloor,deleteFloor}) {
                         <button onClick={()=>{
                             deleteFloor(activeFloor)
                             }}>Delete Floor</button>
-                        <button onClick={() => { tableController.saveTables(tableList); setIsEdit((prevstate) => !prevstate); }}>Save</button>
+                        <button onClick={() => { 
+                            saveTables(tableList); 
+                            setIsEdit((prevstate) => !prevstate); 
+                            }}>Save</button>
                         <button onClick={() => {
                             setIsEdit(false);
                             getTables();

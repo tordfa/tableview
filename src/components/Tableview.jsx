@@ -26,6 +26,10 @@ function Tableview() {
         setTableList(result.tables);
     }
 
+    async function saveTables(tableList) {
+        let {success, result} = await tableController.saveTables(tableList)
+        if(!success){console.error("Error saving tables"); return;}
+    }
     async function getFloors() {
         let result = await tableController.getFloors();
         if (!result.success) {
@@ -68,14 +72,11 @@ function Tableview() {
                 isEdit, setIsEdit,
                 activeTable, setActiveTable,
                 activeFloor, setActiveFloor,
+                getTables, getFloors, createFloor, deleteFloor , saveTables
             }}>
                 <div className="Tableview">
                     <div className='tableviewController'>
-                        <Controlpanel
-                            getTables={getTables}
-                            createFloor={createFloor}
-                            deleteFloor={deleteFloor}
-                        />
+                        <Controlpanel/>
 
                         <div className='tableContainer'>
                             {tableList
