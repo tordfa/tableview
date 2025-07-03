@@ -1,8 +1,15 @@
+import { useContext } from 'react';
 import * as tableController from '../controllers/tableController'
 import { openTableModal } from '../util/util'
+import { TableContext } from './Tableview';
 
-function Controlpanel({ setIsEdit, isEdit, tableList, getTables, setActiveFloor, activeFloor, floors, createFloor,deleteFloor}) {
-
+function Controlpanel({ getTables, createFloor,deleteFloor}) {
+    const {
+        tableList,
+        activeFloor, setActiveFloor,
+        isEdit, setIsEdit,
+        floors
+    } = useContext(TableContext);
 
     function handleSelect(e) {
         console.log("handle Select");

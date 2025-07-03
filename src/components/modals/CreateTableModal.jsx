@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { createTable } from "../../controllers/tableController";
 import { closeTableModal, isTableOpen } from "../../util/util";
+import { TableContext } from "../Tableview";
 
 
-export const CreateTableModal = ({ setTableList, tableList, activeFloor }) => {
+export const CreateTableModal = () => {
+    const {
+        tableList, setTableList,
+        activeFloor
+    } = useContext(TableContext)
+
     const [tableName, setTableName] = useState('');
     const [tableNumber, setTableNumber] = useState();
     const [tableSeats, setTableSeats] = useState();
@@ -22,16 +28,7 @@ export const CreateTableModal = ({ setTableList, tableList, activeFloor }) => {
     async function handleSubmit(e) {
         e.preventDefault();
         if (isTableOpen()) {
-            let newtable = {
-                table_name: tableName,
-                table_number: tableNumber,
-                table_seats: tableSeats,
-                floor_id: activeFloor,
-                x_pos: 100,
-                y_pos: 200
-            }
-            let { result } = await createTable(setTableList, tableList, newtable);
-
+            let { result } = await createTable(tableName,tableNumber,tableSeats,activeFloor,100,200);
             let newArray = [...tableList, result.rows[0]]
             setTableList(newArray);
             closeTableModal();

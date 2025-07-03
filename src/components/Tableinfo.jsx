@@ -1,4 +1,7 @@
-function Tableinfo({activeTable}){
+import { useContext } from "react";
+import { TableContext } from "./Tableview";
+function Tableinfo(){
+    const {activeTable} = useContext(TableContext);
 
     const sidepanelStyle = {
         color:'black',

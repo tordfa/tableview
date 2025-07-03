@@ -1,5 +1,14 @@
+import { useContext } from "react";
 import { deleteTable } from "../controllers/tableController";
-function Table({ xPos = 0, yPos = 0, isEdit, tableList, setTableList, table, setActiveTable, activeTable }) {
+import { TableContext } from "./Tableview";
+function Table({table}) {
+
+    const {
+        tableList, setTableList,
+        activeTable, setActiveTable,
+        isEdit,
+    } = useContext(TableContext)
+
     let x = 0;
     let y = 0;
     let tableWidth = 100;
@@ -32,7 +41,7 @@ function Table({ xPos = 0, yPos = 0, isEdit, tableList, setTableList, table, set
 
     function tableUnclicked(e) {
         if (mouseDown) {
-            setActiveTable();
+            setActiveTable(table);
             if (isEdit) {
                 mouseDown = false;
                 for (let i = 0; i < tableList.length; i++) {
@@ -85,8 +94,8 @@ function Table({ xPos = 0, yPos = 0, isEdit, tableList, setTableList, table, set
         height: tableHeight,
         border: '1px solid black',
         cursor: 'pointer',
-        left: xPos,
-        top: yPos,
+        left: table.x_pos,
+        top: table.y_pos,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

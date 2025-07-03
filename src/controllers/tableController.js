@@ -1,15 +1,22 @@
 
 
 // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
-export async function createTable(newtable) {
-
+export async function createTable(table_name,table_number,table_seats,floor_id,x_pos,y_pos) {
+  
   const createTableUrl = process.env.REACT_APP_HOST_URL + "/api/createtable"
   try {
     const response = await fetch(createTableUrl, {
       credentials: 'include',
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newtable)
+      body: JSON.stringify({
+        table_name: table_name,
+        table_number: table_number, 
+        table_seats: table_seats,
+        floor_id: floor_id,
+        x_pos: x_pos,
+        y_pos: y_pos
+      })
     });
     if (!response.ok) {
       throw new Error('Response status:' + response)

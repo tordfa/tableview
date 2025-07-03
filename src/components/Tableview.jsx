@@ -3,8 +3,10 @@ import Table from './Table';
 import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
 import * as tableController from "../controllers/tableController"
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import MainModal from './modals/MainModal';
+
+export const TableContext = createContext(null);
 
 function Tableview() {
 
@@ -21,7 +23,6 @@ function Tableview() {
             console.error(result.error);
             return;
         }
-
         setTableList(result.tables);
     }
 
@@ -37,11 +38,11 @@ function Tableview() {
     }
 
     async function createFloor(name_input) {
-            let {success, result} = await tableController.createFloor({ floor_name: name_input })
-            if(!success){console.error("Error creating floor");return;}
-            console.log(result.rows[0]);
-            let newArray = [...floors,result.rows[0]]
-            setFloors(newArray);
+        let { success, result } = await tableController.createFloor({ floor_name: name_input })
+        if (!success) { console.error("Error creating floor"); return; }
+        console.log(result.rows[0]);
+        let newArray = [...floors, result.rows[0]]
+        setFloors(newArray);
     }
     async function deleteFloor(floorid_input) {
         try {
@@ -56,53 +57,47 @@ function Tableview() {
     useEffect(() => {
         getTables();
         getFloors();
-
-
     }, [])
 
 
     return (
         <>
-            <div className="Tableview">
-                <div className='tableviewController'>
-                    <Controlpanel
-                        getTables={getTables}
-                        createFloor={createFloor}
-                        deleteFloor={deleteFloor}
-                        tableList={tableList}
-                        setIsEdit={setIsEdit}
-                        isEdit={isEdit}
-                        floors={floors}
-                        setActiveFloor={setActiveFloor}
-                        activeFloor={activeFloor}
-                    />
+            <TableContext value={{
+                tableList, setTableList,
+                floors, setFloors,
+                isEdit, setIsEdit,
+                activeTable, setActiveTable,
+                activeFloor, setActiveFloor,
+            }}>
+                <div className="Tableview">
+                    <div className='tableviewController'>
+                        <Controlpanel
+                            getTables={getTables}
+                            createFloor={createFloor}
+                            deleteFloor={deleteFloor}
+                        />
 
-                    <div className='tableContainer'>
-                        {tableList
-                            ? tableList.map((table) => {
-                                if (table.floor_id === activeFloor) {
-                                    return <Table
-                                        key={table.id}
-                                        xPos={table.x_pos}
-                                        yPos={table.y_pos}
-                                        isEdit={isEdit}
-                                        tableList={tableList}
-                                        setTableList={setTableList}
-                                        table={table}
-                                        setActiveTable={() => { setActiveTable(table) }}
-                                        activeTable={activeTable}
-                                    />
-                                } else { return null }
+                        <div className='tableContainer'>
+                            {tableList
+                                ? tableList.map((table) => {
+                                    if (table.floor_id === activeFloor) {
+                                        return <Table
+                                            key={table.id}
+                                            table={table}
+                                        />
+                                    } else { return null }
 
-                            })
-                            : <></>
-                        }
+                                })
+                                : <></>
+                            }
+                        </div>
                     </div>
+                    <Tableinfo></Tableinfo>
+                    <MainModal></MainModal>
                 </div>
-                <Tableinfo activeTable={activeTable}></Tableinfo>
-                <MainModal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></MainModal>
-            </div>
-        </>)
+            </TableContext>
+        </>
+    )
 }
 
 export default Tableview;
