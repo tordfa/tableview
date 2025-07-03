@@ -1,10 +1,10 @@
 import '../../App.css';
-import Table from './Table';
 import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
 import * as tableController from "../../controllers/tableController"
 import { createContext, useEffect, useState } from 'react';
 import MainModal from '../modals/MainModal';
+import { TableContainer } from './TableContainer';
 
 export const TableContext = createContext(null);
 
@@ -16,9 +16,9 @@ function Tableview() {
     const [activeTable, setActiveTable] = useState();
     const [activeFloor, setActiveFloor] = useState(null);
     const [activeModal, setActiveModal] = useState(null);
-    
+
     async function getTables() {
-        
+
         let result = await tableController.getTables();
         if (!result.success) {
             console.error(result.error);
@@ -58,7 +58,7 @@ function Tableview() {
             console.error(error);
         }
     }
-    
+
     // Getting Floors and tables from DB
     useEffect(() => {
         getTables();
@@ -80,24 +80,10 @@ function Tableview() {
                 <div className="Tableview">
                     <div className='tableviewController'>
                         <Controlpanel />
-
-                        <div className='tableContainer'>
-                            {tableList
-                                ? tableList.map((table) => {
-                                    if (table.floor_id === activeFloor) {
-                                        return <Table
-                                            key={table.id}
-                                            table={table}
-                                        />
-                                    } else { return null }
-
-                                })
-                                : <></>
-                            }
-                        </div>
+                        <TableContainer />
                     </div>
-                    <Tableinfo/>
-                    <MainModal/>
+                    <Tableinfo />
+                    <MainModal />
                 </div>
             </TableContext>
         </>

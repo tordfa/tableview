@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { deleteTable } from "../../controllers/tableController";
 import { TableContext } from "./Tableview";
-function Table({table}) {
+function Table({ table, scale }) {
 
     const {
         tableList, setTableList,
@@ -9,8 +9,10 @@ function Table({table}) {
         isEdit,
     } = useContext(TableContext)
 
-    let x = 0;
-    let y = 0;
+    let startX = 0;
+    let startY = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
     let tableWidth = 100;
     let tableHeight = 100;
     let mouseDown = false;
@@ -22,67 +24,49 @@ function Table({table}) {
             return;
         }
         //Delete from state
-        for (let i = 0; i < tableList.length; i++) {
-            if (tableList[i].id === result.rows[0].id) {
-                let newArray = [...tableList]
-                newArray.splice(i, 1);
-                setTableList([...newArray]);
-            }
-        }
+        const updatedList = tableList.filter(t => t.id !== result.rows[0].id);
+        setTableList(updatedList);
     }
 
     function tableClicked(e) {
-        mouseDown = true;
-        x = e.currentTarget.offsetLeft - e.clientX;
-        y = e.currentTarget.offsetTop - e.clientY;
+        console.log("clicked");
 
+        mouseDown = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialLeft = parseFloat(e.currentTarget.style.left);
+        initialTop = parseFloat(e.currentTarget.style.top);
         e.preventDefault();
     }
 
     function tableUnclicked(e) {
+
         if (mouseDown) {
-            setActiveTable(table);
+            setActiveTable(table)
             if (isEdit) {
                 mouseDown = false;
-                for (let i = 0; i < tableList.length; i++) {
-                    if (tableList[i].id === table.id) {
-                        let tempTableList = tableList;
-                        tempTableList[i].x_pos = e.currentTarget.offsetLeft;
-                        tempTableList[i].y_pos = e.currentTarget.offsetTop;
-                        setTableList([...tempTableList]);
+                const updatedList = tableList.map(t => {
+                    if (t.id === table.id) {
+                        return {
+                            ...t,
+                            x_pos: e.currentTarget.offsetLeft,
+                            y_pos: e.currentTarget.offsetTop,
+                        };
                     }
-                }
+                    return t;
+                });
+                setTableList(updatedList);
             }
         }
-
     }
     function moveTable(e) {
 
         if (mouseDown && isEdit) {
+            const dx = (e.clientX - startX) / scale.current;
+            const dy = (e.clientY - startY) / scale.current;
 
-            // Check X+ Boundary
-            if (e.currentTarget.offsetLeft + tableWidth > e.currentTarget.parentNode.clientWidth) {
-                e.currentTarget.style.left = e.currentTarget.parentNode.clientWidth - tableWidth + 'px';
-                tableUnclicked(e);
-            }
-            else if (e.currentTarget.offsetLeft < 0) {
-                e.currentTarget.style.left = '0px';
-                tableUnclicked(e);
-            }
-            // Checking Y boundaries
-            else if (e.currentTarget.offsetTop + tableHeight > e.currentTarget.parentNode.clientHeight) {
-                e.currentTarget.style.top = e.currentTarget.parentNode.clientHeight - tableHeight + 'px';
-                tableUnclicked(e);
-            }
-            else if (e.currentTarget.offsetTop < 0) {
-                e.currentTarget.style.top = '0px';
-                tableUnclicked(e);
-            }
-            else {
-                e.currentTarget.style.left = e.clientX + x + 'px';
-                e.currentTarget.style.top = e.clientY + y + 'px';
-            }
-
+            e.currentTarget.style.left = `${initialLeft + dx}px`;
+            e.currentTarget.style.top = `${initialTop + dy}px`;
         }
 
     }
