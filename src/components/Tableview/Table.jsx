@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { deleteTable } from "../controllers/tableController";
+import { deleteTable } from "../../controllers/tableController";
 import { TableContext } from "./Tableview";
 function Table({table}) {
 

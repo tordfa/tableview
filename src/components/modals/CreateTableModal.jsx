@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { createTable } from "../../controllers/tableController";
 import { closeTableModal, isTableOpen } from "../../util/util";
-import { TableContext } from "../Tableview";
+import { TableContext } from "../Tableview/Tableview";
 
 
 export const CreateTableModal = () => {

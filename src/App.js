@@ -1,6 +1,6 @@
 
 import './App.css';
-import Tableview from './components/Tableview';
+import Tableview from './components/Tableview/Tableview';
 import SignIn from './components/pages/SigninPage';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import Signup from './components/pages/SignupPage';

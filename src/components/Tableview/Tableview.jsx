@@ -1,10 +1,10 @@
-import '../App.css';
+import '../../App.css';
 import Table from './Table';
 import Controlpanel from './Controlpanel';
 import Tableinfo from './Tableinfo';
-import * as tableController from "../controllers/tableController"
+import * as tableController from "../../controllers/tableController"
 import { createContext, useEffect, useState } from 'react';
-import MainModal from './modals/MainModal';
+import MainModal from '../modals/MainModal';
 
 export const TableContext = createContext(null);
 

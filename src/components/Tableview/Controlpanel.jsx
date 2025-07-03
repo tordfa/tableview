@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react';
-import { openTableModal } from '../util/util'
+import { openTableModal } from '../../util/util'
 import { TableContext } from './Tableview';
-import { CreateTableModal } from './modals/CreateTableModal';
-import { CreateFloorModal } from './modals/CreateFloorModal';
+import { CreateTableModal } from '../modals/CreateTableModal';
+import { CreateFloorModal } from '../modals/CreateFloorModal';
 
 function Controlpanel() {
     const {

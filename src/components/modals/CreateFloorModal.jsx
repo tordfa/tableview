@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { closeTableModal, isTableOpen } from "../../util/util";
-import { TableContext } from "../Tableview";
+import { TableContext } from "../Tableview/Tableview";
 
 
 export const CreateFloorModal = () => {

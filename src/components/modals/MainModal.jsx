@@ -1,6 +1,6 @@
 import {  useContext } from 'react'
 
-import { TableContext } from '../Tableview';
+import { TableContext } from '../Tableview/Tableview';
 
 function MainModal() {
 
