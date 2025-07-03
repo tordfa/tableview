@@ -17,6 +17,15 @@ function Tableinfo(){
 
 
     }
+
+    const handleSizeChange = (e) => {
+        let table = document.getElementById(activeTable.id)
+        console.log(e.currentTarget.value);
+        
+        table.style.width = `${e.currentTarget.value}px`;
+        table.style.height = `${e.currentTarget.value}px`;
+
+    }
     return(
     <>
 
@@ -29,6 +38,8 @@ function Tableinfo(){
         <p>Tablenumber: {activeTable.table_number}</p>
         <p>Tablename: {activeTable.table_name}</p>
         <p>Table Position: X: {activeTable.x_pos}, Y: {activeTable.y_pos}</p>
+        <label htmlFor="size">Size</label>
+        <input name="size" type="range" min={50} max={500} onChange={handleSizeChange}></input>
         </>
         :<></>
         }

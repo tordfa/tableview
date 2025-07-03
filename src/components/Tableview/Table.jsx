@@ -91,7 +91,7 @@ function Table({ table, scale }) {
         }
     }
     return (
-        <div className="table" style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseOut={tableUnclicked} onMouseMove={moveTable}>
+        <div className="table" id={table.id} style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseOut={tableUnclicked} onMouseMove={moveTable}>
             {isEdit
                 ? <button onClick={handleDelete}>X</button>
                 : <></>

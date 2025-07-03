@@ -12,7 +12,7 @@ export const TableContainer = () => {
 
     const initialScale = localStorage.getItem('scale') ? parseFloat(localStorage.getItem('scale')) : 1;
     let scale = useRef(initialScale);
-    
+
     useEffect(() => {
         const tableContainer = document.getElementsByClassName('tableContainer')[0];
         tableContainer.style.transform = `scale(${scale.current})`;
@@ -23,11 +23,12 @@ export const TableContainer = () => {
             console.log(scale.current);
             
             // Clamp scale
-            scale.current = Math.min(Math.max(0.2, scale.current), 3);
+            scale.current = Math.min(Math.max(1, scale.current), 10);
             // Apply transform
             tableContainer.style.transform = `scale(${scale.current})`;
             localStorage.setItem('scale', scale.current)
         });
+
     }, [])
     return (
         <>
