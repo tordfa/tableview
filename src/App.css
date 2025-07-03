@@ -24,7 +24,9 @@ body {
 .tableContainer {
   position: relative;
   width: 1000px;
-  height: calc(100% - 58px);
+  height: 800px;
+  min-height: 800px;
+  margin-top: 20px;
   background-color: rgb(197, 198, 199);
   /* border: 2px solid rgb(211, 208, 208); */
   display: block;
@@ -43,7 +45,7 @@ body {
   background-color: aliceblue;
   color: black;
   border: 2px solid rgb(211, 208, 208);
-  z-index: 200;
+  z-index: 5;
 
 }
 
@@ -52,8 +54,8 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
 }
 
 .bookingdate-container{

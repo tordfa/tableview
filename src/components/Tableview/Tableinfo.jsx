@@ -10,7 +10,7 @@ function Tableinfo(){
         borderLeft: '0',
         width: 250,
         height: 'calc(100% - 2px)',
-
+        zIndex: 5,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
