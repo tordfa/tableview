@@ -15,9 +15,10 @@ function Tableview() {
     const [isEdit, setIsEdit] = useState(false);
     const [activeTable, setActiveTable] = useState();
     const [activeFloor, setActiveFloor] = useState(null);
-
-
+    const [activeModal, setActiveModal] = useState(null);
+    
     async function getTables() {
+        
         let result = await tableController.getTables();
         if (!result.success) {
             console.error(result.error);
@@ -27,8 +28,8 @@ function Tableview() {
     }
 
     async function saveTables(tableList) {
-        let {success, result} = await tableController.saveTables(tableList)
-        if(!success){console.error("Error saving tables"); return;}
+        let { success, result } = await tableController.saveTables(tableList)
+        if (!success) { console.error("Error saving tables"); return; }
     }
     async function getFloors() {
         let result = await tableController.getFloors();
@@ -44,9 +45,9 @@ function Tableview() {
     async function createFloor(name_input) {
         let { success, result } = await tableController.createFloor({ floor_name: name_input })
         if (!success) { console.error("Error creating floor"); return; }
-        console.log(result.rows[0]);
         let newArray = [...floors, result.rows[0]]
         setFloors(newArray);
+        return result.rows[0].id;
     }
     async function deleteFloor(floorid_input) {
         try {
@@ -57,6 +58,7 @@ function Tableview() {
             console.error(error);
         }
     }
+    
     // Getting Floors and tables from DB
     useEffect(() => {
         getTables();
@@ -72,11 +74,12 @@ function Tableview() {
                 isEdit, setIsEdit,
                 activeTable, setActiveTable,
                 activeFloor, setActiveFloor,
-                getTables, getFloors, createFloor, deleteFloor , saveTables
+                activeModal, setActiveModal,
+                getTables, getFloors, createFloor, deleteFloor, saveTables
             }}>
                 <div className="Tableview">
                     <div className='tableviewController'>
-                        <Controlpanel/>
+                        <Controlpanel />
 
                         <div className='tableContainer'>
                             {tableList
@@ -93,8 +96,8 @@ function Tableview() {
                             }
                         </div>
                     </div>
-                    <Tableinfo></Tableinfo>
-                    <MainModal></MainModal>
+                    <Tableinfo/>
+                    <MainModal/>
                 </div>
             </TableContext>
         </>

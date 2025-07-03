@@ -7,7 +7,7 @@ import { TableContext } from "../Tableview";
 export const CreateTableModal = () => {
     const {
         tableList, setTableList,
-        activeFloor
+        activeFloor,
     } = useContext(TableContext)
 
     const [tableName, setTableName] = useState('');

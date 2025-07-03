@@ -28,7 +28,7 @@ function Tableinfo(){
         <p>Table Id: {activeTable.id} </p>
         <p>Tablenumber: {activeTable.table_number}</p>
         <p>Tablename: {activeTable.table_name}</p>
-        <p>Table Position: X: {activeTable.x}, Y: {activeTable.y}</p>
+        <p>Table Position: X: {activeTable.x_pos}, Y: {activeTable.y_pos}</p>
         </>
         :<></>
         }

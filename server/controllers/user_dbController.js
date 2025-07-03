@@ -37,6 +37,7 @@ const getTenantIdFromUser = async (user_id) => {
     try {
         let result = await pool.query(`SELECT tenant_id FROM users WHERE id = '${user_id}'`)
         return result.rows[0].tenant_id;
+        
     } catch (error) {
         throw error;
     }

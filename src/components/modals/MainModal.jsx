@@ -1,16 +1,17 @@
-import { closeTableModal, isTableOpen } from '../../util/util'
-import { createTable } from '../../controllers/tableController'
-import { useState } from 'react'
-import { CreateTableModal } from './CreateTableModal';
+import {  useContext } from 'react'
 
-function MainModal({ setTableList, tableList, activeFloor }) {
+import { TableContext } from '../Tableview';
 
+function MainModal() {
 
+const {
+    activeModal
+} = useContext(TableContext);
 
     return (
         <>
             <dialog id="tablemodal">
-                <CreateTableModal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></CreateTableModal>
+                {activeModal}
             </dialog>
 
         </>
