@@ -18,6 +18,8 @@ export const TableContainer = () => {
     let initialLeft = 0;
     let initialTop = 0;
     let mouseDown = false;
+    let translateX = 0;
+    let translateY = 0;
 
     const handleMouseDown = (e) => {
         e.preventDefault();
@@ -26,6 +28,13 @@ export const TableContainer = () => {
         startY = e.clientY;
         initialLeft = e.currentTarget.offsetLeft;
         initialTop = e.currentTarget.offsetTop;
+
+        let rect = e.currentTarget.getBoundingClientRect();
+        let originX = e.clientX - rect.left - rect.width/2;
+        console.log(`OriginX: ${originX} ClientX: ${e.clientX} RectL: ${rect.left} RectW: ${rect.width}`);
+        console.log(e.clientX-rect.left);
+        
+        
     }
 
     const handleMouseUp = (e) => {
@@ -45,20 +54,25 @@ export const TableContainer = () => {
 
     useEffect(() => {
         const tableContainer = document.getElementsByClassName('tableContainer')[0];
-        let translateX = 0;
-        let translateY = 0;
-        tableContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale.current})`;
+        tableContainer.style.transform = `scale(${scale.current})`;
 
         tableContainer.addEventListener('wheel', function (e) {
             e.preventDefault();
+            let rect = tableContainer.getBoundingClientRect();
+            let mouseX = e.clientX - rect.left;
+            let mouseY = e.clientY - rect.top;
+            let xPercent = (mouseX/rect.width)*100;
+            let yPercent = (mouseY/rect.height)*100;
+            console.log(xPercent, yPercent);
 
+            tableContainer.style.transformOrigin = `${xPercent}% ${yPercent}%`;
             // Zoom in or out
-            scale.current += e.deltaY * -0.0001;
+            scale.current += e.deltaY * -0.0005;
             // Clamp scale
             scale.current = Math.min(Math.max(0.1, scale.current), 10);
-
             // // Apply transform
-            tableContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale.current})`;
+
+            tableContainer.style.transform = `scale(${scale.current})`;
 
             localStorage.setItem('scale', scale.current)
         });
