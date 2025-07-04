@@ -80,7 +80,12 @@ function Tableview() {
                 <div className="Tableview">
                     <div className='tableviewController'>
                         <Controlpanel />
-                        <TableContainer />
+                        <div className='w-full h-full flex justify-center items-center'>
+                            <TableContainer />
+                        </div>
+
+
+
                     </div>
                     <Tableinfo />
                     <MainModal />

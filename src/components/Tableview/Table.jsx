@@ -29,8 +29,6 @@ function Table({ table, scale }) {
     }
 
     function tableClicked(e) {
-        console.log("clicked");
-
         mouseDown = true;
         startX = e.clientX;
         startY = e.clientY;
@@ -40,7 +38,6 @@ function Table({ table, scale }) {
     }
 
     function tableUnclicked(e) {
-
         if (mouseDown) {
             setActiveTable(table)
             if (isEdit) {
@@ -60,7 +57,6 @@ function Table({ table, scale }) {
         }
     }
     function moveTable(e) {
-
         if (mouseDown && isEdit) {
             const dx = (e.clientX - startX) / scale.current;
             const dy = (e.clientY - startY) / scale.current;
@@ -68,6 +64,7 @@ function Table({ table, scale }) {
             e.currentTarget.style.left = `${initialLeft + dx}px`;
             e.currentTarget.style.top = `${initialTop + dy}px`;
         }
+        
 
     }
 
@@ -91,9 +88,16 @@ function Table({ table, scale }) {
         }
     }
     return (
-        <div className="table" id={table.id} style={tableStyle} onMouseDown={tableClicked} onMouseUp={tableUnclicked} onMouseOut={tableUnclicked} onMouseMove={moveTable}>
+        <div 
+        className="table" 
+        id={table.id} 
+        style={tableStyle} 
+        onMouseDown={(e)=>{e.stopPropagation();tableClicked(e); }} 
+        onMouseUp={(e)=>{tableUnclicked(e); e.stopPropagation();}} 
+        onMouseOut={(e)=>{tableUnclicked(e); e.stopPropagation();}} 
+        onMouseMove={(e)=>{moveTable(e); e.stopPropagation();}}>
             {isEdit
-                ? <button onClick={handleDelete}>X</button>
+                ? <button onClick={(e)=>{e.stopPropagation();handleDelete();}}>X</button>
                 : <></>
             }
             <h1>{table.table_number}</h1>
