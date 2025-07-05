@@ -20,6 +20,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<PrivateRoute></PrivateRoute>}>
+
           <Route path={'/'} element={<DashboardLayout />}>
             <Route index element={<Home></Home>}></Route>
             <Route path='tableview' element={<Tableview />}></Route>

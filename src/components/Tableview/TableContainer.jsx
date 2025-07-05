@@ -6,35 +6,25 @@ import Table from './Table'
 
 export const TableContainer = () => {
 
-    const {
-        tableList, activeFloor
-    } = useContext(TableContext)
+    const { tableList, activeFloor } = useContext(TableContext)
 
-    const initialScale = localStorage.getItem('scale') ? parseFloat(localStorage.getItem('scale')) : 1;
-    let scale = useRef(initialScale);
+    const viewport = useRef(null)
+    const tableContainer = useRef(null)
+    let scale = useRef(localStorage.getItem('scale') ? parseFloat(localStorage.getItem('scale')) : 1);
 
-    let startX = 0;
-    let startY = 0;
-    let initialLeft = 0;
-    let initialTop = 0;
+    const start = { x: 0, y: 0 };
+    const initial = { x: 0, y: 0 }
     let mouseDown = false;
-    let translateX = 0;
-    let translateY = 0;
+    let translate = useRef({ x: 0, y: 0 });
 
     const handleMouseDown = (e) => {
         e.preventDefault();
         mouseDown = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        initialLeft = e.currentTarget.offsetLeft;
-        initialTop = e.currentTarget.offsetTop;
+        start.x = e.clientX;
+        start.y = e.clientY;
 
-        let rect = e.currentTarget.getBoundingClientRect();
-        let originX = e.clientX - rect.left - rect.width/2;
-        console.log(`OriginX: ${originX} ClientX: ${e.clientX} RectL: ${rect.left} RectW: ${rect.width}`);
-        console.log(e.clientX-rect.left);
-        
-        
+        initial.x = translate.current.x;
+        initial.y = translate.current.y;
     }
 
     const handleMouseUp = (e) => {
@@ -44,55 +34,57 @@ export const TableContainer = () => {
     const handleMouseMove = (e) => {
         e.preventDefault();
         if (mouseDown) {
-            const dx = startX - e.clientX;
-            const dy = startY - e.clientY;
-            e.currentTarget.style.left = `${initialLeft - dx}px`
-            e.currentTarget.style.top = `${initialTop - dy}px`
+            const dx = start.x - e.clientX;
+            const dy = start.y - e.clientY;
+
+            translate.current.x = initial.x - dx;
+            translate.current.y = initial.y - dy;
+            e.currentTarget.style.transform = `translate(${translate.current.x}px, ${translate.current.y}px) scale(${scale.current})`;
         }
+    }
+
+    const handleScroll = (e) => {
+        const rect = viewport.current.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+        const oldScale = scale.current;
+        const scaleFactor = 1.1;
+
+        //Scaling
+        scale.current *= e.deltaY < 0 ? scaleFactor : 1 / scaleFactor;
+        scale.current = Math.max(0.1, Math.min(scale.current, 10));
+        const zoomRatio = scale.current / oldScale;
+
+        translate.current.x = offsetX - (offsetX - translate.current.x) * zoomRatio;
+        translate.current.y = offsetY - (offsetY - translate.current.y) * zoomRatio;
+        tableContainer.current.style.transform = `translate(${translate.current.x}px, ${translate.current.y}px) scale(${scale.current})`;
+
+        localStorage.setItem('scale', scale.current)
     }
 
 
     useEffect(() => {
-        const tableContainer = document.getElementsByClassName('tableContainer')[0];
-        tableContainer.style.transform = `scale(${scale.current})`;
-
-        tableContainer.addEventListener('wheel', function (e) {
-            e.preventDefault();
-            let rect = tableContainer.getBoundingClientRect();
-            let mouseX = e.clientX - rect.left;
-            let mouseY = e.clientY - rect.top;
-            let xPercent = (mouseX/rect.width)*100;
-            let yPercent = (mouseY/rect.height)*100;
-            console.log(xPercent, yPercent);
-
-            tableContainer.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-            // Zoom in or out
-            scale.current += e.deltaY * -0.0005;
-            // Clamp scale
-            scale.current = Math.min(Math.max(0.1, scale.current), 10);
-            // // Apply transform
-
-            tableContainer.style.transform = `scale(${scale.current})`;
-
-            localStorage.setItem('scale', scale.current)
-        });
+        tableContainer.current.style.transform = `scale(${scale.current})`;
     }, [])
+
     return (
         <>
-            <div className='tableContainer' onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
-                {tableList
-                    ? tableList.map((table) => {
-                        if (table.floor_id === activeFloor) {
-                            return <Table
-                                key={table.id}
-                                table={table}
-                                scale={scale}
-                            />
-                        } else { return null }
+            <div id={'table-viewport'} ref={viewport} className='w-full h-full relative overflow-hidden'>
+                <div className='tableContainer' ref={tableContainer} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onWheel={handleScroll}>
+                    {tableList
+                        ? tableList.map((table) => {
+                            if (table.floor_id === activeFloor) {
+                                return <Table
+                                    key={table.id}
+                                    table={table}
+                                    scale={scale}
+                                />
+                            } else { return null }
 
-                    })
-                    : <></>
-                }
+                        })
+                        : <></>
+                    }
+                </div>
             </div>
         </>
     )

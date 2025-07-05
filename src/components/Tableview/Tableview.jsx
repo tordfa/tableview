@@ -5,6 +5,7 @@ import * as tableController from "../../controllers/tableController"
 import { createContext, useEffect, useState } from 'react';
 import MainModal from '../modals/MainModal';
 import { TableContainer } from './TableContainer';
+import { TestZoom } from './TestZoom';
 
 export const TableContext = createContext(null);
 
@@ -80,10 +81,8 @@ function Tableview() {
                 <div className="Tableview">
                     <div className='tableviewController'>
                         <Controlpanel />
-                        <div className='w-full h-full flex justify-center items-center'>
+                        
                             <TableContainer />
-                        </div>
-
 
 
                     </div>
