@@ -51,12 +51,12 @@ body {
 
 }
 
-.bookingdate-container{
+.bookingdate-container {
   display: flex;
   flex-direction: row;
 }
 
-.datepicker-container{
+.datepicker-container {
   width: fit-content;
 }
 
@@ -107,7 +107,7 @@ body {
   align-items: center;
 }
 
-.date-sidepanel{
+.date-sidepanel {
   border: 1px solid black;
   display: flex;
   flex-direction: column;

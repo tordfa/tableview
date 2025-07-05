@@ -2,8 +2,6 @@ import { useContext, useEffect, useRef } from 'react'
 import { TableContext } from './Tableview'
 import Table from './Table'
 
-
-
 export const TableContainer = () => {
 
     const { tableList, activeFloor } = useContext(TableContext)
