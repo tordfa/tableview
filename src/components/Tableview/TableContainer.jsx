@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { TableContext } from './Tableview'
 import Table from './Table'
 
@@ -11,14 +11,15 @@ export const TableContainer = () => {
     const viewport = useRef(null)
     const tableContainer = useRef(null)
     const scale = useRef(localStorage.getItem('scale') ? parseFloat(localStorage.getItem('scale')) : 1);
+    const translate = useRef({
+        x: localStorage.getItem('translatex') ? parseFloat(localStorage.getItem('translatex')) : 0,
+        y: localStorage.getItem('translatey') ? parseFloat(localStorage.getItem('translatey')) : 0
+    });
+
     const start = { x: 0, y: 0 };
-    const initial = { x: 0, y: 0}
+    const initial = { x: 0, y: 0 }
     const scaleFactor = 1.1;
     let mouseDown = false;
-    let translate = useRef({ 
-        x: localStorage.getItem('translatex') ? parseFloat(localStorage.getItem('translatex')) : 0, 
-        y: localStorage.getItem('translatey') ? parseFloat(localStorage.getItem('translatey')) : 0 
-    });
 
     const handleMouseDown = (e) => {
         e.preventDefault();
@@ -62,11 +63,11 @@ export const TableContainer = () => {
         translate.current.y = offsetY - (offsetY - translate.current.y) * zoomRatio;
         tableContainer.current.style.transform = `translate(${translate.current.x}px, ${translate.current.y}px) scale(${scale.current})`;
 
-        // Saving to translate and scale to localstorage
+        // Saving translate and scale to localstorage
         localStorage.setItem('scale', scale.current)
         localStorage.setItem('translatex', parseFloat(translate.current.x))
         localStorage.setItem('translatey', parseFloat(translate.current.y))
-        
+
     }
 
 
