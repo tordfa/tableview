@@ -5,7 +5,6 @@ import * as tableController from "../../controllers/tableController"
 import { createContext, useEffect, useState } from 'react';
 import MainModal from '../modals/MainModal';
 import { TableContainer } from './TableContainer';
-import { TestZoom } from './TestZoom';
 
 export const TableContext = createContext(null);
 
@@ -26,6 +25,14 @@ function Tableview() {
             return;
         }
         setTableList(result.tables);
+    }
+
+    async function createTable(tableName, tableNumber, tableSeats) {
+
+        const {success,result} = await tableController.createTable(tableName, tableNumber, tableSeats, activeFloor, 100, 200)
+        if (!success) { console.error("Error creating table!"); return; }
+        let newArray = [...tableList, result.rows[0]]
+        setTableList(newArray);
     }
 
     async function saveTables(tableList) {
@@ -76,7 +83,7 @@ function Tableview() {
                 activeTable, setActiveTable,
                 activeFloor, setActiveFloor,
                 activeModal, setActiveModal,
-                getTables, getFloors, createFloor, deleteFloor, saveTables
+                getTables, getFloors, createFloor, deleteFloor, saveTables, createTable
             }}>
                 <div className="Tableview">
                     <div className='w-full h-full'>

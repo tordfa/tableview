@@ -21,6 +21,7 @@ export async function createTable(table_name,table_number,table_seats,floor_id,x
     if (!response.ok) {
       throw new Error('Response status:' + response)
     }
+    
     return response.json();
   }
   catch (error) {
