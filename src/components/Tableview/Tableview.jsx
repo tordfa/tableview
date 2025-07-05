@@ -79,12 +79,9 @@ function Tableview() {
                 getTables, getFloors, createFloor, deleteFloor, saveTables
             }}>
                 <div className="Tableview">
-                    <div className='tableviewController'>
+                    <div className='w-full h-full'>
                         <Controlpanel />
-                        
-                            <TableContainer />
-
-
+                        <TableContainer />
                     </div>
                     <Tableinfo />
                     <MainModal />

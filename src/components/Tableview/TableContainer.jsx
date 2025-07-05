@@ -10,12 +10,15 @@ export const TableContainer = () => {
 
     const viewport = useRef(null)
     const tableContainer = useRef(null)
-    let scale = useRef(localStorage.getItem('scale') ? parseFloat(localStorage.getItem('scale')) : 1);
-
+    const scale = useRef(localStorage.getItem('scale') ? parseFloat(localStorage.getItem('scale')) : 1);
     const start = { x: 0, y: 0 };
-    const initial = { x: 0, y: 0 }
+    const initial = { x: 0, y: 0}
+    const scaleFactor = 1.1;
     let mouseDown = false;
-    let translate = useRef({ x: 0, y: 0 });
+    let translate = useRef({ 
+        x: localStorage.getItem('translatex') ? parseFloat(localStorage.getItem('translatex')) : 0, 
+        y: localStorage.getItem('translatey') ? parseFloat(localStorage.getItem('translatey')) : 0 
+    });
 
     const handleMouseDown = (e) => {
         e.preventDefault();
@@ -40,6 +43,8 @@ export const TableContainer = () => {
             translate.current.x = initial.x - dx;
             translate.current.y = initial.y - dy;
             e.currentTarget.style.transform = `translate(${translate.current.x}px, ${translate.current.y}px) scale(${scale.current})`;
+            localStorage.setItem('translatex', parseFloat(translate.current.x))
+            localStorage.setItem('translatey', parseFloat(translate.current.y))
         }
     }
 
@@ -48,8 +53,6 @@ export const TableContainer = () => {
         const offsetX = e.clientX - rect.left;
         const offsetY = e.clientY - rect.top;
         const oldScale = scale.current;
-        const scaleFactor = 1.1;
-
         //Scaling
         scale.current *= e.deltaY < 0 ? scaleFactor : 1 / scaleFactor;
         scale.current = Math.max(0.1, Math.min(scale.current, 10));
@@ -59,12 +62,16 @@ export const TableContainer = () => {
         translate.current.y = offsetY - (offsetY - translate.current.y) * zoomRatio;
         tableContainer.current.style.transform = `translate(${translate.current.x}px, ${translate.current.y}px) scale(${scale.current})`;
 
+        // Saving to translate and scale to localstorage
         localStorage.setItem('scale', scale.current)
+        localStorage.setItem('translatex', parseFloat(translate.current.x))
+        localStorage.setItem('translatey', parseFloat(translate.current.y))
+        
     }
 
 
     useEffect(() => {
-        tableContainer.current.style.transform = `scale(${scale.current})`;
+        tableContainer.current.style.transform = `translate(${translate.current.x}px, ${translate.current.y}px) scale(${scale.current})`;
     }, [])
 
     return (
