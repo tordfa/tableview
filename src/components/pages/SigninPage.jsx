@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router';
+import { useNavigate, NavLink } from 'react-router';
 import { signIn } from "../../controllers/userController";
 
 export default function SignIn() {
@@ -56,11 +56,12 @@ export default function SignIn() {
               className="mt-2 block w-full px-5 py-3 text-lg border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
+            {loading ? <h1>Loading....</h1> : ""}
           </div>
 
           <div className="flex justify-between text-base">
-            <a href="#" className="text-blue-600 hover:underline">Forgot password?</a>
-            <a href="#" className="text-blue-600 hover:underline">Sign up</a>
+            <NavLink to={'/forgotpassword'} className="text-blue-600 hover:underline">Forgot password?</NavLink>
+            <NavLink to={'/signup'} className="text-blue-600 hover:underline">Sign up</NavLink>
           </div>
 
           <button
