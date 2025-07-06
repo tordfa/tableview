@@ -12,7 +12,6 @@ import { Testpage } from './components/pages/Testpage';
 import { BookingPage } from './components/pages/BookingPage';
 
 
-
 function App() {
 
   return (

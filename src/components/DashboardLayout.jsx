@@ -1,6 +1,6 @@
 import React from 'react'
-import { Sidepanel } from './Sidepanel'
 import { Outlet } from 'react-router'
+import SidePanel from './Sidepanel'
 
 const style = {
     width: '100%',
@@ -11,7 +11,8 @@ const style = {
 export const DashboardLayout = () => {
   return (
     <div style={style}>
-        <Sidepanel></Sidepanel>
+        {/* <Sidepanel></Sidepanel> */}
+        <SidePanel></SidePanel>
         <Outlet></Outlet>
     </div>
   )
