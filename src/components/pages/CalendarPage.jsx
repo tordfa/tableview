@@ -1,5 +1,81 @@
+import { useState } from "react"
+
 export const CalendarPage = () => {
-  return ( 
-    <h1>Calendar</h1>
-   )
+  const [view, setView] = useState('month');
+  const dayNames = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  ]
+
+  const renderView = () => {
+    switch (view) {
+      case 'month':
+        return <MonthView />;
+      case 'week':
+        return <WeekView />;
+      case 'day':
+        return <DayView/>;
+      default:
+        return null;
+    }
+  }
+
+
+  return (
+    <>
+      <div className="w-full">
+        <div id="calendar-header" className="bg-zinc-100 h-20 flex items-center border-2 border-neutral-100 border-solid">
+          <h1 className="min-w-fit pl-12 pr-24 font-bold">January 2025</h1>
+          <div className="flex min-w-fit ml-auto pr-12">
+            <button>&lt;--</button>
+            <h1 className="p-5 font-bold">Day</h1>
+            <button>--&gt;</button>
+          </div>
+          <div className="flex min-w-fit pr-12 border-r-2 border-neutral-400">
+            <h1 className="pl-5 pr-5 font-bold">View</h1>
+            <button>&darr;</button>
+          </div>
+          <button className="min-w-fit pl-12 pr-12">Add Booking</button>
+        </div>
+        <div id="calendar-days" className="grid grid-cols-7">
+          {dayNames.map((dayname) => {
+            return <h3 className="h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
+          })}
+          {renderView()}
+        </div>
+
+      </div>
+    </>
+  )
 }
+
+export const MonthView = () => {
+  const renderDays = () => {
+    let array = []
+    for (let i = 1; i < 36; i++) {
+      array.push(<div className="flex justify-end pr-2 pt-2  h-20 border-l-2 border-b-2 border-neutral-200 border-solid">{i}</div>)
+    }
+    return array;
+  }
+  return renderDays();
+}
+
+export const WeekView = () => {
+  return (
+    <div>WeekView</div>
+  )
+}
+
+export const DayView = () => {
+  return (
+    <div>DayView</div>
+  )
+}
+
+
+

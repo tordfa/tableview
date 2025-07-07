@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { NavLink} from "react-router";
-import { Home, Calendar, Users, Settings, Menu } from "lucide-react";
+import { Home, Calendar, Users, Settings, Menu, Grid3X3} from "lucide-react";
 
 const navItems = [
   { name: "Home", icon: <Home size={20} />, path: "/" },
   { name: "Calendar", icon: <Calendar size={20} />, path: "/calendar" },
-  { name: "Tableview", icon: <Users size={20} />, path: "/tableview" },
+  { name: "Tableview", icon: <Grid3X3 size={20} />, path: "/tableview" },
   { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
 ];
 
