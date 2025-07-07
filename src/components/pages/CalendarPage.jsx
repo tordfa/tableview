@@ -85,7 +85,7 @@ export const DayView = () => {
   const bookingWindows = () => {
     let array = [];
     for (let i = 0; i < 47; i++) {
-      array.push(<div className="border-2 border-solid border-black h-32">BOOKING</div>)
+      array.push(<div className="border border-solid border-black h-32">booking</div>)
     }
     return array;
   }
@@ -109,7 +109,7 @@ export const DayView = () => {
           <div className="w-12 bg-red-500">
             {times()}
           </div>
-          <div className="w-full border-2 border-solid border-black">
+          <div className="w-full border-2 border-solid border-black mt-3">
             {bookingWindows()}
           </div>
         </div>
