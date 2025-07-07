@@ -1,16 +1,8 @@
 import { useState } from "react"
 
 export const CalendarPage = () => {
-  const [view, setView] = useState('month');
-  const dayNames = [
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun"
-  ]
+  const [view, setView] = useState('day');
+
 
   const renderView = () => {
     switch (view) {
@@ -19,7 +11,7 @@ export const CalendarPage = () => {
       case 'week':
         return <WeekView />;
       case 'day':
-        return <DayView/>;
+        return <DayView />;
       default:
         return null;
     }
@@ -28,7 +20,7 @@ export const CalendarPage = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full overflow-y-hidden">
         <div id="calendar-header" className="bg-zinc-100 h-20 flex items-center border-2 border-neutral-100 border-solid">
           <h1 className="min-w-fit pl-12 pr-24 font-bold">January 2025</h1>
           <div className="flex min-w-fit ml-auto pr-12">
@@ -42,12 +34,9 @@ export const CalendarPage = () => {
           </div>
           <button className="min-w-fit pl-12 pr-12">Add Booking</button>
         </div>
-        <div id="calendar-days" className="grid grid-cols-7">
-          {dayNames.map((dayname) => {
-            return <h3 className="h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
-          })}
-          {renderView()}
-        </div>
+
+        {renderView()}
+
 
       </div>
     </>
@@ -55,6 +44,17 @@ export const CalendarPage = () => {
 }
 
 export const MonthView = () => {
+
+  const dayNames = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  ]
+
   const renderDays = () => {
     let array = []
     for (let i = 1; i < 36; i++) {
@@ -62,7 +62,16 @@ export const MonthView = () => {
     }
     return array;
   }
-  return renderDays();
+  return (
+    <>
+      <div className="grid grid-cols-7">
+        {dayNames.map((dayname) => {
+          return <h3 className="h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
+        })}
+        {renderDays()}
+      </div>
+
+    </>)
 }
 
 export const WeekView = () => {
@@ -72,8 +81,41 @@ export const WeekView = () => {
 }
 
 export const DayView = () => {
+
+  const bookingWindows = () => {
+    let array = [];
+    for (let i = 0; i < 47; i++) {
+      array.push(<div className="border-2 border-solid border-black h-32">BOOKING</div>)
+    }
+    return array;
+  }
+
+  const times = () => {
+    let array = [];
+    array.push(<p className=" h-64">12AM</p>)
+    for (let i = 1; i < 12; i++) {
+      array.push(<p className=" h-64">{i}AM</p>)
+    }
+    array.push(<p className=" h-64">12PM</p>)
+    for (let i = 1; i < 12; i++) {
+      array.push(<p className=" h-64">{i}PM</p>)
+    }
+    return array;
+  }
   return (
-    <div>DayView</div>
+    <div className="flex max-h-full">
+      <div className="flex w-[60%] overflow-y-scroll">
+        <div className="flex h-fit w-full">
+          <div className="w-12 bg-red-500">
+            {times()}
+          </div>
+          <div className="w-full border-2 border-solid border-black">
+            {bookingWindows()}
+          </div>
+        </div>
+
+      </div>
+    </div>
   )
 }
 
