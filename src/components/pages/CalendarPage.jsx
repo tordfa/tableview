@@ -18,11 +18,14 @@ export const CalendarPage = () => {
   }
 
 
+
   return (
     <>
       <div className="w-full overflow-y-hidden">
         <div id="calendar-header" className="bg-zinc-100 h-20 flex items-center border-2 border-neutral-100 border-solid">
           <h1 className="min-w-fit pl-12 pr-24 font-bold">January 2025</h1>
+          <button onClick={() => { setView('day') }} className="border border-solid border-black mr-3">DAYVIEW</button>
+          <button onClick={() => { setView('month') }} className="border border-solid border-black">MONThVIEW</button>
           <div className="flex min-w-fit ml-auto pr-12">
             <button>&lt;--</button>
             <h1 className="p-5 font-bold">Day</h1>
@@ -64,7 +67,7 @@ export const MonthView = () => {
   }
   return (
     <>
-      <div className="grid grid-cols-7">
+      <div className="grid grid-cols-7 border-r-2">
         {dayNames.map((dayname) => {
           return <h3 className="h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
         })}
@@ -103,19 +106,27 @@ export const DayView = () => {
     return array;
   }
   return (
-    <div className="flex max-h-full">
-      <div className="flex w-[60%] overflow-y-scroll">
-        <div className="flex h-fit w-full">
-          <div className="w-12 bg-red-500">
-            {times()}
-          </div>
-          <div className="w-full border-2 border-solid border-black mt-3">
-            {bookingWindows()}
+    <>
+      <div className="flex max-h-full">
+        <div className="flex w-[50%] overflow-y-scroll">
+          <div className="flex h-fit w-full">
+            <div className="w-12 bg-red-500">
+              {times()}
+            </div>
+            <div className="w-full border-2 border-solid border-black mt-3">
+              {bookingWindows()}
+            </div>
           </div>
         </div>
+        <div id="test" className="flex justify-center mt-12 h-vh w-[50%]">
+          <div className="w-full pl-12 pr-12">
+            <MonthView></MonthView>
+          </div>
 
+        </div>
       </div>
-    </div>
+    </>
+
   )
 }
 
