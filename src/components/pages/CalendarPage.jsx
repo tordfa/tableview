@@ -85,6 +85,27 @@ export const WeekView = () => {
 
 export const DayView = () => {
 
+  const tempBookings = [
+    {
+      time: new Date(),
+      name: 'Ola Nordmann',
+      phone: '48509900',
+    }
+  ]
+
+  console.log(new Date());
+  
+
+
+  const renderBookings = (bookings) => {
+    let output = []
+    bookings.forEach((booking) => {
+      let toppos = booking.time.getHours() * 2 * 8;
+      output.push(<div className={`relative h-12 w-64 bg-blue-100 top-[${toppos}rem] rounded-md`}><h1>{booking.name}</h1></div>)
+    })
+    return output;
+  }
+
   const bookingWindows = () => {
     let array = [];
     for (let i = 0; i < 47; i++) {
@@ -114,7 +135,9 @@ export const DayView = () => {
               {times()}
             </div>
             <div className="relative w-full border-2 border-solid border-black mt-3">
-              <div id="booking-container" className="absolute w-full h-full"></div>
+              <div id="booking-container" className="absolute w-full h-full">
+                {renderBookings(tempBookings)}
+              </div>
               {bookingWindows()}
             </div>
           </div>
