@@ -69,7 +69,7 @@ export const MonthView = () => {
     <>
       <div className="grid grid-cols-7 border-r-2">
         {dayNames.map((dayname) => {
-          return <h3 className="h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
+          return <h3 className="rounded-t-xl h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
         })}
         {renderDays()}
       </div>
@@ -88,7 +88,7 @@ export const DayView = () => {
   const bookingWindows = () => {
     let array = [];
     for (let i = 0; i < 47; i++) {
-      array.push(<div className="border border-solid border-black h-32">booking</div>)
+      array.push(<div className="border border-solid border-black h-32"></div>)
     }
     return array;
   }
@@ -110,10 +110,11 @@ export const DayView = () => {
       <div className="flex max-h-full">
         <div className="flex w-[50%] overflow-y-scroll">
           <div className="flex h-fit w-full">
-            <div className="w-12 bg-red-500">
+            <div className="w-12 bg-red-400">
               {times()}
             </div>
-            <div className="w-full border-2 border-solid border-black mt-3">
+            <div className="relative w-full border-2 border-solid border-black mt-3">
+              <div id="booking-container" className="absolute w-full h-full"></div>
               {bookingWindows()}
             </div>
           </div>
