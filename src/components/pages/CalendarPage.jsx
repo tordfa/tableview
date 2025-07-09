@@ -61,15 +61,15 @@ export const MonthView = () => {
   const renderDays = () => {
     let array = []
     for (let i = 1; i < 36; i++) {
-      array.push(<div className="flex justify-end pr-2 pt-2  h-20 border-l-2 border-b-2 border-neutral-200 border-solid">{i}</div>)
+      array.push(<div key={i} className="flex justify-end pr-2 pt-2  h-20 border-l-2 border-b-2 border-neutral-200 border-solid">{i}</div>)
     }
     return array;
   }
   return (
     <>
       <div className="grid grid-cols-7 border-r-2">
-        {dayNames.map((dayname) => {
-          return <h3 className="rounded-t-xl h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
+        {dayNames.map((dayname,index) => {
+          return <h3 key={index} className="rounded-t-xl h-12 flex justify-center items-center font-bold p-5 border-b-2 border-t-2 border-l-2">{dayname}</h3>
         })}
         {renderDays()}
       </div>
@@ -85,23 +85,141 @@ export const WeekView = () => {
 
 export const DayView = () => {
 
+  const HALFHOURHEIGHT = 4;
   const tempBookings = [
     {
-      time: new Date(),
-      name: 'Ola Nordmann',
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Ola',
+      last_name: 'Nordmann',
       phone: '48509900',
-    }
+      email: 'test@test.no',
+      date_time: new Date("Wed Jul 09 2025 17:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+    {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 17:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+    {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 17:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+    {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 17:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+       {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 20:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+           {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 20:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+           {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 20:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
+           {
+      // 'Wed Jul 09 2025 16:11:54 GMT+0200 (Central European Summer Time)'
+      createdAt: new Date(),
+      first_name: 'Kari',
+      last_name: 'Nordmann',
+      phone: '48509900',
+      email: 'test@test.no',
+      company_name: 'Tord As',
+      date_time: new Date("Wed Jul 09 2025 20:00:00"),
+      duration: 2,
+      guests: 4,
+      note: '',
+      allergies: ''
+    },
   ]
-
-  console.log(new Date());
-  
-
 
   const renderBookings = (bookings) => {
     let output = []
-    bookings.forEach((booking) => {
-      let toppos = booking.time.getHours() * 2 * 8;
-      output.push(<div className={`relative h-12 w-64 bg-blue-100 top-[${toppos}rem] rounded-md`}><h1>{booking.name}</h1></div>)
+    let prevTime = "";
+    let counter = 1;
+    bookings.forEach((booking, index) => {
+      let multStyle = {};
+      if (booking.date_time.getHours() === prevTime) {
+        multStyle = { left: 50 * counter };
+        counter++;
+      } else { counter = 1 }
+      let toppos = (booking.date_time.getHours() * 2 * HALFHOURHEIGHT);
+      output.push(
+        <div
+          key={index}
+          className={`absolute ml-1 w-32 bg-blue-100 border border-solid border-black rounded-md`}
+          style={{ top: `${toppos}rem`, height: `${booking.duration * HALFHOURHEIGHT * 2}rem`, zIndex: index, ...multStyle }}
+        >
+          <h1>{booking.first_name} {booking.last_name}</h1>
+        </div>)
+      prevTime = booking.date_time.getHours();
     })
     return output;
   }
@@ -109,20 +227,26 @@ export const DayView = () => {
   const bookingWindows = () => {
     let array = [];
     for (let i = 0; i < 47; i++) {
-      array.push(<div className="border border-solid border-black h-32"></div>)
+      array.push(
+        <div
+        key={i}
+          className="border border-solid border-black"
+          style={{ height: `${HALFHOURHEIGHT}rem` }}
+        >
+        </div>)
     }
     return array;
   }
 
   const times = () => {
     let array = [];
-    array.push(<p className=" h-64">12AM</p>)
+    array.push(<p key={1} style={{ height: `${HALFHOURHEIGHT * 2}rem` }}>12AM</p>)
     for (let i = 1; i < 12; i++) {
-      array.push(<p className=" h-64">{i}AM</p>)
+      array.push(<p key={i+1} style={{ height: `${HALFHOURHEIGHT * 2}rem` }}>{i}AM</p>)
     }
-    array.push(<p className=" h-64">12PM</p>)
+    array.push(<p key={13} style={{ height: `${HALFHOURHEIGHT * 2}rem` }}>12PM</p>)
     for (let i = 1; i < 12; i++) {
-      array.push(<p className=" h-64">{i}PM</p>)
+      array.push(<p key={i+13} style={{ height: `${HALFHOURHEIGHT * 2}rem` }}>{i}PM</p>)
     }
     return array;
   }
