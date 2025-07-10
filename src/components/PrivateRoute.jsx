@@ -1,17 +1,27 @@
-import React from 'react'
-import { UserAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { isAuthenticated } from '../controllers/userController';
+import { Outlet, useNavigate } from 'react-router';
 
 export const PrivateRoute = (props) => {
+    const [auth, setAuth] = useState(false);
 
     let navigate = useNavigate();
 
-    const {session} = UserAuth();
-    if (!session) {
-        navigate('/signin');
+    const isAuth = async () => {
+        const response = await isAuthenticated()
+        if (!response.success) {
+            setAuth(false);
+            navigate('/signin')
+        }
+        setAuth(true);
+    }
+    useEffect(() => {
+        isAuth();
+    }, [])
 
-    } else {
-        return <>{props.children}</>
+
+    if (auth) {
+        return <><Outlet></Outlet></>
     }
 
 }

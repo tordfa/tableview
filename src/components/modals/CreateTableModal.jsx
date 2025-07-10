@@ -1,8 +1,12 @@
-import {closeTableModal, isTableOpen} from '../util/util'
-import { createTable } from '../controllers/tableController'
-import { useState } from 'react'
+import { useContext, useState } from "react";
+import { closeTableModal, isTableOpen } from "../../util/util";
+import { TableContext } from "../Tableview/Tableview";
 
-function Newtablemodal({setTableList,tableList,activeFloor}){
+
+export const CreateTableModal = () => {
+    const {
+        createTable
+    } = useContext(TableContext)
 
     const [tableName, setTableName] = useState('');
     const [tableNumber, setTableNumber] = useState();
@@ -19,48 +23,41 @@ function Newtablemodal({setTableList,tableList,activeFloor}){
         border: '2px solid black',
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault();
-        if(isTableOpen()){
-            let tableInfo = {
-                name: tableName,
-                number: tableNumber,
-                seats: tableSeats,
-            }
-            createTable(setTableList,tableList,tableInfo,activeFloor);
+        if (isTableOpen()) {
+            await createTable(tableName, tableNumber, tableSeats);
             closeTableModal();
         }
         setTableName('');
         setTableNumber();
         setTableSeats();
+        e.target.reset();
     }
-    
-return(
-    <>
-        <dialog id="tablemodal">
+
+    return (
+        <>
+
             <form method="dialog" onSubmit={handleSubmit} style={modalStyle}>
                 <h1>New Table</h1>
                 <label>Table name:</label>
-                <input 
+                <input
                     type="text"
-                    onChange={(e)=>{setTableName(e.target.value)}}
+                    onChange={(e) => { setTableName(e.target.value) }}
                 />
                 <label>Table number:</label>
-                <input 
+                <input
                     type="number"
-                    onChange={(e)=>{setTableNumber(e.target.value)}}
+                    onChange={(e) => { setTableNumber(e.target.value) }}
                 />
                 <label>Seats:</label>
-                <input 
+                <input
                     type="number"
-                    onChange={(e)=>{setTableSeats(e.target.value)}}
+                    onChange={(e) => { setTableSeats(e.target.value) }}
                 />
                 <button type='submit'>Create table</button>
                 <button onClick={closeTableModal}>Cancel</button>
             </form>
-        </dialog>
-    </>
-)
+        </>
+    )
 }
-
-export default Newtablemodal;
