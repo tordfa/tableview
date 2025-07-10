@@ -39,16 +39,21 @@ CREATE TABLE tables (
 CREATE TABLE bookings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
     customer_name VARCHAR,
     customer_email VARCHAR,
     customer_phone VARCHAR,
     booking_date TIMESTAMP,
+    booking_duration VARCHAR,
+    guests INT,
+    note VARCHAR,
+    allergies VARCHAR,
     FOREIGN KEY (tenant_id) REFERENCES tenants(id)
 );
 
-CREATE TABLE closeddates (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    tenant_id UUID NOT NULL,
-    closed_date TIMESTAMP,
-    FOREIGN KEY (tenant_id) REFERENCES tenants(id)
-);
+-- CREATE TABLE closeddates (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     tenant_id UUID NOT NULL,
+--     closed_date TIMESTAMP,
+--     FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+-- );
