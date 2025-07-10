@@ -1,59 +1,40 @@
+
 import './App.css';
-import Table from './components/Table';
-import Controlpanel from './components/Controlpanel';
-import Tableinfo from './components/Tableinfo';
-import * as tableController from "./controllers/tableController"
-import {useState} from 'react';
-import Newtablemodal from './components/Newtablemodal';
+import Tableview from './components/Tableview/Tableview';
+import SignIn from './components/pages/SigninPage';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Signup from './components/pages/SignupPage';
+import { PrivateRoute } from './components/PrivateRoute';
+import { DashboardLayout } from './components/DashboardLayout';
+import { Home } from './components/pages/HomePage';
+import { CalendarPage } from './components/pages/CalendarPage';
+import { Testpage } from './components/pages/Testpage';
+import { BookingPage } from './components/pages/BookingPage';
+
 
 function App() {
 
-  const [tableList, setTableList] = useState(tableController.getTables())
-  const [floors, setFloors] = useState(tableController.getFloors())
-  const [isEdit, setIsEdit] = useState(false);
-  const [activeTable, setActiveTable] = useState();
-  const [activeFloor, setActiveFloor] = useState("0");
-
   return (
-    <div className="App">
 
-      <div>
-        <Controlpanel 
-        setTableList={setTableList}
-        tableList={tableList} 
-        setIsEdit={setIsEdit}
-        isEdit={isEdit}
-        floors={floors}
-        setFloors={setFloors}
-        setActiveFloor={setActiveFloor}
-        activeFloor={activeFloor}
-        ></Controlpanel>
-        
-        <div className='tableContainer'>
-          {tableList
-          ? tableList.map((table) => {
-            if(table.floor === activeFloor){
-              return <Table 
-              key={table.id} 
-              xPos={table.x} 
-              yPos={table.y} 
-              isEdit={isEdit}
-              tableList={tableList}
-              setTableList={setTableList}
-              tableId={table.id}
-              setActiveTable={()=>{setActiveTable(table)}}
-              activeTable={activeTable}
-              ></Table>
-            }else{return <></>}
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PrivateRoute></PrivateRoute>}>
 
-            })
-          : <></>
-          }
-        </div>
-      </div>
-      <Tableinfo activeTable={activeTable}></Tableinfo>
-      <Newtablemodal setTableList={setTableList} tableList={tableList} activeFloor={activeFloor}></Newtablemodal>    
-    </div>
+          <Route path={'/'} element={<DashboardLayout />}>
+            <Route index element={<Home></Home>}></Route>
+            <Route path='tableview' element={<Tableview />}></Route>
+            <Route path='calendar' element={<CalendarPage />}></Route>
+            <Route path='testpage' element={<Testpage></Testpage>}></Route>
+          </Route>
+        </Route>
+        <Route path='/signin' element={<SignIn />}></Route>
+        <Route path='/signup' element={<Signup />}></Route>
+        <Route path='/booking/:store_id' element={<BookingPage></BookingPage>}></Route>
+      </Routes>
+    </BrowserRouter>
+
+
+
   );
 }
 

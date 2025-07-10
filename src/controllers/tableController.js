@@ -1,64 +1,155 @@
- // let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
-  function createRandomId(){
-    let date = new Date();
-    return date.getDate().toString() + date.getMonth().toString() + Math.floor(date.getTime()* Math.random());
-  }
 
-  export function createTable(setTableList,tableList,tableInfo,activeFloor){
-    let tableId = createRandomId();
-    let newTable = {
-      id: tableId, 
-      name: tableInfo.name,
-      number: tableInfo.number,
-      seats: tableInfo.seats, 
-      x: 100, 
-      y: 200,
-      floor: activeFloor,
-    }
-    // Creating new array here because React will not rerender changes to objects in shallow copy arrays.
-    let newArray = [...tableList, newTable]
-    setTableList(newArray);
 
-    
-  }
-  export function deleteTable(tableid,setTableList,tableList){
-    for (let i = 0; i < tableList.length; i++) {
-      if(tableList[i].id === tableid){
-        let newArray = [...tableList]
-        newArray.splice(i,1);
-        setTableList([...newArray]);
-      }
-    }
-  }
-
-  export function getTables(){
-    let tables = [];
-    if(localStorage.getItem('tables')){
-      tables = JSON.parse(localStorage.getItem('tables'));
+// let tabletemplate = {id: tableId, name: tableName, x: tableXPos, y: tableYPOS}
+export async function createTable(table_name,table_number,table_seats,floor_id,x_pos,y_pos) {
+  
+  const createTableUrl = process.env.REACT_APP_HOST_URL + "/api/createtable"
+  try {
+    const response = await fetch(createTableUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        table_name: table_name,
+        table_number: table_number, 
+        table_seats: table_seats,
+        floor_id: floor_id,
+        x_pos: x_pos,
+        y_pos: y_pos
+      })
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
     }
     
-    return tables;
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
   }
 
-  export function getFloors(){
-    let floors = [
-      {
-        name: "Floor 0", 
-        id: 0,
-      },
-      {
-        name: "Floor 1",
-        id: 1,
-      },
-      {
-        name: "Floor 2",
-        id: 2,
-      }
-    ]
+}
+export async function deleteTable(tableid) {
 
-    return floors;
+  const deleteTableUrl = process.env.REACT_APP_HOST_URL + "/api/deletetable"
+  try {
+    const response = await fetch(deleteTableUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id: tableid})
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
   }
 
-  export function saveTables(tableList){
-    localStorage.setItem('tables', JSON.stringify(tableList));
+}
+
+export async function getTables() {
+  const getTablesUrl = process.env.REACT_APP_HOST_URL + "/api/gettables"
+  try {
+    const response = await fetch(getTablesUrl, {
+      credentials: 'include',
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
   }
+  catch (error) {
+    console.error('There was an error getting tables');
+    return { success: false, error: error }
+  }
+}
+
+export async function saveTables(tableList) {
+
+  const saveTablesUrl = process.env.REACT_APP_HOST_URL + "/api/savetables"
+  try {
+    const response = await fetch(saveTablesUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(tableList)
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return { success: true, response: response };
+  }
+  catch (error) {
+    console.error('There was an error saving tables');
+    return { success: false, error: error }
+  }
+
+}
+
+export async function createFloor(floor_name) {
+
+    const createFloorUrl = process.env.REACT_APP_HOST_URL + "/api/createfloor"
+  try {
+    const response = await fetch(createFloorUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(floor_name)
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
+  }
+}
+
+export async function deleteFloor(floorid_input) {
+
+    const deleteFloorUrl = process.env.REACT_APP_HOST_URL + "/api/deletefloor"
+  try {
+    const response = await fetch(deleteFloorUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({floor_id: floorid_input})
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error creating table');
+    return { success: false, error: error }
+  }
+
+}
+
+export async function getFloors() {
+
+  const getFloorsUrl = process.env.REACT_APP_HOST_URL + "/api/getfloors"
+  try {
+    const response = await fetch(getFloorsUrl, {
+      credentials: 'include',
+      method: "GET"
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error getting tables');
+    return { success: false, error: error }
+  }
+}
