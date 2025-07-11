@@ -3,17 +3,20 @@ const { getUserId, getTenantIdFromUser } = require('./user_dbController.js')
 
 
 const createBooking = async (req, res) => {
-
+let tenant_id = "f870f012-4a66-4d73-9523-db79537c5948";
     // GET tenant id from URL?
     try {    
-        const { customer_name, customer_email, customer_phone, booking_date, guests, note, allergies, table_id } = await req.body;
+        const { customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies } = await req.body;
+        
         let result = await pool.query(
-            `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies, table_id) 
-        VALUES('${tenant_id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${guests}', '${note}', '${allergies}', '${table_id}') RETURNING id, tenant_id, table_name, table_number, table_seats, floor_id, x_pos, y_pos`);
+            `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies) 
+        VALUES('${tenant_id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${guests}', '${booking_duration}' , '${note}', '${allergies}')`);
 
         return res.status(200).json({ success: true, result })
     } catch (error) {
-        return res.status(401).json({ success: false })
+        console.log("error: ", error);
+        
+        return res.status(401).json({ success: false , error})
     }
 }
 
@@ -88,3 +91,5 @@ const getBookings = async (req, res) => {
         return res.status(401).json({ success: false })
     }
 }
+
+module.exports = { createBooking, editBooking, deleteBooking, getBookings }
