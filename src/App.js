@@ -10,7 +10,7 @@ import { Home } from './components/pages/HomePage';
 import { CalendarPage } from './components/pages/CalendarPage';
 import { Testpage } from './components/pages/Testpage';
 import { BookingPage } from './components/pages/BookingPage';
-
+import { Settings } from './components/pages/SettingsPage';
 
 function App() {
 
@@ -22,9 +22,10 @@ function App() {
 
           <Route path={'/'} element={<DashboardLayout />}>
             <Route index element={<Home></Home>}></Route>
-            <Route path='tableview' element={<Tableview />}></Route>
-            <Route path='calendar' element={<CalendarPage />}></Route>
-            <Route path='testpage' element={<Testpage></Testpage>}></Route>
+            <Route path='/tableview' element={<Tableview />}></Route>
+            <Route path='/calendar' element={<CalendarPage />}></Route>
+            <Route path='/testpage' element={<Testpage></Testpage>}></Route>
+            <Route path='/settings' element={<Settings></Settings>}></Route>
           </Route>
         </Route>
         <Route path='/signin' element={<SignIn />}></Route>
