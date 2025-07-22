@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require('cors');
 const {createUser ,createTenant} = require('./controllers/user_dbController.js');
 const { createTable, getTables, getFloors, createFloor, deleteFloor, saveTables, deleteTable } = require('./controllers/table_dbController.js');
-const {createBooking} = require('./controllers/boooking_dbController.js')
+const {createBooking, getBookings, getOpenBookings} = require('./controllers/boooking_dbController.js')
 const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.access_token;
     if (!token) return res.sendStatus(401);
@@ -67,6 +67,8 @@ app.post('/api/login', async (req, res) => {
 
 })
 
+app.get('/booking/:tenantName', getOpenBookings)
+
 // Protected Routes!
 app.use(isAuthenticated);
 
@@ -100,6 +102,9 @@ app.get('/api/gettables', getTables)
 app.get('/api/getfloors', getFloors)
 
 app.post('/api/createbooking', createBooking)
+
+app.get('/api/getbookings', getBookings)
+
 
 
 app.listen(port, () => {

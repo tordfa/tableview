@@ -30,7 +30,7 @@ function App() {
         </Route>
         <Route path='/signin' element={<SignIn />}></Route>
         <Route path='/signup' element={<Signup />}></Route>
-        <Route path='/booking/:store_id' element={<BookingPage></BookingPage>}></Route>
+        <Route path='/booking/:tenantName' element={<BookingPage></BookingPage>}></Route>
       </Routes>
     </BrowserRouter>
 

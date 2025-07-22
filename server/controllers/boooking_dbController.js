@@ -3,11 +3,11 @@ const { getUserId, getTenantIdFromUser } = require('./user_dbController.js')
 
 
 const createBooking = async (req, res) => {
-let tenant_id = "f870f012-4a66-4d73-9523-db79537c5948";
+    let tenant_id = "f870f012-4a66-4d73-9523-db79537c5948";
     // GET tenant id from URL?
-    try {    
+    try {
         const { customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies } = await req.body;
-        
+
         let result = await pool.query(
             `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies) 
         VALUES('${tenant_id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${guests}', '${booking_duration}' , '${note}', '${allergies}')`);
@@ -15,8 +15,8 @@ let tenant_id = "f870f012-4a66-4d73-9523-db79537c5948";
         return res.status(200).json({ success: true, result })
     } catch (error) {
         console.log("error: ", error);
-        
-        return res.status(401).json({ success: false , error})
+
+        return res.status(401).json({ success: false, error })
     }
 }
 
@@ -27,9 +27,9 @@ const editBooking = async (req, res) => {
         let user_id = await getUserId(req);
         let tenant_id = await getTenantIdFromUser(user_id);
         let tables = await req.body;
-        
+
         const values = [];
-        const placeholders = tables.map((row, i) => {    
+        const placeholders = tables.map((row, i) => {
             const idx = i * 8;
             values.push(row.id, row.tenant_id, row.table_name, row.table_number, row.table_seats, row.x_pos, row.y_pos, row.floor_id);
             return `($${idx + 1}::uuid, $${idx + 2}::uuid, $${idx + 3}::text, $${idx + 4}::integer, $${idx + 5}::integer, $${idx + 6}::integer, $${idx + 7}::integer, $${idx + 8}::uuid)`;
@@ -55,7 +55,7 @@ const editBooking = async (req, res) => {
         return res.status(200).json({ success: true, result })
     } catch (error) {
         console.log(error);
-        
+
         return res.status(401).json({ success: false })
     }
 }
@@ -67,7 +67,7 @@ const deleteBooking = async (req, res) => {
         // 2. Get user tenant_id from db
         let tenant_id = await getTenantIdFromUser(user_id);
         let { floor_id } = await req.body;
-        
+
         // 3. DELETE floor from db based on table_id and tenant_id
         let result = await pool.query(`DELETE FROM floors WHERE id = '${floor_id}' AND tenant_id = '${tenant_id}' RETURNING id`);
         return res.status(200).json({ success: true, result });
@@ -79,17 +79,52 @@ const deleteBooking = async (req, res) => {
 
 const getBookings = async (req, res) => {
 
-    // GET TENANT ID FROM URL
     try {
+        // 1.First check if user is authenticated and get user ID from supabase
+        let user_id = await getUserId(req);
         // 2. Get user tenant_id from db
         let tenant_id = await getTenantIdFromUser(user_id);
-        // 3. Get all bookings from db based on tenant_id
-        let result = await pool.query(`SELECT * FROM bookings WHERE tenant_id = '${tenant_id}'`);
-        return res.status(200).json({ success: true, bookings: result.rows });
 
-    } catch (error) {
-        return res.status(401).json({ success: false })
+        // 2. Get bookings by tenant_id
+        const bookingsResult = await pool.query(
+            'SELECT * FROM bookings WHERE tenant_id = $1',
+            [tenant_id]
+        );
+
+        res.json(bookingsResult.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 
-module.exports = { createBooking, editBooking, deleteBooking, getBookings }
+const getOpenBookings = async (req, res) => {
+
+    const { tenantName } = req.params;
+    try {
+        // 1. Get tenant_id from Tenant table
+        const tenantResult = await pool.query(
+            'SELECT id FROM tenants WHERE tenant_url = $1',
+            [tenantName]
+        );
+
+        if (tenantResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Tenant not found' });
+        }
+
+        const tenant_id = tenantResult.rows[0].id;
+
+        // 2. Get open bookings by tenant_id
+        // const bookingsResult = await pool.query(
+        //     'SELECT * FROM bookings WHERE tenant_id = $1',
+        //     [tenant_id]
+        // );
+
+        res.json({success: true, placeholder: tenant_id});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+module.exports = { createBooking, editBooking, deleteBooking, getBookings, getOpenBookings }
