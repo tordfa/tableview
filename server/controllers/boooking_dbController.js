@@ -2,15 +2,16 @@ const { pool } = require('./dbConnection.js');
 const { getUserId, getTenantIdFromUser } = require('./user_dbController.js')
 
 
+// NOT DONE!
 const createBooking = async (req, res) => {
     let tenant_id = "f870f012-4a66-4d73-9523-db79537c5948";
     // GET tenant id from URL?
     try {
-        const { customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies } = await req.body;
+        const { customer_name, customer_email, customer_phone, booking_date, booking_time, booking_duration, guests, note, allergies } = await req.body;
 
         let result = await pool.query(
-            `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_duration, guests, note, allergies) 
-        VALUES('${tenant_id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${guests}', '${booking_duration}' , '${note}', '${allergies}')`);
+            `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_time, booking_duration, guests, note, allergies) 
+        VALUES('${tenant_id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${booking_time}', '${guests}', '${booking_duration}' , '${note}', '${allergies}')`);
 
         return res.status(200).json({ success: true, result })
     } catch (error) {
@@ -113,14 +114,44 @@ const getOpenBookings = async (req, res) => {
         }
 
         const tenant_id = tenantResult.rows[0].id;
+        let openingTime = '10:00:00';
+        let closingTime = '20:00:00';
+        // 1. Generating a series of available timeslots based on tenant settings.
+        // 2. Checks for number of booking at that date-time.
+        // 3. Returns a table with booking time, number of bookings and isAvailable Boolean
 
-        // 2. Get open bookings by tenant_id
-        // const bookingsResult = await pool.query(
-        //     'SELECT * FROM bookings WHERE tenant_id = $1',
-        //     [tenant_id]
-        // );
 
-        res.json({success: true, placeholder: tenant_id});
+        const query = `
+                        WITH timeslots AS (
+                            SELECT generate_series(
+                            TIMESTAMP '1995-07-13' + $1::time,
+                            TIMESTAMP '1995-07-13' + $2::time,
+                            INTERVAL '30 minutes'
+                            )::TIME AS booking_time
+                        ),
+                        bookings_count AS (
+                            SELECT booking_time, COUNT(*) AS num_bookings
+                            FROM bookings
+                            WHERE booking_date = DATE '2025-07-12' AND tenant_id = $3
+                            GROUP BY booking_time
+                        )
+                        SELECT
+                            t.booking_time,
+                            COALESCE(b.num_bookings, 0) AS num_bookings,
+                            CASE
+                            WHEN COALESCE(b.num_bookings, 0) >= 5 THEN FALSE
+                            ELSE TRUE
+                            END AS is_available
+                        FROM timeslots t
+                        LEFT JOIN bookings_count b ON t.booking_time = b.booking_time
+                        ORDER BY t.booking_time;
+                    `;
+
+        const values = [openingTime, closingTime, tenant_id];
+
+
+        const bookingsResult = await pool.query(query, values);
+        res.json({ success: true, result: bookingsResult });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
