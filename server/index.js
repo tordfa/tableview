@@ -67,7 +67,7 @@ app.post('/api/login', async (req, res) => {
 
 })
 
-app.get('/booking/:tenantName', getOpenBookings)
+app.post('/booking/:tenantName', getOpenBookings)
 
 // Protected Routes!
 app.use(isAuthenticated);

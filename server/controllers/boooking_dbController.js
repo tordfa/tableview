@@ -114,6 +114,8 @@ const getOpenBookings = async (req, res) => {
         }
 
         const tenant_id = tenantResult.rows[0].id;
+        const { chosenDate } = await req.body;
+        
         let openingTime = '10:00:00';
         let closingTime = '20:00:00';
         // 1. Generating a series of available timeslots based on tenant settings.
@@ -132,7 +134,7 @@ const getOpenBookings = async (req, res) => {
                         bookings_count AS (
                             SELECT booking_time, COUNT(*) AS num_bookings
                             FROM bookings
-                            WHERE booking_date = DATE '2025-07-12' AND tenant_id = $3
+                            WHERE booking_date = $3 AND tenant_id = $4
                             GROUP BY booking_time
                         )
                         SELECT
@@ -147,11 +149,11 @@ const getOpenBookings = async (req, res) => {
                         ORDER BY t.booking_time;
                     `;
 
-        const values = [openingTime, closingTime, tenant_id];
+        const values = [openingTime, closingTime, chosenDate, tenant_id];
 
 
         const bookingsResult = await pool.query(query, values);
-        res.json({ success: true, result: bookingsResult });
+        res.json({ success: true, result: bookingsResult.rows });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });

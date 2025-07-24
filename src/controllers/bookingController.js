@@ -1,26 +1,29 @@
-export async function createBooking(customer_name_input, customer_email_input,customer_phone_input,user_id_input, table_id_input,date_time_input) {
+export async function createBooking(customer_name_input, customer_email_input, customer_phone_input, user_id_input, table_id_input, date_time_input) {
 
-    // const { data, error } = await supabase.from('bookings').insert({
-    //     customer_name: customer_name_input,
-    //     customer_email: customer_email_input,
-    //     customer_phone: customer_phone_input,
-    //     user_id: user_id_input,
-    //     table_id: table_id_input,
-    //     date_time: new Date(),
-    // }).select();
-    // if(error){
-    //     console.log(error);
-    //     throw new Error('There was an error creatingBooking', error)
-    // }
-    // return data;
+  // const { data, error } = await supabase.from('bookings').insert({
+  //     customer_name: customer_name_input,
+  //     customer_email: customer_email_input,
+  //     customer_phone: customer_phone_input,
+  //     user_id: user_id_input,
+  //     table_id: table_id_input,
+  //     date_time: new Date(),
+  // }).select();
+  // if(error){
+  //     console.log(error);
+  //     throw new Error('There was an error creatingBooking', error)
+  // }
+  // return data;
 }
 
-export async function getAllBookings(tenantName) {
+export async function getAllBookings(tenantName, chosenDate) {
 
   const getBookingsUrl = process.env.REACT_APP_HOST_URL + `/booking/${tenantName}`
   try {
     const response = await fetch(getBookingsUrl, {
-      method: "GET"
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({chosenDate: chosenDate})
     });
     if (!response.ok) {
       throw new Error('Response status:' + response)
@@ -34,10 +37,10 @@ export async function getAllBookings(tenantName) {
 }
 
 
-export async function getClosedDates(){
-    // const {data, error} = await supabase.from('closed').select();
-    // if(error){
-    //     throw new Error("There was an error getting closed dates")
-    // }
-    // return data;
+export async function getClosedDates() {
+  // const {data, error} = await supabase.from('closed').select();
+  // if(error){
+  //     throw new Error("There was an error getting closed dates")
+  // }
+  // return data;
 }
