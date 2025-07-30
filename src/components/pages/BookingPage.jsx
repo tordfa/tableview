@@ -10,7 +10,7 @@ import { Wizard, useWizard } from 'react-use-wizard';
 
 export const BookingPage = () => {
     const [numOfGuest, setNumOfGuest] = useState(null);
-    const [dateTime, setDateTime] = useState(null);
+    const [dateTime, setDateTime] = useState({date: null, time: null});
     const [contactDetails, setContactDetails] = useState(null);
 
     return (
@@ -19,10 +19,12 @@ export const BookingPage = () => {
                 <div className="h-screen w-2/5 min-w-[400px] flex flex-col pt-24">
                     <Wizard header={<Header />} footer={<Footer />} wrapper={<Wrapper />}>
                         <GuestStep numOfGuest={numOfGuest} setNumOfGuest={setNumOfGuest} />
-                        <ChoseDateTimeStep setContactDetails={setContactDetails} />
-                        <ContactDetailsStep setDateTime={setDateTime} />
+                        <ChoseDateTimeStep dateTime={dateTime} setDateTime={setDateTime} />
+                        <ContactDetailsStep contactDetails={contactDetails} setContactDetails={setContactDetails} />
                     </Wizard>
                 </div>
+                {/* <Button onClick={()=>{console.log(`Number of guests: ${numOfGuest} Date: ${dateTime.date} Time: ${dateTime.time}`);
+                }}> Log</Button> */}
             </div>
         </>
 
@@ -114,14 +116,16 @@ export const GuestStep = ({ numOfGuest, setNumOfGuest }) => {
     )
 }
 
-export const ChoseDateTimeStep = () => {
+export const ChoseDateTimeStep = ({dateTime, setDateTime}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [bookingSlots, setBookingSlots] = useState([]);
     const { handleStep, previousStep, nextStep } = useWizard();
     let params = useParams();
+
     async function getDateBookings(timestamp) {
         const chosenDate = new Date(timestamp);
         const dateString = `${chosenDate.getFullYear()}-${chosenDate.getMonth() + 1}-${chosenDate.getDate()}`;
+        setDateTime({date: dateString, time: null})
         try {
             let bookings = await bookingController.getAllBookings(params.tenantName, dateString)
             if (!bookings.success) {
@@ -134,9 +138,11 @@ export const ChoseDateTimeStep = () => {
             console.log(error);
 
         }
+    }
 
-
-
+    const handleClick = (time_input) =>{
+        setDateTime({...dateTime, time: time_input});
+        nextStep();
     }
     return (
         <>
@@ -156,9 +162,10 @@ export const ChoseDateTimeStep = () => {
                 <div className="border w-64 p-6 grid grid-cols-2 gap-2">
                     {bookingSlots.map(slot => (
                         slot.is_available
-                            ? <Button variant="outlined" size="medium">{slot.booking_time}</Button>
+                            ? <Button onClick={()=>{handleClick(slot.booking_time)}} variant="outlined" size="medium">{slot.booking_time}</Button>
                             : <Button disabled variant="outlined" size="medium">{slot.booking_time}</Button>
                     ))}
+                    {/* <Button onClick={()=>{handleClick('17:00')}} variant="outlined" size="medium">17:00</Button> */}
                 </div>
             </div>
         </>
