@@ -82,7 +82,7 @@ const Footer = () => {
 const Wrapper = ({ children }) => {
     return (
         <>
-            <div className="h-[550px] border">{children}</div>
+            <div className="h-[550px] flex flex-col border">{children}</div>
         </>
     )
 }
@@ -110,15 +110,14 @@ export const GuestStep = ({ numOfGuest, setNumOfGuest }) => {
     }
 
     return (
-        <div className="h-full flex flex-col">
-            <div className="flex flex-col justify-center items-center">
+        <div className="h-full w-full flex flex-col">
+            <div className="flex flex-col items-center mt-24">
                 <h1>Select number of guests: </h1>
                 <ul className="w-96 pt-5 grid grid-cols-3 gap-8">{guestList()}</ul>
             </div>
             <div className="mt-auto">
                 <Footer className="mt-24"></Footer>
             </div>
-
         </div>
     )
 }
@@ -153,7 +152,6 @@ export const ChoseDateTimeStep = ({ dateTime, setDateTime }) => {
     }
     return (
         <>
-
             <div className="flex justify-center">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <StaticDatePicker
@@ -172,7 +170,6 @@ export const ChoseDateTimeStep = ({ dateTime, setDateTime }) => {
                             ? <Button onClick={() => { handleClick(slot.booking_time) }} variant="outlined" size="medium">{slot.booking_time}</Button>
                             : <Button disabled variant="outlined" size="medium">{slot.booking_time}</Button>
                     ))}
-                    {/* <Button onClick={()=>{handleClick('17:00')}} variant="outlined" size="medium">17:00</Button> */}
                 </div>
             </div>
             <div className="mt-auto">
@@ -200,12 +197,13 @@ export const ContactDetailsStep = () => {
     };
 
     handleStep(() => {
-        alert(formData);
+        console.log(formData);
+        
     })
 
     return (
         <>
-            <div className="max-w-xl mx-auto p-6 bg-white rounded-2xl">
+            <div className="max-w-[600px] p-6 bg-white rounded-2xl">
                 <form className="space-y-4">
                     <div className="flex justify-between">
                         <div>
@@ -283,13 +281,21 @@ export const ContactDetailsStep = () => {
                     </div>
                 </form>
             </div>
-            <Footer></Footer>
+            <div className="mt-auto">
+                <Footer></Footer>
+            </div>
+
         </>
     );
 }
 
 export const SummaryStep = () => {
     return (
-        <><h1>Summary</h1></>
+        <>
+            <h1>Summary</h1>
+            <div className="mt-auto">
+                <Footer></Footer>
+            </div>
+        </>
     )
 }
