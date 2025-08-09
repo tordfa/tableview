@@ -68,6 +68,7 @@ app.post('/api/login', async (req, res) => {
 })
 
 app.post('/booking/:tenantName', getOpenBookings)
+app.post('/api/createbooking', createBooking)
 
 // Protected Routes!
 app.use(isAuthenticated);
@@ -100,8 +101,6 @@ app.post('/api/savetables', saveTables)
 app.get('/api/gettables', getTables)
 
 app.get('/api/getfloors', getFloors)
-
-app.post('/api/createbooking', createBooking)
 
 app.get('/api/getbookings', getBookings)
 

@@ -1,18 +1,22 @@
-export async function createBooking(customer_name_input, customer_email_input, customer_phone_input, user_id_input, table_id_input, date_time_input) {
+export async function createBooking(bookingdetails,tenantUrl) {
 
-  // const { data, error } = await supabase.from('bookings').insert({
-  //     customer_name: customer_name_input,
-  //     customer_email: customer_email_input,
-  //     customer_phone: customer_phone_input,
-  //     user_id: user_id_input,
-  //     table_id: table_id_input,
-  //     date_time: new Date(),
-  // }).select();
-  // if(error){
-  //     console.log(error);
-  //     throw new Error('There was an error creatingBooking', error)
-  // }
-  // return data;
+  const createBookingUrl = process.env.REACT_APP_HOST_URL + `/api/createbooking`
+  try {
+    const response = await fetch(createBookingUrl, {
+      credentials: 'include',
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({tenant_url: tenantUrl, ...bookingdetails})
+    });
+    if (!response.ok) {
+      throw new Error('Response status:' + response)
+    }
+    return response.json();
+  }
+  catch (error) {
+    console.error('There was an error getting bookings');
+    return { success: false, error: error }
+  }
 }
 
 export async function getAllBookings(tenantName, chosenDate) {

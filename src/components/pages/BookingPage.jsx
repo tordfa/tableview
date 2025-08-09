@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router"
+import { useParams } from "react-router"
 import * as bookingController from "../../controllers/bookingController";
 import { useState } from "react";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -7,11 +7,18 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import Button from '@mui/material/Button';
 import dayjs from "dayjs";
 import { Wizard, useWizard } from 'react-use-wizard';
+import { createBooking } from "../../controllers/bookingController";
 
 export const BookingPage = () => {
     const [numOfGuest, setNumOfGuest] = useState(null);
     const [dateTime, setDateTime] = useState({ date: null, time: null });
-    const [contactDetails, setContactDetails] = useState(null);
+    const [contactDetails, setContactDetails] = useState({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        notes: "",
+    });
 
     return (
         <>
@@ -21,7 +28,7 @@ export const BookingPage = () => {
                         <GuestStep numOfGuest={numOfGuest} setNumOfGuest={setNumOfGuest} />
                         <ChoseDateTimeStep dateTime={dateTime} setDateTime={setDateTime} />
                         <ContactDetailsStep contactDetails={contactDetails} setContactDetails={setContactDetails} />
-                        <SummaryStep></SummaryStep>
+                        <SummaryStep numOfGuest={numOfGuest} dateTime={dateTime} contactDetails={contactDetails}></SummaryStep>
                     </Wizard>
                 </div>
                 {/* <Button onClick={()=>{console.log(`Number of guests: ${numOfGuest} Date: ${dateTime.date} Time: ${dateTime.time}`);
@@ -68,12 +75,16 @@ const Header = () => {
 }
 
 const Footer = () => {
-    const { previousStep, nextStep } = useWizard();
+    const { previousStep, nextStep, isLastStep } = useWizard();
     return (
         <>
             <div className="border flex justify-between p-3 pl-10 pr-10">
-                <button className="border p-2" onClick={previousStep}>Previous</button>
-                <button className="border p-2" onClick={nextStep}>Next</button>
+                <Button variant="outlined" onClick={previousStep}>Previous</Button>
+                {isLastStep
+                    ? <></>
+                    : <Button variant="outlined" onClick={nextStep}>Next</Button>
+                }
+
             </div>
         </>
     );
@@ -181,7 +192,7 @@ export const ChoseDateTimeStep = ({ dateTime, setDateTime }) => {
 }
 
 
-export const ContactDetailsStep = () => {
+export const ContactDetailsStep = ({ setContactDetails }) => {
     const { handleStep } = useWizard();
     const [formData, setFormData] = useState({
         firstName: "",
@@ -198,7 +209,7 @@ export const ContactDetailsStep = () => {
 
     handleStep(() => {
         console.log(formData);
-        
+        setContactDetails(formData)
     })
 
     return (
@@ -289,13 +300,54 @@ export const ContactDetailsStep = () => {
     );
 }
 
-export const SummaryStep = () => {
+export const SummaryStep = ({ numOfGuest, dateTime, contactDetails, }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    let params = useParams();
+    const  handleSubmit = async () => {
+        let bookingDetails = {
+            customer_name: `${contactDetails.firstName} ${contactDetails.lastName}`,
+            customer_email: contactDetails.email,
+            customer_phone: contactDetails.phone,
+            booking_date: dateTime.date,
+            booking_time: dateTime.time,
+            guests: numOfGuest,
+            note: contactDetails.notes,
+            allergies: "none"
+        }
+
+        setIsLoading(true);
+        let response = await createBooking(bookingDetails, params.tenantName)
+        if(response.success){
+            console.log("success");
+            
+        }
+        setIsLoading(false);
+        
+    }
     return (
         <>
-            <h1>Summary</h1>
-            <div className="mt-auto">
-                <Footer></Footer>
-            </div>
+            {isLoading
+                ? <>Loading...</>
+                : <>
+                    <h1>Summary</h1>
+                    <div>
+                        <p>Number of guests: {numOfGuest}</p>
+                        <p>Date: {dateTime.date}</p>
+                        <p>Time: {dateTime.time}</p>
+                        <p>Name: {contactDetails.firstName} {contactDetails.lastName}</p>
+                        <p>Phone: {contactDetails.phone}</p>
+                        <p>Email: {contactDetails.email}</p>
+                        <p>Notes: {contactDetails.notes}</p>
+                        <Button onClick={handleSubmit} variant="outlined">Submit</Button>
+
+                    </div>
+                    <div className="mt-auto">
+                        <Footer></Footer>
+                    </div>
+                </>
+            }
+
+
         </>
     )
 }

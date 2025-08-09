@@ -2,16 +2,23 @@ const { pool } = require('./dbConnection.js');
 const { getUserId, getTenantIdFromUser } = require('./user_dbController.js')
 
 
-// NOT DONE!
 const createBooking = async (req, res) => {
-    let tenant_id = "f870f012-4a66-4d73-9523-db79537c5948";
-    // GET tenant id from URL?
     try {
-        const { customer_name, customer_email, customer_phone, booking_date, booking_time, booking_duration, guests, note, allergies } = await req.body;
+        const { tenant_url, customer_name, customer_email, customer_phone, booking_date, booking_time, guests, note } = await req.body;
+        // 1. Get tenant_id from Tenant table
+        const tenantResult = await pool.query(
+            'SELECT id FROM tenants WHERE tenant_url = $1',
+            [tenant_url]
+        );
 
+        if (tenantResult.rowCount === 0) {
+            throw new Error("Tenant not found!")
+        }
+        console.log(tenantResult.rows[0].id);
+        
         let result = await pool.query(
             `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_time, booking_duration, guests, note, allergies) 
-        VALUES('${tenant_id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${booking_time}', '${guests}', '${booking_duration}' , '${note}', '${allergies}')`);
+        VALUES('${tenantResult.rows[0].id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${booking_time}', '2', '${guests}' , '${note}', 'none')`);
 
         return res.status(200).json({ success: true, result })
     } catch (error) {
@@ -115,7 +122,7 @@ const getOpenBookings = async (req, res) => {
 
         const tenant_id = tenantResult.rows[0].id;
         const { chosenDate } = await req.body;
-        
+
         let openingTime = '10:00:00';
         let closingTime = '20:00:00';
         // 1. Generating a series of available timeslots based on tenant settings.
