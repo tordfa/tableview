@@ -1,6 +1,24 @@
 const { pool } = require('./dbConnection.js');
 const { getUserId, getTenantIdFromUser } = require('./user_dbController.js')
 
+const tenantExists = async (req, res) => {
+    try {
+        const { tenant_url } = await req.body;
+        
+        // 1. Get tenant_id from Tenant table
+        const tenantResult = await pool.query(
+            'SELECT id FROM tenants WHERE tenant_url = $1',
+            [tenant_url]
+        );
+
+        if (tenantResult.rowCount === 0) {
+            throw new Error("Tenant not found!")
+        }
+        return res.status(200).json({ success: true })
+    } catch (error) {
+        return res.status(401).json({ success: false, error })
+    }
+}
 
 const createBooking = async (req, res) => {
     try {
@@ -15,7 +33,7 @@ const createBooking = async (req, res) => {
             throw new Error("Tenant not found!")
         }
         console.log(tenantResult.rows[0].id);
-        
+
         let result = await pool.query(
             `INSERT INTO bookings (tenant_id, customer_name, customer_email, customer_phone, booking_date, booking_time, booking_duration, guests, note, allergies) 
         VALUES('${tenantResult.rows[0].id}','${customer_name}', '${customer_email}', '${customer_phone}', '${booking_date}', '${booking_time}', '2', '${guests}' , '${note}', 'none')`);
@@ -167,4 +185,4 @@ const getOpenBookings = async (req, res) => {
     }
 }
 
-module.exports = { createBooking, editBooking, deleteBooking, getBookings, getOpenBookings }
+module.exports = { createBooking, editBooking, deleteBooking, getBookings, getOpenBookings, tenantExists }

@@ -1,13 +1,13 @@
-import { useParams } from "react-router"
+import { useParams, useNavigate } from "react-router"
 import * as bookingController from "../../controllers/bookingController";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import Button from '@mui/material/Button';
 import dayjs from "dayjs";
 import { Wizard, useWizard } from 'react-use-wizard';
-import { createBooking } from "../../controllers/bookingController";
+import { createBooking, tenantExists } from "../../controllers/bookingController";
 
 export const BookingPage = () => {
     const [numOfGuest, setNumOfGuest] = useState(null);
@@ -19,6 +19,21 @@ export const BookingPage = () => {
         email: "",
         notes: "",
     });
+    let navigate = useNavigate();
+    let params = useParams()
+
+    async function isTenant() {
+        let response = await tenantExists(params.tenantName);
+        if (!response.success) {
+            console.log("NOEEXIST", response);
+            navigate('/');
+        }
+    }
+
+    useEffect(() => {
+        isTenant();
+    }, [])
+
 
     return (
         <>
@@ -303,7 +318,7 @@ export const ContactDetailsStep = ({ setContactDetails }) => {
 export const SummaryStep = ({ numOfGuest, dateTime, contactDetails, }) => {
     const [isLoading, setIsLoading] = useState(false);
     let params = useParams();
-    const  handleSubmit = async () => {
+    const handleSubmit = async () => {
         let bookingDetails = {
             customer_name: `${contactDetails.firstName} ${contactDetails.lastName}`,
             customer_email: contactDetails.email,
@@ -317,12 +332,12 @@ export const SummaryStep = ({ numOfGuest, dateTime, contactDetails, }) => {
 
         setIsLoading(true);
         let response = await createBooking(bookingDetails, params.tenantName)
-        if(response.success){
+        if (response.success) {
             console.log("success");
-            
+
         }
         setIsLoading(false);
-        
+
     }
     return (
         <>
